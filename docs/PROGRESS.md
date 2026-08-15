@@ -9,46 +9,29 @@
 - M03｜SEO・検索流入設計 ✅
 - M04｜14社ファーム詳細ページのSEO/UX設計 ✅
 - M05｜公式ソース監視設計 ✅
+- M06｜SourceHealth競合6件の再調査 ✅
 
-M05では、14社について公式ソースの変更監視を「全ページ再調査」から「優先ソース監視＋差分確認＋人間確認」へ移行するための仕様を整理済み：
+## M06結論
 
-- 14社 Source Monitoring Master Table
-- 日次 / 週次 / 月次監視一覧
-- SourceHealth専用監視
-- 変更分類ルール
-- HTML差分と意味差分を分離する誤検知フィルター
-- 人間確認必須項目
-- 将来自動化できる範囲
-- Work / Replit / GitHub / ChatGPTの役割分担
-- 14社合計の最小監視セット
-- 既存URLの維持 / 変更 / 追加 / 廃止候補の判定ルール
+対象6件について、公式一次情報をSource Priority順に照合し、Evidence Table / Conflict Map / 原因仮説 / 判定 / SourceHealth更新案 / Diagnosis Top3 Block方針 / 次回監視URLを整理済み。
 
-既存Master資産はGitHubに未同期のため、既存監視URLを削除せず、同期後に照合する前提。自動巡回、Cron、通知、コード変更、サイト変更、公開は未実施。
+- Fintokei｜速攻プロ：2026-07-15以降の新規購入口座に限り Block解除候補
+- Funded7｜1フェーズ：Block継続
+- Funded7｜Instant：Block継続
+- Funded Trader Markets｜Instant Pro：Block継続
+- Hantec Trader｜Instant Lite：Block継続
+- FundedElite｜Flash Activation：Block継続
+
+Fintokei速攻プロは、旧口座と2026-07-15以降の新規購入口座を混同しないこと。Master / SourceHealth / DiagnosisPlanCurrentへ反映する場合は適用開始日または購入日条件を保持する。
+
+SourceHealth・Master・DiagnosisLogicV2・コード・サイト・公開は未変更。
 
 ## 次
 
-M06｜SourceHealth競合6件の再調査
+M07｜M01〜M06統合・Work実装仕様確定
 
-担当：Manus 1.6推奨
+目的：無料期間中に集めたUX、診断、SEO、14社ページ、監視、SourceHealth再調査を1つの実装仕様へ統合し、Work復活後を「差分実装＋fresh render＋回帰確認」に近づける。
 
-対象：
+M07では新しい大規模調査は行わず、既存成果の重複・矛盾を整理し、P0 / P1 / P2、変更禁止、実装順、受入条件、Fintokei速攻プロの条件付きBlock解除案を確定する。
 
-1. Fintokei 速攻プロ
-2. Funded7 1フェーズ
-3. Funded7 Instant
-4. Funded Trader Markets Instant Pro
-5. Hantec Trader Instant Lite
-6. FundedElite Flash Activation
-
-目的：現在Block Top3となっている主要な公式情報競合について、一次情報を優先して再調査し、解消可能か判定する。
-
-原則：
-
-- 公式Terms / Rules / Help / FAQ / Product page等をSource Priority順に比較する
-- 更新日・適用開始日・旧プラン/新プランの違いを分離する
-- 1ページだけを根拠に既存競合を自動解消しない
-- 解消できない場合は「解消不能 / 継続Block」を明示する
-- Affiliate、SNS、第三者情報で公式ルール競合を上書きしない
-- コード変更・サイト変更・公開は行わない
-
-成果物：6件それぞれの証拠表、競合原因、採用可能な正本値、SourceHealth更新案、Top3 Block継続/解除の提案。
+コード変更・サイト変更・公開は行わない。
