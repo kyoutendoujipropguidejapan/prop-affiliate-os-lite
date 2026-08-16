@@ -14,6 +14,7 @@
 - M08｜実装前QA・回帰テスト仕様 ✅
 - M09｜SEO記事・ルール解説の完成原稿 ✅
 - M10｜公式ソース監視の自動化技術設計 ✅
+- M11｜14社ファーム詳細FAQ完成原稿 ✅
 
 ## M06結論
 
@@ -75,6 +76,24 @@ M05の監視仕様を技術設計へ変換。
 
 サイト自動更新、Master自動更新、Cron、通知、自動Issue作成は未実装。
 
+## M11成果
+
+`docs/M11_FIRM_FAQ_CONTENT_PACK.md`
+
+14社すべてについて、ファーム詳細ページにそのまま使えるFAQ原稿を最大5問ずつ作成。
+
+- 初心者が最初に確認するポイントを中心に構成
+- 価格・割引をファーストビューの主役にしない
+- SourceHealth競合は「確認中」を維持
+- Fintokei速攻プロの適用日/旧口座分離を維持
+- Funded7 1フェーズ/Instant、FTM Instant Pro、Hantec Instant Lite、FundedElite FlashはBlock継続前提
+- FundingPips SH011を維持
+- FAQ schema実装ルール
+- 390pxではAccordion候補
+- 公開前Fact-check Gate
+
+`docs/WORK_RESTART_PROMPT.md` にM11参照も追加済み。
+
 コード変更・Master変更・サイト変更・公開・自動監視設定は未実施。
 
 ## 次の優先順位
@@ -83,16 +102,17 @@ M05の監視仕様を技術設計へ変換。
 
 1. `docs/WORK_RESTART_PROMPT.md` で未公開作業版を監査
 2. M07 P0実装
-3. `docs/M08_QA_REGRESSION_SPEC.md` でQA
-4. BLOCKER/CRITICAL=0を確認
-5. 390px fresh render
-6. 公開は別途人間承認
+3. M11 FAQを14社ページへ必要な分だけ統合
+4. `docs/M08_QA_REGRESSION_SPEC.md` でQA
+5. BLOCKER/CRITICAL=0を確認
+6. 390px fresh render
+7. 公開は別途人間承認
 
 ### Work復活前に追加できるもの
 
-- M09記事の追加テーマ原稿
-- 14社FAQ完成原稿
-- 監視Dry Run用URLセットの確定
-- GitHubへのMaster/成果物同期設計
+- M12｜監視Dry Run用URLセットの確定
+- M13｜GitHubへのMaster/成果物同期設計
+- M14｜M09追加SEO記事（無料トライアル、ニュース取引、週末持ち越し等）
+- 14社FAQの公式一次情報最終チェック
 
 Manus/Workが停止していても、本体進行を止めない。
