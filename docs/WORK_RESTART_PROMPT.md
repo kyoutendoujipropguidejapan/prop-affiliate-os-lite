@@ -35,6 +35,12 @@ Work復活時に最初に使用するプロンプト。
 - UXMeasurement
 - UXBacklog
 
+GitHub上の完成原稿・QAも使用してください。
+
+- `docs/M08_QA_REGRESSION_SPEC.md`：実装後QA正本
+- `docs/M09_SEO_CONTENT_PACK.md`：ルール解説SEO完成原稿
+- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`：14社FAQ完成原稿
+
 ## 最初はコードを書かない
 
 まず：
@@ -70,6 +76,8 @@ OSS導入自体を目的にしません。既存実装の方が軽く安全な�
 - プラン一覧
 
 その後必要なプランのみ展開。
+
+ファーム詳細FAQは `docs/M11_FIRM_FAQ_CONTENT_PACK.md` を原稿正本として使い、各社3〜5問、ファーム概要・プラン詳細の後段へ配置してください。FAQをファーストビューの主役にしないでください。
 
 ## UX
 
@@ -144,6 +152,8 @@ Fintokei速攻プロを単純に `Block Top3 = No` へ変更しないでくだ�
 
 確認中のものを確定表示しない。
 
+M11 FAQ内にもSourceHealth競合に関する回答があるため、FAQ実装時も同じ状態を維持してください。
+
 ## モバイル
 
 390px fresh render必須。
@@ -153,6 +163,7 @@ Fintokei速攻プロを単純に `Block Top3 = No` へ変更しないでくだ�
 - CTA競合なし
 - 大型カード連続なし
 - ファーム→プラン→詳細が分かる
+- FAQはAccordion等で情報密度を抑える
 - ページ末尾に次の予告
 - 価格/特典が途中の主役にならない
 
@@ -179,6 +190,7 @@ BLOCKERまたはCRITICALが1件でも残っている場合はGo判定にしな�
 - Official/Affiliate link separation
 - SEO title/meta/canonical/sitemap
 - GA4既存イベントと二重発火
+- FAQのSourceHealth表現とFAQ schema整合
 
 を必須確認してください。
 
