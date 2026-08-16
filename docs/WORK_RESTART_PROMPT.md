@@ -14,7 +14,7 @@ Work復活時に最初に使用するプロンプト。
 
 `kyoutendoujipropguidejapan/prop-affiliate-os-lite`
 
-を確認し、README.md → AGENTS.md → docs/CURRENT_STATE.md の順に読んでください。
+を確認し、README.md → AGENTS.md → docs/CURRENT_STATE.md → docs/PROGRESS.md の順に読んでください。
 
 また、最新Master v2.2の以下を正本として扱います。
 
@@ -111,6 +111,19 @@ Block Top3=YesはTop3から除外。
 
 を中心にする。
 
+## SourceHealth追加前提
+
+M06で以下を再調査済み。
+
+- Fintokei 速攻プロ：2026-07-15以降の新規購入口座のみBlock解除候補。適用日、新規購入、旧口座分離、人間承認を保持できない場合はBlock継続。
+- Funded7 1フェーズ：Block継続
+- Funded7 Instant：Block継続
+- FTM Instant Pro：Block継続
+- Hantec Instant Lite：Block継続
+- FundedElite Flash Activation：Block継続
+
+Fintokei速攻プロを単純に `Block Top3 = No` へ変更しないでください。
+
 ## 価格・クーポン
 
 割引適用後金額を公開しない。
@@ -144,6 +157,30 @@ Block Top3=YesはTop3から除外。
 - 価格/特典が途中の主役にならない
 
 コード上の成功だけで完了扱いにしない。
+
+## 実装後QA
+
+P0実装後、公開前に必ず：
+
+`docs/M08_QA_REGRESSION_SPEC.md`
+
+を正本としてQAを実行してください。
+
+BLOCKERまたはCRITICALが1件でも残っている場合はGo判定にしないでください。
+
+特に：
+
+- 390px横スクロール
+- 基礎講座既存URL
+- 診断7問完走
+- Block継続5件のTop3除外
+- Fintokei速攻プロの日付境界/旧口座誤適用防止
+- DiagnosisLogicV2不変
+- Official/Affiliate link separation
+- SEO title/meta/canonical/sitemap
+- GA4既存イベントと二重発火
+
+を必須確認してください。
 
 ## 最初の返答
 
