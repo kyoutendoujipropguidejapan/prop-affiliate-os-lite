@@ -15,6 +15,7 @@
 - M09｜SEO記事・ルール解説の完成原稿 ✅
 - M10｜公式ソース監視の自動化技術設計 ✅
 - M11｜14社ファーム詳細FAQ完成原稿 ✅
+- M12｜監視Dry Run用URLセット確定 ✅
 
 ## M06結論
 
@@ -94,6 +95,38 @@ M05の監視仕様を技術設計へ変換。
 
 `docs/WORK_RESTART_PROMPT.md` にM11参照も追加済み。
 
+## M12成果
+
+`docs/M12_DRY_RUN_SOURCE_SET.md`
+
+M10の監視自動化を安全に試すための公式公開URLセットを確定。
+
+### Primary Dry Run 5 URL
+
+- Fintokei 速攻プロ公式Help
+- Fintokei 参加条件/制限国公式Help
+- FundingPips Get Started公式Help
+- The5ers Promotions公式ページ
+- Hantec Trader Instant Lite公式Help
+
+### Shadow Cross-check 4 URL
+
+- Hantec Instant Lite Product JP
+- FTM Instant Pro Daily DD FAQ
+- The5ers Futures EN
+- The5ers Futures JP
+
+- 14日Dry Run設計
+- category別抽出Field
+- country set diff
+- effective date / legacy-new split保護
+- domain別Noise Filter
+- Severity
+- GO / CONDITIONAL GO / NO-GO
+- Master / SourceHealth / siteへの自動書込禁止
+
+URLは2026-08-16時点で公式公開情報として再確認済み。
+
 コード変更・Master変更・サイト変更・公開・自動監視設定は未実施。
 
 ## 次の優先順位
@@ -110,9 +143,9 @@ M05の監視仕様を技術設計へ変換。
 
 ### Work復活前に追加できるもの
 
-- M12｜監視Dry Run用URLセットの確定
 - M13｜GitHubへのMaster/成果物同期設計
 - M14｜M09追加SEO記事（無料トライアル、ニュース取引、週末持ち越し等）
 - 14社FAQの公式一次情報最終チェック
+- M12 Dry Run用monitor_sources設定ファイル案
 
 Manus/Workが停止していても、本体進行を止めない。
