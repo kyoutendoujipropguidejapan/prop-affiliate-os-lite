@@ -12,6 +12,7 @@
 - M06｜SourceHealth競合6件の再調査 ✅
 - M07｜M01〜M06統合・Work実装仕様確定 ✅
 - M08｜実装前QA・回帰テスト仕様 ✅
+- M09｜SEO記事・ルール解説の完成原稿 ✅
 
 ## M06結論
 
@@ -43,43 +44,39 @@ M01〜M06の成果とMaster v2.2方針を統合し、Work復活後の実装仕�
 
 ## M08成果
 
-`docs/M08_QA_REGRESSION_SPEC.md` を追加。
+`docs/M08_QA_REGRESSION_SPEC.md`
 
-含むもの：
-
-- Smoke Test
-- P0 Acceptance Test
-- Full Regression Test
-- 390px Mobile Test
+- Smoke / P0 Acceptance / Full Regression
+- 390px Mobile
 - Beginner Guide Regression
-- Firm → Plan → Detail Test
-- Diagnosis Test Matrix
-- SourceHealth Test Matrix
-- Fintokei速攻プロの日付境界/新規購入/旧口座/人間承認テスト
-- Price / Coupon Test
-- Official / Affiliate Link Separation
-- SEO Test Matrix
-- GA4 Test Matrix
-- Error / Empty State
-- 公開前Go / No-Go基準
-- Work向け短縮QAプロンプト
+- Firm → Plan → Detail
+- Diagnosis / SourceHealth / SEO / GA4 / Link / Error Matrix
+- Fintokei 2026-07-15境界テスト
+- Go / No-Go
+- Work短縮QAプロンプト
 
-M08は仕様作成のみ。実テストはWorkでP0実装後に実行する。
+## M09成果
+
+`docs/M09_SEO_CONTENT_PACK.md`
+
+Work復活後に記事化できる完成原稿5本：
+
+1. 最大ドローダウンとは？
+2. Static DDとは？
+3. Trailing DDとは？
+4. EOD DDとは？
+5. プロップファームで失格しやすいルール
+
+各記事にSEO Title / Meta description / H1 / 本文 / FAQ / 内部リンク / CTA / fact-check gateを用意。
 
 コード変更・Master変更・サイト変更・公開・自動監視設定は未実施。
 
 ## 次
 
-M09｜SEO記事・ルール解説の完成原稿
+M10｜公式ソース監視の自動化技術設計
 
-Work/Manusを待たず通常チャット側で前倒しする。
+Work/Manusを待たず通常チャット側で設計する。
 
-優先テーマ候補：
+目的：M05のSource Monitoring Specを、Replit / GitHub / ChatGPTを中心に低コストで実装できる具体的な技術仕様へ変換する。
 
-1. 最大ドローダウンとは
-2. Static DDとは
-3. Trailing DDとは
-4. EOD DDとは
-5. プロップファームで失格しやすいルール
-
-目的：M03の検索流入設計と基礎講座を接続し、Work復活時にそのまま掲載できる原稿まで用意する。
+M10ではまだCron・通知・サイト自動更新は実行しない。安全な差分取得、意味差分分類、人間承認、SourceHealth接続、履歴保存、失敗時フォールバックまで設計する。
