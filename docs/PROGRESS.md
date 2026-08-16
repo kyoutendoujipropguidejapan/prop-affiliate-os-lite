@@ -13,6 +13,7 @@
 - M07｜M01〜M06統合・Work実装仕様確定 ✅
 - M08｜実装前QA・回帰テスト仕様 ✅
 - M09｜SEO記事・ルール解説の完成原稿 ✅
+- M10｜公式ソース監視の自動化技術設計 ✅
 
 ## M06結論
 
@@ -24,23 +25,6 @@
 - FundedElite｜Flash Activation：Block継続
 
 Fintokei速攻プロは、旧口座と2026-07-15以降の新規購入口座を混同しないこと。Block解除は適用日・新規購入・旧口座分離・人間承認を保持できる場合のみ候補とする。
-
-## M07統合結果
-
-M01〜M06の成果とMaster v2.2方針を統合し、Work復活後の実装仕様を確定済み。
-
-- 採用 / 修正採用 / 保留 / 却下
-- P0 / P1 / P2（P0は13項目）
-- 安全なWork実装順
-- ページ別変更一覧
-- データ別変更一覧
-- SourceHealth変更案
-- Fintokei速攻プロの条件付きBlock解除仕様
-- 残り5件のBlock継続仕様
-- OSS最終採否
-- 変更禁止リスト
-- P0受入条件
-- 公開指示を含まない完全版Work実装プロンプト
 
 ## M08成果
 
@@ -59,7 +43,7 @@ M01〜M06の成果とMaster v2.2方針を統合し、Work復活後の実装仕�
 
 `docs/M09_SEO_CONTENT_PACK.md`
 
-Work復活後に記事化できる完成原稿5本：
+完成原稿5本：
 
 1. 最大ドローダウンとは？
 2. Static DDとは？
@@ -67,16 +51,48 @@ Work復活後に記事化できる完成原稿5本：
 4. EOD DDとは？
 5. プロップファームで失格しやすいルール
 
-各記事にSEO Title / Meta description / H1 / 本文 / FAQ / 内部リンク / CTA / fact-check gateを用意。
+各記事にSEO Title / Meta / H1 / 本文 / FAQ / 内部リンク / CTA / fact-check gateを用意。
+
+## M10成果
+
+`docs/M10_SOURCE_MONITORING_AUTOMATION_DESIGN.md`
+
+M05の監視仕様を技術設計へ変換。
+
+- GitHub / Replit / ChatGPT / Workの役割分担
+- monitor_sources / snapshot / change_eventデータ構造
+- HTML正規化
+- numeric / keyword差分検出
+- change type分類
+- Noise Filter
+- Source Priority Gate
+- SourceHealth cross-check
+- Fintokei条件付き解除保護
+- Failure handling
+- low-cost Dry Run
+- Phase A〜E段階導入
+- MVP実装範囲
+
+サイト自動更新、Master自動更新、Cron、通知、自動Issue作成は未実装。
 
 コード変更・Master変更・サイト変更・公開・自動監視設定は未実施。
 
-## 次
+## 次の優先順位
 
-M10｜公式ソース監視の自動化技術設計
+### Work復活時
 
-Work/Manusを待たず通常チャット側で設計する。
+1. `docs/WORK_RESTART_PROMPT.md` で未公開作業版を監査
+2. M07 P0実装
+3. `docs/M08_QA_REGRESSION_SPEC.md` でQA
+4. BLOCKER/CRITICAL=0を確認
+5. 390px fresh render
+6. 公開は別途人間承認
 
-目的：M05のSource Monitoring Specを、Replit / GitHub / ChatGPTを中心に低コストで実装できる具体的な技術仕様へ変換する。
+### Work復活前に追加できるもの
 
-M10ではまだCron・通知・サイト自動更新は実行しない。安全な差分取得、意味差分分類、人間承認、SourceHealth接続、履歴保存、失敗時フォールバックまで設計する。
+- M09記事の追加テーマ原稿
+- 14社FAQ完成原稿
+- 監視Dry Run用URLセットの確定
+- GitHubへのMaster/成果物同期設計
+
+Manus/Workが停止していても、本体進行を止めない。
