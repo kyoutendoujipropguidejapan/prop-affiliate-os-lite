@@ -1,6 +1,6 @@
 # CURRENT_STATE
 
-確認基準日：2026-08-14〜15 JST
+確認基準日：2026-08-17 JST
 
 ## 本番
 
@@ -10,9 +10,11 @@
 
 ## Work
 
-Workは利用上限に達しており、一時停止中。
+最新把握ではWorkは利用上限により一時停止中。
 
 Work復活までは、調査・仕様・UX・QA・SEO・GitHub整理を進め、実装差分を小さくしておく。
+
+Work復活時は最初に `docs/IMPLEMENTATION_READINESS.md` と `docs/WORK_RESTART_PROMPT.md` を確認し、コードを書く前に未公開作業版を監査する。
 
 ## 最新データ/UX正本
 
@@ -37,15 +39,45 @@ Work復活までは、調査・仕様・UX・QA・SEO・GitHub整理を進め、
 - UXMeasurement
 - UXBacklog
 
+Excel Masterがデータ・診断・SourceHealthの上位正本。GitHubの要約文だけでMasterを上書きしない。
+
+## 進捗
+
+M01〜M16は完了記録あり。詳細は `docs/PROGRESS.md`。
+
+ただし、完了記録とGitHub上の実体ファイルは一致しない。
+
+GitHubに主要実体があるもの：
+
+- M08 QA
+- M09 SEO原稿
+- M10監視技術設計
+- M11 14社FAQ原稿
+- M12 Dry Run URLセット
+
+M07 / M13 / M14 / M15 / M16等は詳細成果物がGitHubで確認できない部分があるため、`docs/IMPLEMENTATION_READINESS.md` のArtifact Existence Gateを適用する。
+
 ## ファーム/プラン
 
 - 14社
 - v2.0監査カタログ：69レコード
 - 現行プランファミリー：65
 - 現行確認済：59
-- 公式情報競合で診断Top3保留：6
+- 公式情報競合で診断Top3保留：6（Master v2.2基準）
 - Legacy/販売終了：3
 - 一覧掲載のみ・詳細未確定：1
+
+M06以降、Fintokei速攻プロは2026-07-15以降の新規購入Variantに限り条件付き解除候補。旧口座との分離、Evidence、人間承認を保持できない場合はBlock継続。
+
+Block継続5件：
+
+- Funded7 1フェーズ
+- Funded7 Instant
+- Funded Trader Markets Instant Pro
+- Hantec Trader Instant Lite
+- FundedElite Flash Activation
+
+自動unblock禁止。
 
 ## 公開設計
 
@@ -69,6 +101,8 @@ Work復活までは、調査・仕様・UX・QA・SEO・GitHub整理を進め、
 - プラン一覧
 
 その後、必要なプランのみ展開する。
+
+FAQは後段。M11原稿を基礎とするが、M14でPASS 32 / PASS_WITH_CAUTION 23 / UPDATE_REQUIRED 10 / HOLD 5に再分類済み。M14差し替え全文がないUPDATE_REQUIRED項目は公開前に回収または再照合する。
 
 ## 基礎講座
 
@@ -134,26 +168,34 @@ Affiliate、コミッション、クーポン、価格は採点に使用禁止�
 
 公開では5プランをファーム単位で集約する。
 
-## 主な競合/確認中
-
-SourceHealthを正本とする。特に：
-
-- Fintokei 速攻プロ
-- Funded7 1フェーズ
-- Funded7 Instant
-- FTM Instant Pro
-- Hantec Instant Lite
-- FundedElite Flash Activation
-
-などは公式情報の競合を勝手に解消しない。
+FundingPips紹介条件はSH011の公式表示差を維持し、診断採点には使用しない。
 
 ## GitHub
 
 `kyoutendoujipropguidejapan/prop-affiliate-os-lite`
 
-2026-08-15からAIエージェント向けハンドオフ基盤として整備開始。
+AIエージェント向けハンドオフ基盤。
+
+推奨読み順：
+
+1. README
+2. AGENTS
+3. CURRENT_STATE
+4. PROGRESS
+5. IMPLEMENTATION_READINESS
+6. タスク別実体ファイル
+7. Work時はWORK_RESTART_PROMPT
 
 現時点ではWork本体コードの同期はまだ行っていない。
+
+## 監視 / Runtime
+
+M10/M12はGitHubに実体あり。
+M15 `monitor_sources` とM16 Runtime Snapshotは仕様完了記録があるが、実JSON / Schema実体はGitHub未確認。
+
+- 監視Dry RunはM15実体同期＋Preflight＋人間承認まで開始しない
+- Runtime SnapshotはAPPROVEDのみWork/Replit利用可能という設計を維持
+- Master / SourceHealth / Diagnosis / Work / siteへの自動反映禁止
 
 ## OSS事前調査
 
