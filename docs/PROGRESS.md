@@ -19,6 +19,7 @@
 - M13｜GitHubへのMaster／成果物同期設計 ✅
 - M14｜14社FAQの公式一次情報最終チェック ✅
 - M15｜M12 Dry Run用 monitor_sources 設定ファイル案 ✅
+- M16｜最小Runtime Snapshot仕様確定 ✅
 
 ## 重要な安全条件
 
@@ -106,25 +107,45 @@ M12 Dry Run用 `monitor_sources` 設定ファイル案を作成。
 
 監視、HTTP取得、Cron、通知、Issue作成、Master / SourceHealth / Diagnosis変更、Work反映、サイト変更、公開は未実施。
 
+## M16
+
+最小Runtime Snapshot仕様を確定。
+
+- Excel Master = 編集・監査用の上位正本
+- GitHub Runtime Snapshot = 人間承認済みの機械可読配布用正本
+- Work / Replitへの片方向handoff
+- manifest Draft
+- Firm / Plan / Diagnosis Candidate / SourceHealth / Monitor Source Schema
+- Fintokei速攻プロのVariant例と日付境界保護
+- HOLD 5件：human_only / auto_unblock_allowed:false / top3_blocked:true
+- Validation Rules
+- Approval / Rollback Flow
+- Work / Replit読み込み順
+- Preflight Checklist
+- Runtime Snapshot v0.1でExcel Masterから抽出する最小Field一覧
+
+Runtime SnapshotはExcel Masterを置き換えない。APPROVED以外を本番データとして利用しない。Affiliate / commission / coupon / priceは診断採点データへ混ぜない。
+
+M16時点ではJSON実ファイル生成、コード実装、Master / SourceHealth / DiagnosisLogicV2変更、Work反映、サイト変更、公開は未実施。
+
 ## 次
 
-### M16｜最小Runtime Snapshot仕様確定
+### 実装前Readiness Gate
 
-目的：M13の二層Canonical設計を、Work / Replit / GitHubが安全に読み込める最小の承認済みRuntime Snapshot仕様へ落とす。
+M17のような新規設計を増やす前に、M01〜M16でWork復活時に必要なものが揃ったか総点検する。
 
-必須：
+確認項目：
 
-- firm / plan / diagnosis candidate / SourceHealth / monitor source の最小機械可読構造
-- Excel Masterを置き換えない
-- snapshot_version / generated_at / verified_at / source_master_version
-- effective_from / supersedes / human_approved
-- Fintokei Variant条件を保持
-- HOLD 5件のauto-unblock禁止
-- Affiliate / commission / coupon / priceを診断採点へ混ぜない
-- Workへの片方向handoff
-- schema validation / preflight / rollback
+- Work実装に必要なP0仕様が一意か
+- QA正本が一意か
+- FAQのPASS / UPDATE / HOLD扱いが明確か
+- Runtime Snapshot / monitor_sourcesは仕様段階と実体段階を混同していないか
+- GitHubに存在しないM13〜M16成果物を正本扱いしていないか
+- Fintokei VariantとHOLD 5件の安全条件が全handoffで一致しているか
+- Work復活時の最初の1プロンプトだけで監査開始できるか
+- 実装前に不足する実ファイルがあるか
 
-M16もコード変更・Master変更・サイト変更・公開は行わない。
+新規調査は原則行わず、欠落・重複・矛盾だけを洗い出す。
 
 ## Work復活時
 
