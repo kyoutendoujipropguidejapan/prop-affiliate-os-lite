@@ -20,20 +20,49 @@
 - M14｜14社FAQの公式一次情報最終チェック ✅
 - M15｜M12 Dry Run用 monitor_sources 設定ファイル案 ✅
 - M16｜最小Runtime Snapshot仕様確定 ✅
+- 実装前Readiness Gate v1 ✅
+
+Readiness Gate正本：`docs/IMPLEMENTATION_READINESS.md`
+
+---
+
+## GitHub上のArtifact状態
+
+### 実体確認済み
+
+- `docs/M08_QA_REGRESSION_SPEC.md`
+- `docs/M09_SEO_CONTENT_PACK.md`
+- `docs/M10_SOURCE_MONITORING_AUTOMATION_DESIGN.md`
+- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`
+- `docs/M12_DRY_RUN_SOURCE_SET.md`
+- `docs/WORK_RESTART_PROMPT.md`
+- `docs/IMPLEMENTATION_READINESS.md`
+
+### 完了記録はあるが詳細実体をGitHubで確認できないもの
+
+- M01〜M07の詳細報告／M07最終統合仕様
+- M13 GitHub同期設計全文
+- M14 全70FAQ判定・UPDATE_REQUIRED 10件の差し替え全文
+- M15 `monitor_sources` JSON Draft / JSON Schema
+- M16 Runtime Snapshot仕様書 / 各Schema
+
+PROGRESSの要約から未保存成果物の詳細を推測・復元して「元成果物」と扱わない。
+
+---
 
 ## 重要な安全条件
 
 ### Fintokei｜速攻プロ
 
-Block解除候補は、次をVariant単位で保持できる場合のみ。
+Block解除候補はVariant単位で次を保持できる場合のみ。
 
-- effective_from: 2026-07-15
-- new_purchase_only: true
-- legacy account separation
+- `effective_from = 2026-07-15`
+- `new_purchase_only = true`
+- 旧口座分離
 - Evidence保持
 - human approval
 
-条件を保持できない場合はBlock継続。
+条件を安全に評価できない場合はBlock継続。
 
 ### HOLD / Block継続 5件
 
@@ -43,7 +72,14 @@ Block解除候補は、次をVariant単位で保持できる場合のみ。
 - Hantec Trader｜Instant Lite
 - FundedElite｜Flash Activation
 
-確定値・FAQ schema・診断Top3根拠に使用しない。自動unblock禁止。
+共通：
+
+- `resolution_mode = human_only`
+- `auto_unblock_allowed = false`
+- `top3_blocked = true`
+- 確定値・FAQ schema・診断Top3根拠に使用しない
+
+---
 
 ## M08
 
@@ -57,102 +93,103 @@ BLOCKERまたはCRITICALが1件でも残る場合はNo-Go。
 
 完成原稿：最大DD / Static DD / Trailing DD / EOD DD / 失格しやすいルール。
 
-## M10
+## M10 / M12 / M15
 
-`docs/M10_SOURCE_MONITORING_AUTOMATION_DESIGN.md`
+監視設計：
 
-監視は `公式URL → normalize → diff → noise filter → semantic candidate → SourceHealth cross-check → human review`。
+`公式URL → normalize → diff → noise filter → semantic candidate → SourceHealth cross-check → human review`
+
+- M12：Primary 5 + Shadow 4 URL実体あり
+- M15：9 URL設定案・Schema・Preflight完了記録あり、status `DRAFT_NOT_ACTIVE`
+- ただしM15実JSON/SchemaはGitHub未同期
+
+**M15実体同期＋Preflight＋人間承認までDry Runは開始しない。**
 
 Master / SourceHealth / Diagnosis / Work / siteへの自動反映は禁止。
 
 ## M11 / M14
 
-M11で14社70 FAQを作成。M14でA1〜A4優先の公式一次情報により最終照合。
+M11で14社70 FAQを作成。M14で公式一次情報により最終照合。
 
 - PASS 32
 - PASS_WITH_CAUTION 23
 - UPDATE_REQUIRED 10
 - HOLD 5
 
-HOLD 5件はFAQ schema対象外。
+M14の差し替え全文がGitHub未同期のため、UPDATE_REQUIRED 10件はM11のまま公開しない。差し替え実体を回収するか、公開前に再照合する。
 
-## M12
+## M13 / M16
 
-`docs/M12_DRY_RUN_SOURCE_SET.md`
+二層Canonical設計：
 
-Primary 5 URL + Shadow 4 URLで14日Dry Runを設計。
+- Excel Master = 編集・監査用上位正本
+- GitHub Runtime Snapshot = 人間承認済み機械可読配布層
+- Work / Replitへ片方向handoff
 
-## M13
+M16ではmanifest / Firm / Plan / Diagnosis Candidate / SourceHealth / Monitor Source Schema、Approval / Rollback / Preflightまで仕様確定記録あり。
 
-GitHub同期設計：Excel Masterと承認済みGitHub Runtime Snapshotの二層Canonical Data。
+ただしM16実Schema/仕様書はGitHub未同期。
 
-`verified_at` / `effective_from` / `supersedes` / `source_priority` / `human_approved` を保持し、Workとは片方向同期。
+**Runtime実装はM16実体同期まで開始しない。APPROVED以外を本番データとして使わない。**
 
-## M15
+Affiliate / commission / coupon / priceは診断採点データへ混ぜない。
 
-M12 Dry Run用 `monitor_sources` 設定ファイル案を作成。
+---
 
-- Primary 5 / Shadow 4、合計9 URL
-- JSON Draft / JSON Schema
-- Field definitions
-- Domain別Parser / Noise Profile
-- SourceHealth連携
-- HOLD 5件：`human_only` / `auto_unblock_allowed:false`
-- Fintokei Variant保護
-- Validation Rules
-- Replit読み込み順
-- Preflight Checklist
-- 構文、9 URL、Primary 5 / Shadow 4、安全フラグ、Fintokei保護条件をローカル検証済み
-- status: `DRAFT_NOT_ACTIVE`
+## Readiness Gate v1 結論
 
-監視、HTTP取得、Cron、通知、Issue作成、Master / SourceHealth / Diagnosis変更、Work反映、サイト変更、公開は未実施。
+- Work監査開始：GO
+- P0実装：CONDITIONAL GO
+- FAQ統合：CONDITIONAL GO
+- 監視Dry Run：NO-GO
+- Runtime Snapshot実装：NO-GO
+- 本番公開：M08 PASS + 人間承認までNO-GO
 
-## M16
+### 実装前に回収すると価値が高い成果物
 
-最小Runtime Snapshot仕様を確定。
+P0：
 
-- Excel Master = 編集・監査用の上位正本
-- GitHub Runtime Snapshot = 人間承認済みの機械可読配布用正本
-- Work / Replitへの片方向handoff
-- manifest Draft
-- Firm / Plan / Diagnosis Candidate / SourceHealth / Monitor Source Schema
-- Fintokei速攻プロのVariant例と日付境界保護
-- HOLD 5件：human_only / auto_unblock_allowed:false / top3_blocked:true
-- Validation Rules
-- Approval / Rollback Flow
-- Work / Replit読み込み順
-- Preflight Checklist
-- Runtime Snapshot v0.1でExcel Masterから抽出する最小Field一覧
+1. M07最終統合仕様書
+2. M14全判定 + UPDATE_REQUIRED 10件の差し替え全文
 
-Runtime SnapshotはExcel Masterを置き換えない。APPROVED以外を本番データとして利用しない。Affiliate / commission / coupon / priceは診断採点データへ混ぜない。
+P1：
 
-M16時点ではJSON実ファイル生成、コード実装、Master / SourceHealth / DiagnosisLogicV2変更、Work反映、サイト変更、公開は未実施。
+3. M15 `monitor_sources.json` Draft
+4. M15 JSON Schema
+5. M16 Runtime Snapshot仕様書 / Schema
+6. M13同期設計全文
 
-## 次
+詳細：`docs/IMPLEMENTATION_READINESS.md`
 
-### 実装前Readiness Gate
-
-M17のような新規設計を増やす前に、M01〜M16でWork復活時に必要なものが揃ったか総点検する。
-
-確認項目：
-
-- Work実装に必要なP0仕様が一意か
-- QA正本が一意か
-- FAQのPASS / UPDATE / HOLD扱いが明確か
-- Runtime Snapshot / monitor_sourcesは仕様段階と実体段階を混同していないか
-- GitHubに存在しないM13〜M16成果物を正本扱いしていないか
-- Fintokei VariantとHOLD 5件の安全条件が全handoffで一致しているか
-- Work復活時の最初の1プロンプトだけで監査開始できるか
-- 実装前に不足する実ファイルがあるか
-
-新規調査は原則行わず、欠落・重複・矛盾だけを洗い出す。
+---
 
 ## Work復活時
 
-1. `docs/WORK_RESTART_PROMPT.md` で未公開作業版を監査
-2. M07 P0実装
-3. M14判定に沿ってFAQ統合
-4. M08 QA実行
-5. BLOCKER / CRITICAL = 0
-6. 390px fresh render
-7. 公開は別途人間承認
+1. `README.md`
+2. `AGENTS.md`
+3. `docs/CURRENT_STATE.md`
+4. `docs/PROGRESS.md`
+5. `docs/IMPLEMENTATION_READINESS.md`
+6. `docs/WORK_RESTART_PROMPT.md`
+7. Master v2.2確認
+8. 未公開作業版監査（まだコード変更しない）
+9. M07実体の有無を確認
+10. 人間確認後にP0差分実装
+11. M14条件に沿ってFAQ統合
+12. M08 QA
+13. BLOCKER / CRITICAL = 0
+14. 390px fresh render
+15. 公開は別途人間承認
+
+## 次
+
+新規のM17/M18設計を増やすより、まず不足成果物の回収・同期を優先する。
+
+並行して安全に進められるもの：
+
+- M09追加SEO記事の完成原稿
+- 既存SEO原稿の内部リンク設計
+- 公開前のタイトル/description重複防止表
+- 14社ページの「次に読む」導線コピー最終調整
+
+サイト・Master・SourceHealth・DiagnosisLogicV2・監視状態・本番公開は変更しない。
