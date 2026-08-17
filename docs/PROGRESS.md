@@ -21,6 +21,8 @@
 - M15｜M12 Dry Run用 monitor_sources 設定ファイル案 ✅
 - M16｜最小Runtime Snapshot仕様確定 ✅
 - 実装前Readiness Gate v1 ✅
+- 追加SEO完成原稿5本 ✅
+- SEO内部リンク／Metadata Guardrail設計 ✅
 
 Readiness Gate正本：`docs/IMPLEMENTATION_READINESS.md`
 
@@ -32,9 +34,11 @@ Readiness Gate正本：`docs/IMPLEMENTATION_READINESS.md`
 
 - `docs/M08_QA_REGRESSION_SPEC.md`
 - `docs/M09_SEO_CONTENT_PACK.md`
+- `docs/M09B_SEO_CONTENT_PACK_2.md`
 - `docs/M10_SOURCE_MONITORING_AUTOMATION_DESIGN.md`
 - `docs/M11_FIRM_FAQ_CONTENT_PACK.md`
 - `docs/M12_DRY_RUN_SOURCE_SET.md`
+- `docs/SEO_INTERNAL_LINK_MAP.md`
 - `docs/WORK_RESTART_PROMPT.md`
 - `docs/IMPLEMENTATION_READINESS.md`
 
@@ -87,11 +91,27 @@ Block解除候補はVariant単位で次を保持できる場合のみ。
 
 BLOCKERまたはCRITICALが1件でも残る場合はNo-Go。
 
-## M09
+## M09 / M09B
 
 `docs/M09_SEO_CONTENT_PACK.md`
 
-完成原稿：最大DD / Static DD / Trailing DD / EOD DD / 失格しやすいルール。
+- 最大DD
+- Static DD
+- Trailing DD
+- EOD DD
+- 失格しやすいルール
+
+`docs/M09B_SEO_CONTENT_PACK_2.md`
+
+- 無料トライアル
+- ニュース取引
+- 週末持ち越し
+- 最低取引日数
+- 出金条件
+
+合計10本の初心者向け完成原稿。動的な各社数値は一般論として断定せず、公開前Fact-check Gateを通す。
+
+内部リンク・Title/Meta/Canonicalの重複防止は `docs/SEO_INTERNAL_LINK_MAP.md` を使用する。
 
 ## M10 / M12 / M15
 
@@ -176,10 +196,11 @@ P1：
 9. M07実体の有無を確認
 10. 人間確認後にP0差分実装
 11. M14条件に沿ってFAQ統合
-12. M08 QA
-13. BLOCKER / CRITICAL = 0
-14. 390px fresh render
-15. 公開は別途人間承認
+12. M09/M09B記事と内部リンクを必要な分だけ実装
+13. M08 QA
+14. BLOCKER / CRITICAL = 0
+15. 390px fresh render
+16. 公開は別途人間承認
 
 ## 次
 
@@ -187,9 +208,9 @@ P1：
 
 並行して安全に進められるもの：
 
-- M09追加SEO記事の完成原稿
-- 既存SEO原稿の内部リンク設計
-- 公開前のタイトル/description重複防止表
 - 14社ページの「次に読む」導線コピー最終調整
+- SEO記事10本の掲載優先順位とSearch Console投入順の整理
+- M14差し替え実体の回収
+- M15/M16実体のGitHub同期
 
 サイト・Master・SourceHealth・DiagnosisLogicV2・監視状態・本番公開は変更しない。
