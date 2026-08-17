@@ -1,6 +1,6 @@
 # プロップファームの歩き方｜進捗
 
-更新日：2026-08-16
+更新日：2026-08-17
 
 ## 完了
 
@@ -16,6 +16,7 @@
 - M10｜公式ソース監視の自動化技術設計 ✅
 - M11｜14社ファーム詳細FAQ完成原稿 ✅
 - M12｜監視Dry Run用URLセット確定 ✅
+- M13｜GitHubへのMaster／成果物同期設計 ✅
 
 ## M06結論
 
@@ -26,7 +27,7 @@
 - Hantec Trader｜Instant Lite：Block継続
 - FundedElite｜Flash Activation：Block継続
 
-Fintokei速攻プロは、旧口座と2026-07-15以降の新規購入口座を混同しないこと。Block解除は適用日・新規購入・旧口座分離・人間承認を保持できる場合のみ候補とする。
+Fintokei速攻プロは、旧口座と2026-07-15以降の新規購入口座を混同しないこと。Block解除は適用日・新規購入・旧口座分離・Evidence・人間承認をVariant単位で保持できる場合のみ候補とする。
 
 ## M08成果
 
@@ -40,6 +41,8 @@ Fintokei速攻プロは、旧口座と2026-07-15以降の新規購入口座を�
 - Fintokei 2026-07-15境界テスト
 - Go / No-Go
 - Work短縮QAプロンプト
+
+M08はWorkに渡すQAの唯一の正本として使用する。BLOCKERまたはCRITICALが1件でも残る場合はNo-Go。
 
 ## M09成果
 
@@ -116,18 +119,27 @@ M10の監視自動化を安全に試すための公式公開URLセットを確�
 - The5ers Futures EN
 - The5ers Futures JP
 
-- 14日Dry Run設計
-- category別抽出Field
-- country set diff
-- effective date / legacy-new split保護
-- domain別Noise Filter
-- Severity
-- GO / CONDITIONAL GO / NO-GO
-- Master / SourceHealth / siteへの自動書込禁止
+14日Dry Run、category別抽出Field、country set diff、effective date / legacy-new split保護、domain別Noise Filter、Severity、GO / CONDITIONAL GO / NO-GO、Master / SourceHealth / siteへの自動書込禁止を定義済み。
 
-URLは2026-08-16時点で公式公開情報として再確認済み。
+## M13成果
 
-コード変更・Master変更・サイト変更・公開・自動監視設定は未実施。
+GitHubへのMaster／成果物同期設計を完了。
+
+- 推奨Repository Tree
+- 二層Canonical Data：Excel Master + 承認済みGitHub Runtime Snapshot
+- Excelに残すもの / JSON・CSV・Markdown化するもの
+- M01〜M12保存先
+- `verified_at` / `effective_from` / `supersedes` / `source_priority` / `human_approved` を使う版管理
+- SourceHealth安全仕様
+- AI Agent読み込み順
+- Workとの片方向同期
+- Backup / Archiveルール
+- 将来の安全な同期手順
+- 最大10件の最小同期ファイルセット
+
+Fintokei速攻プロは `2026-07-15以降` / `新規購入` / `旧口座分離` / `Evidence` / `人間承認` をVariant単位で保持できない限りBlock継続。残る5件もBlock継続。
+
+M13時点ではGitHubへの実同期、Master変更、コード変更、サイト変更、公開は未実施。
 
 ## 次の優先順位
 
@@ -141,11 +153,14 @@ URLは2026-08-16時点で公式公開情報として再確認済み。
 6. 390px fresh render
 7. 公開は別途人間承認
 
-### Work復活前に追加できるもの
+### Manus利用可能時の次タスク
 
-- M13｜GitHubへのMaster/成果物同期設計
-- M14｜M09追加SEO記事（無料トライアル、ニュース取引、週末持ち越し等）
-- 14社FAQの公式一次情報最終チェック
-- M12 Dry Run用monitor_sources設定ファイル案
+- M14｜14社FAQの公式一次情報最終チェック
+- M15｜M12 Dry Run用monitor_sources設定ファイル案
 
-Manus/Workが停止していても、本体進行を止めない。
+### ChatGPT側で並行可能
+
+- M09追加SEO記事（無料トライアル、ニュース取引、週末持ち越し等）
+- M13同期設計に沿った最小Runtime Snapshot仕様の準備
+
+Manus/Workが停止しても、本体進行を止めない。
