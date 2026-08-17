@@ -14,9 +14,37 @@ Work復活時に最初に使用するプロンプト。
 
 `kyoutendoujipropguidejapan/prop-affiliate-os-lite`
 
-を確認し、README.md → AGENTS.md → docs/CURRENT_STATE.md → docs/PROGRESS.md の順に読んでください。
+を確認し、次の順に読んでください。
 
-また、最新Master v2.2の以下を正本として扱います。
+1. `README.md`
+2. `AGENTS.md`
+3. `docs/CURRENT_STATE.md`
+4. `docs/PROGRESS.md`
+5. `docs/IMPLEMENTATION_READINESS.md`
+6. この `docs/WORK_RESTART_PROMPT.md`
+
+## Artifact Existence Gate
+
+PROGRESSで「完了」とされていても、GitHubに成果物実体がない場合があります。
+
+GitHubで実体確認済みの主要成果物：
+
+- `docs/M08_QA_REGRESSION_SPEC.md`
+- `docs/M09_SEO_CONTENT_PACK.md`
+- `docs/M10_SOURCE_MONITORING_AUTOMATION_DESIGN.md`
+- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`
+- `docs/M12_DRY_RUN_SOURCE_SET.md`
+
+M07 / M13 / M14 / M15 / M16等の詳細成果物が見つからない場合、PROGRESS要約から詳細を推測・復元して「元仕様」と扱わないでください。
+
+特に：
+
+- M07最終仕様書が見つからない場合、このプロンプト + PROGRESS + Master v2.2をfallback contractとして扱い、実装範囲を報告して人間確認後に実装する
+- M14のUPDATE_REQUIRED 10件の差し替え本文がない場合、M11原稿を勝手に最新化せず、該当FAQは保留または公式一次情報で再照合する
+- M15実JSONがない状態で監視を開始しない
+- M16実Schemaがない状態でRuntime Snapshotを実装しない
+
+また、最新Master v2.2の以下をデータ・診断・SourceHealthの上位正本として扱います。
 
 - PlanCatalogV2
 - PlanCoverage
@@ -39,7 +67,7 @@ GitHub上の完成原稿・QAも使用してください。
 
 - `docs/M08_QA_REGRESSION_SPEC.md`：実装後QA正本
 - `docs/M09_SEO_CONTENT_PACK.md`：ルール解説SEO完成原稿
-- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`：14社FAQ完成原稿
+- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`：14社FAQ原稿。M14後続判定を必ず考慮
 
 ## 最初はコードを書かない
 
@@ -50,9 +78,12 @@ GitHub上の完成原稿・QAも使用してください。
 3. 使用技術/依存
 4. GitHub OSSを部分流用すべき箇所
 5. 既存実装を維持すべき箇所
-6. 最小実装プラン
+6. GitHub上で不足している成果物実体
+7. 最小実装プラン
 
 を報告してください。
+
+**ここで実装を開始しないでください。**
 
 既知OSS候補：shadcn/ui、Formity、TanStack Table、openstatusHQ/data-table-filters、Payload。
 
@@ -77,7 +108,20 @@ OSS導入自体を目的にしません。既存実装の方が軽く安全な�
 
 その後必要なプランのみ展開。
 
-ファーム詳細FAQは `docs/M11_FIRM_FAQ_CONTENT_PACK.md` を原稿正本として使い、各社3〜5問、ファーム概要・プラン詳細の後段へ配置してください。FAQをファーストビューの主役にしないでください。
+ファーム詳細FAQは `docs/M11_FIRM_FAQ_CONTENT_PACK.md` を基礎原稿として使います。
+
+M14では70FAQを：
+
+- PASS 32
+- PASS_WITH_CAUTION 23
+- UPDATE_REQUIRED 10
+- HOLD 5
+
+に再分類済みです。
+
+M14差し替え本文が手元にないUPDATE_REQUIREDは、そのままM11を公開しないでください。公式一次情報で再照合するか、差し替え実体を回収するまで保留します。
+
+FAQは各社3〜5問程度、ファーム概要・プラン詳細の後段へ。ファーストビューの主役にしないでください。
 
 ## UX
 
@@ -123,14 +167,31 @@ Block Top3=YesはTop3から除外。
 
 M06で以下を再調査済み。
 
-- Fintokei 速攻プロ：2026-07-15以降の新規購入口座のみBlock解除候補。適用日、新規購入、旧口座分離、人間承認を保持できない場合はBlock継続。
-- Funded7 1フェーズ：Block継続
-- Funded7 Instant：Block継続
-- FTM Instant Pro：Block継続
-- Hantec Instant Lite：Block継続
-- FundedElite Flash Activation：Block継続
+### Fintokei 速攻プロ
 
-Fintokei速攻プロを単純に `Block Top3 = No` へ変更しないでください。
+2026-07-15以降の新規購入口座のみBlock解除候補。
+
+必須保護：
+
+- effective_from = 2026-07-15
+- new_purchase_only = true
+- 旧口座分離
+- Evidence保持
+- 人間承認
+
+これらをVariant単位で保持できない場合はBlock継続。
+
+単純に `Block Top3 = No` へ変更しないでください。
+
+### Block継続5件
+
+- Funded7 1フェーズ
+- Funded7 Instant
+- FTM Instant Pro
+- Hantec Instant Lite
+- FundedElite Flash Activation
+
+自動unblock禁止。確定値・FAQ schema・診断Top3根拠に使用しない。
 
 ## 価格・クーポン
 
@@ -152,7 +213,15 @@ Fintokei速攻プロを単純に `Block Top3 = No` へ変更しないでくだ�
 
 確認中のものを確定表示しない。
 
-M11 FAQ内にもSourceHealth競合に関する回答があるため、FAQ実装時も同じ状態を維持してください。
+## Monitoring / Runtime
+
+M10 / M12はGitHub上に実体があります。
+
+M15 `monitor_sources` 実JSON / Schemaが確認できない状態では監視Dry Runを開始しないでください。
+
+M16 Runtime Snapshot実Schemaが確認できない状態ではRuntime実装を開始しないでください。
+
+Master / SourceHealth / Diagnosis / Work / siteへの自動反映は禁止です。
 
 ## モバイル
 
@@ -175,7 +244,7 @@ P0実装後、公開前に必ず：
 
 `docs/M08_QA_REGRESSION_SPEC.md`
 
-を正本としてQAを実行してください。
+を唯一のQA正本として実行してください。
 
 BLOCKERまたはCRITICALが1件でも残っている場合はGo判定にしないでください。
 
@@ -196,13 +265,15 @@ BLOCKERまたはCRITICALが1件でも残っている場合はGo判定にしな�
 
 ## 最初の返答
 
-まだ実装せず、以下だけ報告：
+まだ実装せず、以下だけ報告してください。
 
 1. 現在の未公開版
 2. v2.2との差分
-3. 採用/不採用するOSS
-4. 最小実装プラン
-5. 固定する部分
+3. GitHub上で実体確認できた成果物
+4. 欠落している成果物と、その実装への影響
+5. 採用/不採用するOSS
+6. 最小実装プラン
+7. 固定する部分
 
 私が確認してから実装を開始してください。
 
