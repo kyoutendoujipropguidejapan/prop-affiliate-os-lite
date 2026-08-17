@@ -17,6 +17,7 @@
 - M11｜14社ファーム詳細FAQ完成原稿 ✅
 - M12｜監視Dry Run用URLセット確定 ✅
 - M13｜GitHubへのMaster／成果物同期設計 ✅
+- M14｜14社FAQの公式一次情報最終チェック ✅
 
 ## M06結論
 
@@ -139,7 +140,30 @@ GitHubへのMaster／成果物同期設計を完了。
 
 Fintokei速攻プロは `2026-07-15以降` / `新規購入` / `旧口座分離` / `Evidence` / `人間承認` をVariant単位で保持できない限りBlock継続。残る5件もBlock継続。
 
-M13時点ではGitHubへの実同期、Master変更、コード変更、サイト変更、公開は未実施。
+## M14成果
+
+M11の全70 FAQをA1〜A4優先の公式一次情報で最終照合。
+
+- PASS：32件
+- PASS_WITH_CAUTION：23件
+- UPDATE_REQUIRED：10件
+- HOLD：5件
+
+HOLD 5件：
+
+- Funded7 1フェーズ
+- Funded7 Instant
+- Funded Trader Markets Instant Pro
+- Hantec Trader Instant Lite
+- FundedElite Flash Activation
+
+これらはSourceHealth Blockを維持し、確定値・FAQ schema・診断Top3の根拠に使用しない。
+
+Fintokei速攻プロは `2026-07-15以降` / `新規購入` / `旧口座分離` / `Evidence` / `人間承認` の限定Variant条件を維持する。
+
+M14では14社総合表、70問全判定、UPDATE_REQUIRED 10件の差し替え文、SourceHealth対象、Eligibility / 無料トライアル確認、プラン変更候補、FAQ schema可否、公開前再確認項目、最終3分類を整理済み。
+
+M14時点ではコード変更、Master変更、SourceHealth変更、サイト変更、公開は未実施。
 
 ## 次の優先順位
 
@@ -147,15 +171,15 @@ M13時点ではGitHubへの実同期、Master変更、コード変更、サイ�
 
 1. `docs/WORK_RESTART_PROMPT.md` で未公開作業版を監査
 2. M07 P0実装
-3. M11 FAQを14社ページへ必要な分だけ統合
-4. `docs/M08_QA_REGRESSION_SPEC.md` でQA
-5. BLOCKER/CRITICAL=0を確認
-6. 390px fresh render
-7. 公開は別途人間承認
+3. M14判定を使い、M11 FAQのPASS / PASS_WITH_CAUTION / UPDATE_REQUIREDのみ必要な形で統合
+4. HOLD 5件は確定FAQ schemaやTop3根拠に使用しない
+5. `docs/M08_QA_REGRESSION_SPEC.md` でQA
+6. BLOCKER/CRITICAL=0を確認
+7. 390px fresh render
+8. 公開は別途人間承認
 
 ### Manus利用可能時の次タスク
 
-- M14｜14社FAQの公式一次情報最終チェック
 - M15｜M12 Dry Run用monitor_sources設定ファイル案
 
 ### ChatGPT側で並行可能
