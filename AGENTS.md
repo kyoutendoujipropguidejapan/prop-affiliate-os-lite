@@ -6,9 +6,13 @@
 
 1. `README.md`
 2. `docs/CURRENT_STATE.md`
-3. `docs/MANUS_TASK_QUEUE.md`
-4. Manusで作業する場合は `docs/MANUS_MASTER_PROMPT.md`
-5. Work復活後は `docs/WORK_RESTART_PROMPT.md`
+3. `docs/PROGRESS.md`
+4. `docs/IMPLEMENTATION_READINESS.md`
+5. タスク別の実体ファイル
+6. Manus作業時は `docs/MANUS_MASTER_PROMPT.md`
+7. Work復活後は `docs/WORK_RESTART_PROMPT.md`
+
+`docs/MANUS_TASK_QUEUE.md` は過去のManusタスク列を確認するときに参照する。
 
 ## エージェント共通ルール
 
@@ -16,13 +20,22 @@
 
 最初に既存成果、公開サイト、GitHub、利用できるOSSを確認する。新規実装が必要でも、既存成果を再利用できないか先に判断する。
 
-### 2. 正確性を優先する
+### 2. Artifact Existence Gate
+
+`docs/PROGRESS.md` に「完了」と書かれていても、GitHubにその成果物ファイルが存在するとは限らない。
+
+- 実ファイルを確認できたものだけを「全文を読める正本」と扱う
+- PROGRESSは進捗・安全条件の要約として使う
+- 存在しない成果物の詳細を推測・復元して「元成果物」と呼ばない
+- M07 / M13 / M14 / M15 / M16等の詳細が必要な場合は `docs/IMPLEMENTATION_READINESS.md` のGapを先に確認する
+
+### 3. 正確性を優先する
 
 価格、キャンペーン、プロップファームのルール、KYC、制限国、出金条件など変更され得る情報は公式サイト・公式FAQ・規約など一次情報を確認する。
 
 公式情報同士が矛盾する場合は勝手に片方を正解にせず「確認中」にする。
 
-### 3. 診断を広告ランキングにしない
+### 4. 診断を広告ランキングにしない
 
 - Affiliate有無を採点に使わない
 - コミッション率を採点に使わない
@@ -30,13 +43,13 @@
 - 価格を採点に使わない
 - 診断はユーザー条件との相性を示す
 
-### 4. 公開UIの基本構造
+### 5. 公開UIの基本構造
 
 `ファーム一覧 → ファーム内のプラン一覧 → 必要なプランだけ詳細`
 
 全プラン詳細カードを最初から大量表示しない。
 
-### 5. UX原則
+### 6. UX原則
 
 `見やすい → 少し分かる → 次が気になる → 自分で進みたくなる`
 
@@ -47,7 +60,7 @@
 - ページを行き止まりにしない
 - FOMOや過度な購入誘導を避ける
 
-### 6. 価格・クーポン
+### 7. 価格・クーポン
 
 割引適用後価格を自動計算して公開しない。
 
@@ -60,7 +73,7 @@
 
 最終条件・最終価格は公式購入画面で確認するよう案内する。
 
-### 7. 変更禁止
+### 8. 変更禁止
 
 明示的な承認なしに以下を変更しない。
 
@@ -73,7 +86,12 @@
 - 公式リンクとAffiliate CTAの役割分離
 - 本番Version 78
 
-### 8. GitHub OSS
+追加保護：
+
+- Fintokei速攻プロは2026-07-15以降の新規購入Variantと旧口座を分離できない場合Block継続
+- Funded7 1フェーズ / Funded7 Instant / FTM Instant Pro / Hantec Instant Lite / FundedElite Flash Activationは自動unblock禁止
+
+### 9. GitHub OSS
 
 候補は最大3件程度に絞り、以下を比較する。
 
@@ -88,18 +106,19 @@
 
 OSS導入自体を目的にしない。既存実装の方が軽く安全なら導入しない。
 
-### 9. 完了の定義
+### 10. 完了の定義
 
 コード変更を伴う場合、コード上の成功だけで完了にしない。
 
 最低限：
 
-- モバイル390px相当の表示確認
+- `docs/M08_QA_REGRESSION_SPEC.md` を基準に回帰確認
+- モバイル390px相当のfresh render
 - 横スクロールなし
 - CTA競合なし
 - 情報密度過多なし
 - 主要導線が行き止まりになっていない
-- 回帰テスト
+- BLOCKER / CRITICAL = 0
 - Lint
 
 を確認する。
