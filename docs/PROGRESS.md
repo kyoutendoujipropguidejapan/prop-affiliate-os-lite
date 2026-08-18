@@ -1,6 +1,6 @@
 # プロップファームの歩き方｜進捗
 
-更新日：2026-08-17
+更新日：2026-08-18
 
 ## 完了
 
@@ -21,10 +21,12 @@
 - M15｜M12 Dry Run用 monitor_sources 設定ファイル案 ✅
 - M16｜最小Runtime Snapshot仕様確定 ✅
 - 実装前Readiness Gate v1 ✅
+- M01〜M16 Artifact回収・照合 ✅
 - 追加SEO完成原稿5本 ✅
 - SEO内部リンク／Metadata Guardrail設計 ✅
 
 Readiness Gate正本：`docs/IMPLEMENTATION_READINESS.md`
+Artifact同期待ち台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 
 ---
 
@@ -41,16 +43,25 @@ Readiness Gate正本：`docs/IMPLEMENTATION_READINESS.md`
 - `docs/SEO_INTERNAL_LINK_MAP.md`
 - `docs/WORK_RESTART_PROMPT.md`
 - `docs/IMPLEMENTATION_READINESS.md`
+- `docs/ARTIFACT_SYNC_STATUS.md`
 
-### 完了記録はあるが詳細実体をGitHubで確認できないもの
+### Manus側で回収済み・GitHub未同期
 
-- M01〜M07の詳細報告／M07最終統合仕様
-- M13 GitHub同期設計全文
-- M14 全70FAQ判定・UPDATE_REQUIRED 10件の差し替え全文
-- M15 `monitor_sources` JSON Draft / JSON Schema
-- M16 Runtime Snapshot仕様書 / 各Schema
+P0：
 
-PROGRESSの要約から未保存成果物の詳細を推測・復元して「元成果物」と扱わない。
+1. M07最終統合仕様
+2. M14 全70 FAQ判定 + UPDATE_REQUIRED 10件の差し替え本文
+
+P1：
+
+3. M15 `monitor_sources.json` Draft
+4. M15 JSON Schema
+5. M16 Runtime Snapshot仕様書 / 各Schema
+6. M13 GitHub同期設計全文
+
+これらは **RECOVERED_LOCAL_NOT_SYNCED**。GitHubへ実ファイル同期・再検証するまで、GitHub上のCanonical Artifactとして扱わない。
+
+M01〜M06の詳細報告は、必要になった時だけ実体の有無を確認する。既存正本から不要に再生成しない。
 
 ---
 
@@ -82,6 +93,8 @@ Block解除候補はVariant単位で次を保持できる場合のみ。
 - `auto_unblock_allowed = false`
 - `top3_blocked = true`
 - 確定値・FAQ schema・診断Top3根拠に使用しない
+
+回収したM07/M13/M14/M15/M16 Artifactでも、この安全条件が整合していると報告済み。GitHub同期時に再確認する。
 
 ---
 
@@ -120,8 +133,9 @@ BLOCKERまたはCRITICALが1件でも残る場合はNo-Go。
 `公式URL → normalize → diff → noise filter → semantic candidate → SourceHealth cross-check → human review`
 
 - M12：Primary 5 + Shadow 4 URL実体あり
-- M15：9 URL設定案・Schema・Preflight完了記録あり、status `DRAFT_NOT_ACTIVE`
-- ただしM15実JSON/SchemaはGitHub未同期
+- M15：`monitor_sources.json` Draft / SchemaをManus側で回収済み
+- M15 status：`DRAFT_NOT_ACTIVE`
+- まだGitHub未同期
 
 **M15実体同期＋Preflight＋人間承認までDry Runは開始しない。**
 
@@ -136,7 +150,7 @@ M11で14社70 FAQを作成。M14で公式一次情報により最終照合。
 - UPDATE_REQUIRED 10
 - HOLD 5
 
-M14の差し替え全文がGitHub未同期のため、UPDATE_REQUIRED 10件はM11のまま公開しない。差し替え実体を回収するか、公開前に再照合する。
+M14の全70判定とUPDATE_REQUIRED 10件の差し替え本文はManus側で回収済み。ただしGitHub未同期のため、差し替え実体を同期・照合するまでUPDATE_REQUIRED 10件をM11のまま公開しない。
 
 ## M13 / M16
 
@@ -146,9 +160,7 @@ M14の差し替え全文がGitHub未同期のため、UPDATE_REQUIRED 10件はM1
 - GitHub Runtime Snapshot = 人間承認済み機械可読配布層
 - Work / Replitへ片方向handoff
 
-M16ではmanifest / Firm / Plan / Diagnosis Candidate / SourceHealth / Monitor Source Schema、Approval / Rollback / Preflightまで仕様確定記録あり。
-
-ただしM16実Schema/仕様書はGitHub未同期。
+M13設計全文、M16 Runtime Snapshot仕様 / SchemaはManus側で回収済み。ただしGitHub未同期。
 
 **Runtime実装はM16実体同期まで開始しない。APPROVED以外を本番データとして使わない。**
 
@@ -158,6 +170,8 @@ Affiliate / commission / coupon / priceは診断採点データへ混ぜない�
 
 ## Readiness Gate v1 結論
 
+Artifact回収後も、GitHub未同期のためGateはまだ据え置く。
+
 - Work監査開始：GO
 - P0実装：CONDITIONAL GO
 - FAQ統合：CONDITIONAL GO
@@ -165,21 +179,7 @@ Affiliate / commission / coupon / priceは診断採点データへ混ぜない�
 - Runtime Snapshot実装：NO-GO
 - 本番公開：M08 PASS + 人間承認までNO-GO
 
-### 実装前に回収すると価値が高い成果物
-
-P0：
-
-1. M07最終統合仕様書
-2. M14全判定 + UPDATE_REQUIRED 10件の差し替え全文
-
-P1：
-
-3. M15 `monitor_sources.json` Draft
-4. M15 JSON Schema
-5. M16 Runtime Snapshot仕様書 / Schema
-6. M13同期設計全文
-
-詳細：`docs/IMPLEMENTATION_READINESS.md`
+次のGate更新条件：回収済み6 Artifactの実ファイル同期・全文照合・安全条件再確認。
 
 ---
 
@@ -190,27 +190,31 @@ P1：
 3. `docs/CURRENT_STATE.md`
 4. `docs/PROGRESS.md`
 5. `docs/IMPLEMENTATION_READINESS.md`
-6. `docs/WORK_RESTART_PROMPT.md`
-7. Master v2.2確認
-8. 未公開作業版監査（まだコード変更しない）
-9. M07実体の有無を確認
-10. 人間確認後にP0差分実装
-11. M14条件に沿ってFAQ統合
-12. M09/M09B記事と内部リンクを必要な分だけ実装
-13. M08 QA
-14. BLOCKER / CRITICAL = 0
-15. 390px fresh render
-16. 公開は別途人間承認
+6. `docs/ARTIFACT_SYNC_STATUS.md`
+7. `docs/WORK_RESTART_PROMPT.md`
+8. Master v2.2確認
+9. 未公開作業版監査（まだコード変更しない）
+10. M07同期状況を確認
+11. 人間確認後にP0差分実装
+12. M14同期済み判定に沿ってFAQ統合
+13. M09/M09B記事と内部リンクを必要な分だけ実装
+14. M08 QA
+15. BLOCKER / CRITICAL = 0
+16. 390px fresh render
+17. 公開は別途人間承認
 
 ## 次
 
-新規のM17/M18設計を増やすより、まず不足成果物の回収・同期を優先する。
+最優先は、回収済み6 Artifactの実ファイルをGitHubへ安全に同期すること。
+
+同期手順：
+
+`実ファイル受領 → 全文確認 → 既存Artifact照合 → Fintokei/HOLD安全条件確認 → 保存先確定 → GitHub同期 → 再Fetch/SHA確認 → Readiness再判定`
 
 並行して安全に進められるもの：
 
 - 14社ページの「次に読む」導線コピー最終調整
 - SEO記事10本の掲載優先順位とSearch Console投入順の整理
-- M14差し替え実体の回収
-- M15/M16実体のGitHub同期
+- Metadata重複防止表
 
 サイト・Master・SourceHealth・DiagnosisLogicV2・監視状態・本番公開は変更しない。
