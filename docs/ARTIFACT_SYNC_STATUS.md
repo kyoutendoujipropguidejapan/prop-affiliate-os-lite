@@ -6,7 +6,9 @@
 
 ## 現在状態
 
-**P0本文確認完了 + M15 JSON/Schema同期完了 + M16本文確認完了。残りはM13全文確認。**
+**優先6 Artifactすべて実体確認完了。M15 JSON/Schemaは元ArtifactをGitHub同期済み。M07/M14/M16/M13は回収PDFを全文確認し、必要な検証済み抽出をGitHubへ保存済み。**
+
+元Markdown Artifactが存在するものについて、回収PDF由来の抽出を元Artifactそのものと混同しない。
 
 ## P0
 
@@ -27,7 +29,6 @@
 - Source SHA-256：`f2c05035952f8ec38033ff31eecf89b324000462c2e9a85e99d00b8b437e648d`
 - PASS 32 / PASS_WITH_CAUTION 23 / UPDATE_REQUIRED 10 / HOLD 5
 - 検証済み実装用抽出：`docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md`
-- 元M14 Artifactと抽出を混同しない
 
 ## P1
 
@@ -62,21 +63,39 @@
 - Source SHA-256：`cc8abf5b143ca2eb9ab6e3a504606a1022b30a8ec3d98826df05fcb7938b6141`
 - 本文確認：PASS_WITH_CAUTION
 - 検証済み実装用抽出：`docs/M16_VERIFIED_EXTRACTION_FROM_PDF.md`
-- Excel Master = 上位正本 / Runtime = APPROVED配布層 / Work・Replitへ片方向：PASS
-- APPROVED + human_approvedのみ本番読込：PASS
-- Fintokei Variant / HOLD 5件保護：PASS
-- Affiliate / Commission / Coupon / Priceの診断採点混入禁止：PASS
-- 個別Schema JSONは元Artifactとして存在しない。仕様書内Schema草案のみ。
-- 実装前課題：
-  - diagnosis candidate Schemaに`variant`が未定義なのにFintokei例が`variant`を持つ
-  - SourceHealth logical label ↔ Master Canonical ID mapping未確定
-  - Runtime APPROVEDとMonitor実行承認を機械的に分離するGate未確定
-  - plansの確定値`source_refs>=1`は本文/Validationでは要求するがSchema単体では未強制
 - Runtime Snapshot実装：NO-GO
 
 ### M13｜GitHub Master/Artifact同期設計
 
-- 状態：`USER_REPORTED_ATTACHED_PENDING_INGEST`
+- 受領：PDF 20ページ
+- 状態：`INGESTED_VERIFIED_DERIVATIVE_SYNCED_ORIGINAL_MARKDOWN_NOT_SYNCED`
+- Source SHA-256：`84ba35a65f7cfcbd3ce46d27f7d7542e1da8e8df2539f93bc4e45f8dc7828af9`
+- 本文確認：PASS_WITH_CAUTION
+- 検証済み実装用抽出：`docs/M13_VERIFIED_EXTRACTION_FROM_PDF.md`
+- M13↔M16 cross-check：`docs/M13_M16_CROSSCHECK.md`
+- 大原則は一致。ただしLayer B path、Variant model、human approval、provenance、SourceHealth→Diagnosis契約等に実装前reconciliationが必要。
+
+## M13 ↔ M16で確定したこと
+
+一致：
+
+- Excel Masterが上位正本
+- GitHub snapshotは承認済み配布層
+- Work / Replitへread-only片方向
+- 本番公開は別承認
+- DiagnosisLogicV2を複製・変更しない
+- Fintokei速攻プロは5保護条件が欠ければBlock
+- HOLD 5件は自動解除しない
+
+未決定：
+
+- `data/canonical/*` と `runtime/*` のどちらを唯一のLayer B stable pathにするか
+- `variant_id + scope` をRuntime Schemaへどう組み込むか
+- structured human approval contract
+- `source_priority + source_evidence_ids` とM16 `source_refs` の統合
+- scope-aware diagnosis policyと派生 `top3_blocked` の役割分担
+- Monitor execution approvalの独立Gate
+- SourceHealth logical tag ↔ Canonical ID mapping
 
 ## 絶対保護
 
@@ -97,7 +116,7 @@
 - Hantec Trader｜Instant Lite
 - FundedElite｜Flash Activation
 
-共通：human_only / auto_unblock=false / top3_blocked=true。
+共通：human_only / auto_unblock=false / top3_blocked=true相当の安全状態を維持する。
 
 ## 現在のGate
 
@@ -112,8 +131,8 @@
 
 ## 次
 
-1. M13本文確認
-2. M13 ↔ M16最終cross-check
-3. Work復活後Day0監査
-4. P0 / FAQをGOへ昇格できるか判定
-5. M08 QA後にのみ公開判断
+1. Work復活後Day0監査
+2. 未公開Work作業版とMaster v2.2 / M07 / M14の差分確認
+3. P0 / FAQをGOへ昇格できるか判定
+4. M08 QA後にのみ公開判断
+5. M13/M16 Runtime reconciliationはWork P0とは分離して後続で確定
