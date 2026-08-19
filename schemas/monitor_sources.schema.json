@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/monitor_sources.m15.schema.json",
+  "title": "M15 monitor_sources Draft",
+  "type": "object",
+  "required": ["config_id", "schema_version", "status", "safety_policy", "sources"],
+  "properties": {
+    "config_id": {"type": "string"},
+    "schema_version": {"type": "string"},
+    "status": {"const": "DRAFT_NOT_ACTIVE"},
+    "verified_at": {"type": "string", "format": "date-time"},
+    "activation_phase": {"enum": ["not_started", "phase_1", "phase_2"]},
+    "candidate_change_types": {"type": "array", "items": {"type": "string"}},
+    "safety_policy": {
+      "type": "object",
+      "required": ["master_auto_update_allowed", "sourcehealth_auto_update_allowed", "diagnosis_auto_update_allowed", "work_auto_apply_allowed", "site_auto_publish_allowed", "conflict_resolution_default"],
+      "properties": {
+        "master_auto_update_allowed": {"const": false},
+        "sourcehealth_auto_update_allowed": {"const": false},
+        "diagnosis_auto_update_allowed": {"const": false},
+        "work_auto_apply_allowed": {"const": false},
+        "site_auto_publish_allowed": {"const": false},
+        "conflict_resolution_default": {"const": "human_only"}
+      },
+      "additionalProperties": true
+    },
+    "sources": {"type": "array", "minItems": 9, "maxItems": 9, "items": {"$ref": "#/$defs/source"}}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": ["source_id", "firm_id", "firm_name", "url", "source_type", "source_priority", "watch_category", "frequency", "critical_keywords", "ignore_patterns", "sourcehealth_ids", "enabled", "dry_run_group", "human_review_required", "auto_publish_allowed", "sourcehealth_resolution_mode", "auto_unblock_allowed", "parser_profile"],
+      "properties": {
+        "source_id": {"pattern": "^DR0[1-9]$"},
+        "firm_id": {"type": "string"},
+        "firm_name": {"type": "string"},
+        "url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "source_type": {"type": "string"},
+        "source_priority": {"enum": ["A1", "A2", "A3", "A4", "A5", "B1", "C1", "D1"]},
+        "watch_category": {"type": "array", "items": {"type": "string"}},
+        "frequency": {"enum": ["daily", "weekly", "monthly"]},
+        "critical_keywords": {"type": "array", "items": {"type": "string"}},
+        "ignore_patterns": {"type": "array", "items": {"type": "string"}},
+        "sourcehealth_ids": {"type": "array", "items": {"type": "string"}},
+        "enabled": {"type": "boolean"},
+        "activation_phase": {"enum": ["not_started", "phase_1", "phase_2"]},
+        "dry_run_group": {"enum": ["primary", "shadow"]},
+        "human_review_required": {"const": true},
+        "auto_publish_allowed": {"const": false},
+        "sourcehealth_resolution_mode": {"const": "human_only"},
+        "auto_unblock_allowed": {"const": false},
+        "extract_fields": {"type": "array", "items": {"type": "string"}},
+        "country_set_diff": {"type": "boolean"},
+        "numeric_diff": {"type": "boolean"},
+        "effective_date_required": {"type": "boolean"},
+        "legacy_variant_sensitive": {"type": "boolean"},
+        "variant_protection": {"$ref": "#/$defs/fintokeiProtection"},
+        "crosscheck_source_ids": {"type": "array", "items": {"pattern": "^DR0[1-9]$"}},
+        "expected_language": {"type": "array", "items": {"type": "string"}},
+        "redirect_policy": {"type": "string"},
+        "parser_profile": {"type": "string"},
+        "notes": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "fintokeiProtection": {
+      "type": "object",
+      "required": ["effective_from", "new_purchase_only", "legacy_account_separation_required", "evidence_required", "human_approval_required"],
+      "properties": {
+        "effective_from": {"const": "2026-07-15"},
+        "new_purchase_only": {"const": true},
+        "legacy_account_separation_required": {"const": true},
+        "evidence_required": {"const": true},
+        "human_approval_required": {"const": true}
+      },
+      "additionalProperties": false
+    }
+  }
+}
