@@ -1,12 +1,12 @@
 # ARTIFACT_SYNC_STATUS
 
-更新日：2026-08-19 JST
+更新日：2026-08-20 JST
 対象：プロップファームの歩き方
 目的：回収ArtifactとGitHub Canonical候補の同期状態を一意にする。
 
 ## 現在状態
 
-**P0本文確認完了 + M15 JSON/Schema同期完了。残りはM16 / M13。**
+**P0本文確認完了 + M15 JSON/Schema同期完了 + M16本文確認完了。残りはM13全文確認。**
 
 ## P0
 
@@ -57,8 +57,22 @@
 
 ### M16｜Runtime Snapshot仕様
 
-- 状態：`USER_REPORTED_ATTACHED_PENDING_INGEST`
-- 個別Schema JSONは元回収Artifactとして存在しない。仕様書内Schema草案のみ。
+- 受領：PDF 12ページ
+- 状態：`INGESTED_VERIFIED_DERIVATIVE_SYNCED_ORIGINAL_MARKDOWN_NOT_SYNCED`
+- Source SHA-256：`cc8abf5b143ca2eb9ab6e3a504606a1022b30a8ec3d98826df05fcb7938b6141`
+- 本文確認：PASS_WITH_CAUTION
+- 検証済み実装用抽出：`docs/M16_VERIFIED_EXTRACTION_FROM_PDF.md`
+- Excel Master = 上位正本 / Runtime = APPROVED配布層 / Work・Replitへ片方向：PASS
+- APPROVED + human_approvedのみ本番読込：PASS
+- Fintokei Variant / HOLD 5件保護：PASS
+- Affiliate / Commission / Coupon / Priceの診断採点混入禁止：PASS
+- 個別Schema JSONは元Artifactとして存在しない。仕様書内Schema草案のみ。
+- 実装前課題：
+  - diagnosis candidate Schemaに`variant`が未定義なのにFintokei例が`variant`を持つ
+  - SourceHealth logical label ↔ Master Canonical ID mapping未確定
+  - Runtime APPROVEDとMonitor実行承認を機械的に分離するGate未確定
+  - plansの確定値`source_refs>=1`は本文/Validationでは要求するがSchema単体では未強制
+- Runtime Snapshot実装：NO-GO
 
 ### M13｜GitHub Master/Artifact同期設計
 
@@ -98,8 +112,8 @@
 
 ## 次
 
-1. M16本文確認
-2. M13本文確認
+1. M13本文確認
+2. M13 ↔ M16最終cross-check
 3. Work復活後Day0監査
 4. P0 / FAQをGOへ昇格できるか判定
 5. M08 QA後にのみ公開判断
