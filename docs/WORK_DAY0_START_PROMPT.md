@@ -1,13 +1,13 @@
 # WORK_DAY0_START_PROMPT
 
-更新日：2026-08-19 JST
+更新日：2026-08-20 JST
 用途：Work復活直後に最初に貼る監査開始プロンプト。
 
 ---
 
 「プロップファームの歩き方」の続きです。
 
-既存成果を作り直さず、現在の未公開作業版の続きから再開してください。**まだコード変更も公開もしないでください。**
+既存成果を作り直さず、現在の未公開作業版の続きから再開してください。**最初のターンではコード変更も公開もしないでください。**
 
 本番はVersion 78です。
 
@@ -22,18 +22,18 @@
 4. `docs/PROGRESS.md`
 5. `docs/IMPLEMENTATION_READINESS.md`
 6. `docs/ARTIFACT_SYNC_STATUS.md`
-7. `docs/WORK_RESTART_PROMPT.md`
-8. `docs/WORK_RESTART_DAY0_CHECKLIST.md`
+7. `docs/M13_M16_CROSSCHECK.md`
+8. `docs/WORK_RESTART_PROMPT.md`
+9. `docs/WORK_RESTART_DAY0_CHECKLIST.md`
+10. `docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md`
 
-## 重要：Artifact Existence Gate
+## Artifact Existence Gate
 
-PROGRESSで「完了」と書かれていても、GitHub上に実体ファイルがない成果物があります。
+M07 / M14 / M16 / M13は回収PDF本文をChatGPTで全文確認済みです。検証済み抽出・cross-checkはGitHubにあります。
 
-GitHubで実体確認できない成果物を、要約から推測復元して「元仕様」と扱わないでください。
+M15 JSON / Schemaは元Artifactを改変せずGitHub同期済みです。
 
-特に、M07 / M13 / M14 / M15 / M16はGitHub同期状況を最初に確認してください。
-
-もし未同期なら、既存の`docs/ARTIFACT_SYNC_STATUS.md`に従い、未同期成果物を勝手に補完せず、その事実を差分として報告してください。
+ただし回収PDFからの検証済み抽出を、元Markdown Artifactそのものと混同しないでください。
 
 ## 上位正本
 
@@ -58,7 +58,25 @@ GitHubで実体確認できない成果物を、要約から推測復元して�
 - UXMeasurement
 - UXBacklog
 
-GitHub要約だけでExcel Masterの値を上書きしないでください。
+GitHub要約やWork fixtureだけでExcel Masterの値を上書きしないでください。
+
+## 今回の重要なRuntime境界
+
+M13とM16は大原則では一致していますが、Runtime Snapshotの実装契約はまだNO-GOです。
+
+未決定事項：
+
+- M13 `data/canonical/*` とM16 `runtime/*` の唯一のLayer B path
+- `variant_id + scope` 契約
+- structured human approval
+- `source_priority + source_evidence_ids`
+- scope-aware diagnosis policyと派生`top3_blocked`
+- Monitor execution approval
+- SourceHealth logical tag ↔ Canonical ID mapping
+
+**Day0監査とM07 P0では、`data/canonical/*` / `runtime/*` を新しい正本として生成・統合しないでください。**
+
+Runtime契約未決定を理由にMasterや既存Work値を推測補完しないでください。
 
 ## 絶対に変更しないもの
 
@@ -73,6 +91,7 @@ GitHub要約だけでExcel Masterの値を上書きしないでください。
 - Official link / Affiliate CTAの役割分離
 - 本番Version 78
 - 公開状態
+- 監視の`DRAFT_NOT_ACTIVE`
 
 ## Fintokei速攻プロ
 
@@ -84,9 +103,9 @@ Block解除候補はVariant単位で次を安全に保持できる場合のみ�
 - Evidence保持
 - 人間承認
 
-購入日・旧口座を安全に評価できない場合はBlock継続です。
+購入日・旧口座・scopeを安全に評価できない場合はBlock継続です。
 
-単純に`Block Top3 = No`へ変更しないでください。
+単純にfirm/plan-levelのBooleanだけで解除しないでください。
 
 ## HOLD / Block継続5件
 
@@ -98,9 +117,9 @@ Block解除候補はVariant単位で次を安全に保持できる場合のみ�
 
 共通：
 
-- `resolution_mode = human_only`
-- `auto_unblock_allowed = false`
-- `top3_blocked = true`
+- human-only resolution
+- auto unblock禁止
+- Top3 Block継続
 - 確定FAQ schemaへ使用しない
 - 診断Top3根拠へ使用しない
 
@@ -137,20 +156,20 @@ Block解除候補はVariant単位で次を安全に保持できる場合のみ�
 - DiagnosisPlanCurrentを候補母集団として使う
 - DiagnosisLogicV2は変更禁止
 - Affiliate / commission / coupon / priceを採点へ入れない
-- Block Top3対象はTop3から除外
+- Block対象はTop3から除外
 - 結果は「なぜこの3つ？」から始める
 - 各候補：あなたとの相性 / 理由2点 / 注意1点 / 詳細を見る
 
 ## FAQ
 
-M11原稿を基礎とし、M14同期済みならM14判定を優先。
+M11原稿を基礎とし、M14判定を優先。
 
 - PASS：実装候補
-- PASS_WITH_CAUTION：注記込み実装候補
-- UPDATE_REQUIRED：M14差し替え本文を使用
+- PASS_WITH_CAUTION：注記・公開前再確認込み実装候補
+- UPDATE_REQUIRED：`docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md` の差し替え本文を使用
 - HOLD：確定FAQ schemaへ入れない
 
-M14が未同期なら、UPDATE_REQUIRED該当FAQをM11のまま公開しないでください。
+不要なFAQ全文改稿はしないでください。
 
 ## SEO
 
@@ -174,14 +193,16 @@ M14が未同期なら、UPDATE_REQUIRED該当FAQをM11のまま公開しない�
 1. 現在の未公開作業版の状態
 2. 本番Version 78との差分
 3. Master v2.2との差分
-4. M07 P0仕様の同期状態と適合/不足
-5. M14 FAQ判定の同期状態と反映状況
-6. 使用技術 / 依存
-7. 採用 / 不採用するOSSと理由
-8. 既存実装を維持する箇所
-9. 最小P0実装プラン
-10. 絶対に変更しない箇所
-11. 現時点のBLOCKER / CRITICAL候補
+4. M07 P0仕様の適合 / 不足
+5. M14 FAQ判定の反映状況
+6. Fintokei / HOLD 5件の現行表現可否
+7. 使用技術 / 依存
+8. 採用 / 不採用するOSSと理由
+9. 既存実装を維持する箇所
+10. 最小P0実装プラン
+11. GA4イベントの既存/追加候補重複
+12. 現時点のBLOCKER / CRITICAL候補
+13. Runtime/monitoringを今回触らず分離できるか
 
 最後に、
 
