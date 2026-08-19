@@ -8,9 +8,9 @@
 
 M01〜M16の回収・照合により、実装前優先度が高い6成果物はManus側で回収済み。
 
-2026-08-19、M07とM14の元PDFはこのChatGPTセッションで全文読取・安全条件確認まで完了した。
+2026-08-19、M07・M14の元PDFとM15 `monitor_sources.json` はこのChatGPTセッションで本文確認・安全条件確認まで完了した。M15 JSONは元内容を改変せずGitHubへ同期し、Git blob SHA一致まで確認した。
 
-**全体状態：P0_ARTIFACTS_INGESTED_VERIFIED_PENDING_ORIGINAL_SYNC**
+**全体状態：P0_ARTIFACTS_VERIFIED_M15_JSON_SYNCED_REMAINING_P1_PENDING**
 
 ## 6成果物の現在状態
 
@@ -37,7 +37,18 @@ M01〜M16の回収・照合により、実装前優先度が高い6成果物はM
 ### P1
 
 3. M15｜`monitor_sources.json`
-   - 状態：USER_REPORTED_ATTACHED_PENDING_INGEST
+   - 状態：**INGESTED_VERIFIED_SYNCED_DRAFT**
+   - Source SHA-256：`c481efa8997694971e52350d1ff4e9a3c620ad002d3d19faef5b2afe57efc8fc`
+   - GitHub：`monitoring/monitor_sources.json`
+   - GitHub blob SHA：`ec92a4798dd8cccd06dd4dff199fbda1fd9441a7`
+   - JSON構文：PASS
+   - Primary 5 / Shadow 4 / 合計9 URL：PASS
+   - M12 URL完全一致：PASS
+   - `DRAFT_NOT_ACTIVE` / `not_started`：PASS
+   - Fintokei Variant保護：PASS
+   - 自動Master / SourceHealth / Diagnosis / Work / site反映禁止：PASS
+   - Activation判定：NO-GO（Schema・SourceHealth ID参照整合・Preflight・人間承認待ち）
+   - 検証記録：`docs/M15_INGEST_VALIDATION.md`
 4. M15｜`monitor_sources.schema.json`
    - 状態：USER_REPORTED_ATTACHED_PENDING_INGEST
 5. M16｜`M16_minimum_runtime_snapshot_spec.md`
@@ -121,6 +132,22 @@ UPDATE_REQUIRED 10件は、回収PDFから `docs/M14_VERIFIED_EXTRACTION_FROM_PD
 - Blueberry Funded Q2
 - The5ers Futures Q3
 
+## M15 JSON確認結果
+
+`monitor_sources.json` はM12 Dry Run setを機械可読化したDraftとして基本整合を確認した。
+
+- DR01〜DR05 = Primary 5
+- DR06〜DR09 = Shadow 4
+- M12の9 URLと完全一致
+- Primaryはenabled、Shadowはdisabled / phase_2
+- global statusは `DRAFT_NOT_ACTIVE`、activation_phaseは `not_started`
+- 全9件でhuman review必須・auto publish禁止・auto unblock禁止
+- DR01のFintokei Variant保護5条件を保持
+
+ただしActivation前に、`sourcehealth_ids` の意味ラベルとMaster Canonical IDの参照整合をSchemaで確認する。代表例はDR01 `SH_FINTOKEI_SWIFT` vs Master `SH001`、DR05/06 `SH_HANTEC_INSTANT_LITE` vs `SH003`、DR07 `SH_FTM_INSTANT_PRO` vs `SH012`、DR08/09 `SH_THE5ERS_FUTURES_LOCALE` vs `SH008`。
+
+元Artifactは改変せず、`docs/M15_INGEST_VALIDATION.md` に注意点を記録した。
+
 ## GitHub昇格条件
 
 各Artifactは、次を満たした場合のみGitHub上の読める正本候補へ昇格する。
@@ -149,17 +176,17 @@ UPDATE_REQUIRED 10件は、回収PDFから `docs/M14_VERIFIED_EXTRACTION_FROM_PD
 
 ## Readinessへの影響
 
-P0で重要だったM07/M14の本文不確実性は解消した。ただし元Markdown Artifact自体はGitHub未同期であるため、WorkではPDF検証済み抽出・本台帳・Day0監査を併用する。
+P0で重要だったM07/M14の本文不確実性は解消した。M15 JSONも回収・同期済みだが、Schema確認前のため監視開始条件は満たしていない。
 
 - Work監査：GO
 - P0実装：CONDITIONAL GO（M07本文確認PASS。Day0監査で現行Workとの差分確認後にGOへ昇格可能）
 - FAQ統合：CONDITIONAL GO（M14本文確認PASS、10差し替え抽出済み。Day0でM11/現行Workとの一致確認後にGOへ昇格可能）
-- 監視Dry Run：NO-GO（M15本文確認・同期・Preflight・人間承認待ち）
+- 監視Dry Run：NO-GO（M15 Schema本文確認・SourceHealth参照整合・Preflight・人間承認待ち）
 - Runtime Snapshot実装：NO-GO（M16本文確認・同期待ち）
 - 本番公開：NO-GO
 
 ## 次のアクション
 
-残る4ファイル（M15 JSON、M15 Schema、M16、M13）をこのセッションで読み取り、**全文確認 → 安全条件検証 → 必要なGitHub同期/検証済み抽出 → Readiness再判定** の順で進める。
+残る3ファイル（M15 Schema、M16、M13）をこのセッションで読み取り、**全文確認 → 安全条件検証 → 必要なGitHub同期/検証済み抽出 → Readiness再判定** の順で進める。
 
 不足内容をPROGRESS要約から再生成して、回収Artifactと同一扱いしない。
