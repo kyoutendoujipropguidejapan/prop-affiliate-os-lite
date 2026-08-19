@@ -2,187 +2,72 @@
 
 更新日：2026-08-19 JST
 対象：プロップファームの歩き方
-目的：Work復活前後に「完了記録」と「GitHub上の実体」を混同せず、安全に実装へ移るためのReadiness Gate。
+目的：Work復活前後の実装・監視・公開Gateを一意にする。
 
-## 0. 結論
+## 0. 現在の判定
 
-現時点の判定：
+- Work監査開始：**GO**
+- M07 P0実装開始：**CONDITIONAL GO**
+- M14 FAQ統合：**CONDITIONAL GO**
+- 監視Dry Run開始：**NO-GO**
+- Runtime Snapshot実装：**NO-GO**
+- 本番公開：**NO-GO**
 
-- Workの**監査開始**：GO
-- Workの**P0実装開始**：CONDITIONAL GO
-- FAQ統合：CONDITIONAL GO
-- 監視Dry Run開始：NO-GO（M15 JSONは確認・同期済み。Schema / SourceHealth参照整合 / Preflight / 人間承認待ち）
-- Runtime Snapshot実装：NO-GO（M16本文未確認）
-- 本番公開：NO-GO（M08完走・人間承認前）
+## 1. 2026-08-19までに実体確認できたもの
 
-重要更新：2026-08-19にM07とM14の元PDFをChatGPTで全文確認した。さらにM15 `monitor_sources.json` をJSON構文・9 URL・Primary 5 / Shadow 4・安全条件・Fintokei Variantまで確認し、元内容を改変せず `monitoring/monitor_sources.json` へ同期した。
+### M07
 
----
+回収PDF 24ページを全文確認済み。
 
-## 1. 正本の優先順位
+- P0 = 13項目
+- 最初はP0-01〜P0-03
+- DiagnosisLogicV2不変
+- Affiliate / commission / coupon / priceを診断採点に使わない
+- Official CTA / Affiliate CTA分離
+- 14社一覧で65プラン詳細を初期展開しない
+- 390px横スクロール禁止
+- SourceHealth競合を自動解消しない
+- 自動監視・Cron・通知はP0対象外
+- Fresh render / M08 QAを公開前Exit Gateとする
 
-### A. データ・診断・SourceHealth
+### M14
 
-上位正本：`Prop_Firm_Master_v2_2_Final_UX_Copy.xlsx`
-
-- PlanCatalogV2
-- PlanCoverage
-- DiagnosisPlanCurrent
-- DiagnosisLogicV2
-- SourceHealth
-- Coupons
-- PriceOffers
-- UXJourney / PageUXSpec / UXCopyFinal / FirmUXCopy / FirmPlanFlow 等
-
-Excel MasterをGitHubの要約文やMonitoring Draftで上書きしない。
-
-### B. GitHubに実体がある仕様・原稿
-
-直接読める主要成果物：
-
-- `docs/M08_QA_REGRESSION_SPEC.md`：公開前QAの唯一の正本
-- `docs/M09_SEO_CONTENT_PACK.md`
-- `docs/M09B_SEO_CONTENT_PACK_2.md`
-- `docs/M10_SOURCE_MONITORING_AUTOMATION_DESIGN.md`
-- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`：M14判定を優先
-- `docs/M12_DRY_RUN_SOURCE_SET.md`
-- `docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md`：回収M14 PDFから作成した検証済み実装用抽出。元M14 Artifactそのものではない
-- `monitoring/monitor_sources.json`：M15元Draftを改変せず同期。`DRAFT_NOT_ACTIVE`
-- `docs/M15_INGEST_VALIDATION.md`
-- `docs/WORK_RESTART_PROMPT.md`
-- `docs/WORK_RESTART_DAY0_CHECKLIST.md`
-- `docs/WORK_DAY0_START_PROMPT.md`
-- `docs/CURRENT_STATE.md`
-- `docs/PROGRESS.md`
-- `docs/ARTIFACT_SYNC_STATUS.md`
-
-### C. 回収PDFで全文確認済みだが元MarkdownはGitHub未同期
-
-- M07最終統合仕様：24ページ、内容確認PASS、安全条件PASS
-- M14 14社FAQ最終チェック：18ページ、70 FAQ / 10差し替え / HOLD 5確認PASS
-
-元ArtifactとGitHubの検証済み抽出を混同しない。
-
-### D. まだ本文確認待ち
-
-- M13 GitHub同期設計全文
-- M15 JSON Schema
-- M16 Runtime Snapshot仕様書
-
-**ルール：PROGRESSの要約だけから、未確認成果物のField・Schemaを再現したことにしない。**
-
----
-
-## 2. 実装別Gate
-
-### Gate A｜Work監査
-
-**GO**
-
-`docs/WORK_DAY0_START_PROMPT.md` に従い、未公開作業版の状態確認を開始してよい。
-
-条件：最初はコードを書かず、現状・Master v2.2差分・M07適合・M14反映状況・依存・最小実装案だけ報告する。
-
-### Gate B｜M07 P0実装
-
-**CONDITIONAL GO**
-
-M07本文は回収PDFで全文確認済み。P0は13項目、最初の実装単位はP0-01〜P0-03。
-
-GO昇格条件：
-
-1. Work Day0監査で未公開作業版とM07の矛盾がない、または差分が明示される。
-2. Master v2.2 / DiagnosisLogicV2 / SourceHealthの保護条件を確認。
-3. Fintokei Variant境界とHOLD 5件のBlockが現行実装で表現可能。
-4. 人間がP0差分実装を承認。
-
-### Gate C｜FAQ統合
-
-**CONDITIONAL GO**
-
-M14本文は回収PDFで全文確認済み。
-
-判定：
+回収PDF 18ページを全文確認済み。
 
 - PASS 32
 - PASS_WITH_CAUTION 23
 - UPDATE_REQUIRED 10
 - HOLD 5
 
-10件の差し替え本文は `docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md` に検証済み抽出済み。
+UPDATE_REQUIRED 10件は `docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md` に検証済み抽出。
 
-GO昇格条件：
+### M15 monitor_sources.json
 
-1. Day0監査で現行Work/M11本文との対象Q ID一致を確認。
-2. UPDATE_REQUIRED 10件だけを対象にし、他FAQを不要に改稿しない。
-3. PASS_WITH_CAUTIONは公開直前再確認条件を保持。
-4. HOLD 5件をFAQ schemaへ入れず、診断Top3根拠に使わない。
-5. Fintokei速攻プロQ3は限定Variantとして扱い、schemaへ入れない。
+元Artifactを改変せず `monitoring/monitor_sources.json` へ同期済み。
 
-### Gate D｜監視Dry Run
-
-**NO-GO**
-
-M15 `monitor_sources.json` は回収・構文確認・M12照合・GitHub同期まで完了。
-
-確認済み：
-
+- `DRAFT_NOT_ACTIVE`
+- `not_started`
 - Primary 5 / Shadow 4 = 9 URL
-- M12 URL完全一致
-- `status=DRAFT_NOT_ACTIVE`
-- `activation_phase=not_started`
-- 全体の自動Master / SourceHealth / Diagnosis / Work / site更新禁止
-- 全9 sourceでhuman review必須、auto publish / auto unblock禁止
-- Fintokei Variant保護5条件
+- M12 URLセット一致
+- Fintokei Variant保護5条件あり
+- Master / SourceHealth / Diagnosis / Work / siteの自動反映禁止
+- auto publish / auto unblock禁止
 
-残るDry Run開始条件：
+### M15 monitor_sources.schema.json
 
-1. `monitor_sources.schema.json` 本文確認・同期
-2. `sourcehealth_ids` の意味をSchemaで確定し、Master Canonical IDとの参照整合を解決または明示的にlogical tagとして分離
-3. global `DRAFT_NOT_ACTIVE` がsource-level `enabled=true` より優先されることをrunner contractで保証
-4. Schema validation PASS
-5. Primary 5 Preflight全PASS
-6. 人間がACTIVE化を明示承認
+元Artifactを改変せず `schemas/monitor_sources.schema.json` へ同期済み。
 
-注意：M15 DraftではDR01 `SH_FINTOKEI_SWIFT`、DR05/06 `SH_HANTEC_INSTANT_LITE`、DR07 `SH_FTM_INSTANT_PRO`、DR08/09 `SH_THE5ERS_FUTURES_LOCALE` 等の意味ラベルが使われ、Master Canonical ID（SH001 / SH003 / SH012 / SH008）と一致しない。元Artifactは改変せず、Schema確認までActivationしない。
+- JSON Schema draft 2020-12自己検証：PASS
+- `monitor_sources.json` をSchema検証：PASS（0 error）
+- 詳細：`docs/M15_SCHEMA_VALIDATION.md`
 
-### Gate E｜Runtime Snapshot
+ただしSchemaは意味的整合を完全には強制しないため、監視開始はまだNO-GO。
 
-**NO-GO**
-
-M16完了記録はあるが、仕様書本文をこのセッションでまだ確認していない。
-
-実装開始条件：
-
-- M16仕様書本文確認
-- APPROVED以外をWork/Replitが本番利用しないGateを確認
-- rollback / supersedes / source_master_version を検証
-- M13の二層Canonical方針と矛盾しないことを確認
-
-### Gate F｜公開
-
-**NO-GO until M08 PASS**
-
-公開条件：
-
-- M08 Full Regression完走
-- BLOCKER = 0
-- CRITICAL = 0
-- 390px fresh render確認
-- DiagnosisLogicV2不変
-- HOLD 5件Top3除外
-- Fintokei Variant境界誤適用なし
-- Official / Affiliate link separation維持
-- GA4既存イベント破損・二重発火なし
-- 人間が公開を明示承認
-
----
-
-## 3. 絶対保護条件
+## 2. 絶対保護条件
 
 ### Fintokei｜速攻プロ
 
-条件付き解除候補はVariant単位でのみ扱う。
+Variant単位でのみ扱う。
 
 - `effective_from = 2026-07-15`
 - `new_purchase_only = true`
@@ -190,9 +75,9 @@ M16完了記録はあるが、仕様書本文をこのセッションでまだ�
 - Evidence required
 - human approval required
 
-購入日・旧口座を安全に区別できない環境ではTop3 Block継続。
+購入日や旧口座を安全に区別できない場合はTop3 Block継続。
 
-### HOLD / Block継続 5件
+### HOLD 5件
 
 - Funded7｜1フェーズ
 - Funded7｜Instant
@@ -205,96 +90,110 @@ M16完了記録はあるが、仕様書本文をこのセッションでまだ�
 - `resolution_mode = human_only`
 - `auto_unblock_allowed = false`
 - `top3_blocked = true`
+- FAQ schemaへ入れない
+- 診断Top3根拠へ使わない
 
-### 診断
+### Diagnosis
 
 - DiagnosisLogicV2を不用意に変更しない
 - Affiliate / commission / coupon / priceを採点へ入れない
-- 不明値を0/falseで代用しない
-- ConflictをVerifiedへ自動昇格しない
+- Unknownを0/falseで代用しない
+- Conflictを自動Verified化しない
 
-### FAQ schema
+## 3. Work Gate
 
-- 画面に実際に表示するQ&Aのみschema化
-- HOLD 5件を入れない
-- Coupon / Referral / Eligibility / SourceHealth競合など変動しやすいFAQは原則schema対象外
-- 公開直前に本文とschemaの完全一致を再確認
+### Work監査：GO
 
----
+`docs/WORK_DAY0_START_PROMPT.md` を入口にする。
 
-## 4. まだ価値が高い未確認成果物
+最初のターンはコード変更禁止。確認対象：
 
-### P1
+1. 未公開Work作業版の現在状態
+2. Master v2.2との差分
+3. M07 P0-01〜P0-13の反映状況
+4. M14 UPDATE_REQUIRED 10件の反映状況
+5. HOLD 5件 / Fintokei Variant
+6. GA4既存イベントとの重複
+7. 390px / UX / SEO / Official-Affiliate分離
 
-1. M15 JSON Schema
-2. M16 Runtime Snapshot仕様書
-3. M13 GitHub同期設計全文
+### P0実装：CONDITIONAL GO
 
-### P2
+GO昇格条件：
 
-4. M01〜M06詳細報告（将来の監査履歴として必要なら保存）
+- Day0監査で差分を明示
+- Master v2.2 / DiagnosisLogicV2 / SourceHealth保護を確認
+- Fintokei VariantとHOLD 5件を表現可能
+- 人間が実装開始を承認
 
-**未確認内容をPROGRESSから再生成して「元成果物」と呼ばない。**
+### FAQ統合：CONDITIONAL GO
 
----
+GO昇格条件：
 
-## 5. Work復活時の安全な順序
+- M11と現行WorkのQ IDを照合
+- UPDATE_REQUIRED 10件だけ差し替える
+- PASS_WITH_CAUTIONの再確認条件を維持
+- HOLD 5件をschema化しない
+- Fintokei速攻プロ限定Variant FAQをschema化しない
 
-1. README
-2. AGENTS
-3. CURRENT_STATE
-4. PROGRESS
-5. IMPLEMENTATION_READINESS
-6. ARTIFACT_SYNC_STATUS
-7. WORK_RESTART_PROMPT
-8. WORK_RESTART_DAY0_CHECKLIST
-9. M14_VERIFIED_EXTRACTION_FROM_PDF
-10. Master v2.2確認
-11. 未公開Work作業版の監査（コード変更なし）
-12. M07 P0適合・差分確認
-13. M14 FAQ反映状況確認
-14. 人間がP0実装開始を承認
-15. P0差分実装
-16. FAQ統合
-17. M08 QA
-18. 390px fresh render
-19. Go / No-Go
-20. 公開は別承認
+## 4. 監視Dry Run Gate
 
----
+現時点：**NO-GO**
 
-## 6. Replit / 監視側の安全な順序
+JSON + Schemaの構造検証はPASSしたが、以下が未完了。
 
-1. M10読む
-2. M12読む
-3. `monitoring/monitor_sources.json` 読む
-4. M15 Schema本文確認
-5. `DRAFT_NOT_ACTIVE`を最上位Gateとして確認
-6. SourceHealth ID参照整合
-7. Schema validation
-8. Primary 5だけPreflight
-9. 人間承認後にDry Run
-10. Shadow 4は後半条件を満たしてから有効化
-11. Master / SourceHealth / Diagnosis / Work / siteへ自動反映しない
+1. `sourcehealth_ids` の契約確定
+   - Canonical IDのみ許可するか
+   - logical tagを許可してmappingするか
+2. Schema hardeningをする場合は元Artifactを上書きせず新versionにする
+3. Preflight全PASS
+4. HTTP/Baseline/failure handlingの実装確認
+5. 人間がACTIVE化を明示承認
 
----
+代表的なID差：
 
-## 7. AI向け停止条件
+- `SH_FINTOKEI_SWIFT` ↔ Canonical `SH001`
+- `SH_HANTEC_INSTANT_LITE` ↔ `SH003`
+- `SH_FTM_INSTANT_PRO` ↔ `SH012`
+- `SH_THE5ERS_FUTURES_LOCALE` ↔ `SH008`
 
-以下の場合は推測で続行せず、該当部分だけ保留する。
+`DRAFT_NOT_ACTIVE` のままでは監視開始しない。
 
-- M15 Schema / M16 / M13の実ファイルが必要だが本文未確認
-- `sourcehealth_ids` をCanonical IDとlogical tagのどちらとして扱うか不明
-- Fintokeiの購入日Variantを表現できない
-- HOLD 5件の自動解除を要求される
-- DiagnosisLogicV2の変更が暗黙に必要になる
-- Workの未公開版とMasterのどちらが新しいか判別できない
-- 公開指示がないのに本番反映が必要になる
+## 5. Runtime Snapshot Gate
 
----
+現時点：**NO-GO**
 
-## 8. 現時点の最小結論
+M16仕様書本文のこのセッションでの確認待ち。
 
-P0で最重要だったM07/M14の内容不確実性は解消し、M15 JSONもGitHubへ正本候補として同期済み。
+確認後に以下を判定する。
 
-次は **M15 Schema → M16 → M13本文確認 → 明日のWork Day0監査 → P0/FAQをGOへ昇格 → 実装 → M08 QA** が最短経路。
+- Excel Master = 上位正本
+- Runtime Snapshot = human-approved配布層
+- Work / Replitへ片方向
+- APPROVEDのみ本番利用
+- rollback / supersedes / source_master_version
+- Fintokei Variant / HOLD 5保護
+- Affiliate / commission / coupon / priceを診断採点へ混ぜない
+
+## 6. 公開Gate
+
+本番公開はM08完走までNO-GO。
+
+必要条件：
+
+- M08 Full Regression
+- BLOCKER = 0
+- CRITICAL = 0
+- 390px fresh render
+- DiagnosisLogicV2不変
+- HOLD 5件Top3除外
+- Fintokei Variant誤適用なし
+- Official / Affiliate link分離
+- GA4破損・二重発火なし
+- 人間の明示公開承認
+
+## 7. 次に確認するArtifact
+
+1. M16｜`M16_minimum_runtime_snapshot_spec.md`
+2. M13｜`M13_github_master_artifact_sync_design.md`
+
+M15 JSON / Schemaは回収・検証・GitHub同期済み。
