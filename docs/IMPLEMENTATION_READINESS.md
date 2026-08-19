@@ -11,11 +11,11 @@
 - Workの**監査開始**：GO
 - Workの**P0実装開始**：CONDITIONAL GO
 - FAQ統合：CONDITIONAL GO
-- 監視Dry Run開始：NO-GO（M15実JSON/Schema本文未確認）
+- 監視Dry Run開始：NO-GO（M15 JSONは確認・同期済み。Schema / SourceHealth参照整合 / Preflight / 人間承認待ち）
 - Runtime Snapshot実装：NO-GO（M16本文未確認）
 - 本番公開：NO-GO（M08完走・人間承認前）
 
-重要更新：2026-08-19にM07とM14の元PDFをChatGPTで全文確認した。P0実装仕様とFAQ差し替え本文の「内容不明」状態は解消した。ただし元Markdown Artifact自体はGitHub未同期のため、現時点では検証済みPDF内容・GitHubの検証済み抽出・Day0監査を併用する。
+重要更新：2026-08-19にM07とM14の元PDFをChatGPTで全文確認した。さらにM15 `monitor_sources.json` をJSON構文・9 URL・Primary 5 / Shadow 4・安全条件・Fintokei Variantまで確認し、元内容を改変せず `monitoring/monitor_sources.json` へ同期した。
 
 ---
 
@@ -34,19 +34,21 @@
 - PriceOffers
 - UXJourney / PageUXSpec / UXCopyFinal / FirmUXCopy / FirmPlanFlow 等
 
-Excel MasterをGitHubの要約文で上書きしない。
+Excel MasterをGitHubの要約文やMonitoring Draftで上書きしない。
 
 ### B. GitHubに実体がある仕様・原稿
 
 直接読める主要成果物：
 
 - `docs/M08_QA_REGRESSION_SPEC.md`：公開前QAの唯一の正本
-- `docs/M09_SEO_CONTENT_PACK.md`：SEO完成原稿
-- `docs/M09B_SEO_CONTENT_PACK_2.md`：追加SEO完成原稿
-- `docs/M10_SOURCE_MONITORING_AUTOMATION_DESIGN.md`：監視技術設計
-- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`：14社FAQ原稿。M14判定を優先
-- `docs/M12_DRY_RUN_SOURCE_SET.md`：監視Dry Run URL正本
+- `docs/M09_SEO_CONTENT_PACK.md`
+- `docs/M09B_SEO_CONTENT_PACK_2.md`
+- `docs/M10_SOURCE_MONITORING_AUTOMATION_DESIGN.md`
+- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`：M14判定を優先
+- `docs/M12_DRY_RUN_SOURCE_SET.md`
 - `docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md`：回収M14 PDFから作成した検証済み実装用抽出。元M14 Artifactそのものではない
+- `monitoring/monitor_sources.json`：M15元Draftを改変せず同期。`DRAFT_NOT_ACTIVE`
+- `docs/M15_INGEST_VALIDATION.md`
 - `docs/WORK_RESTART_PROMPT.md`
 - `docs/WORK_RESTART_DAY0_CHECKLIST.md`
 - `docs/WORK_DAY0_START_PROMPT.md`
@@ -64,7 +66,6 @@ Excel MasterをGitHubの要約文で上書きしない。
 ### D. まだ本文確認待ち
 
 - M13 GitHub同期設計全文
-- M15 `monitor_sources.json` Draft
 - M15 JSON Schema
 - M16 Runtime Snapshot仕様書
 
@@ -122,15 +123,28 @@ GO昇格条件：
 
 **NO-GO**
 
-M12 URLセットとM10設計は存在するが、M15 `monitor_sources` 実JSON / Schema本文をこのセッションでまだ確認していない。
+M15 `monitor_sources.json` は回収・構文確認・M12照合・GitHub同期まで完了。
 
-Dry Run開始条件：
+確認済み：
 
-- Primary 5 / Shadow 4 = 9 URLを実体JSONで確認
-- status = `DRAFT_NOT_ACTIVE`
-- 全安全フラグ確認
-- Preflight全PASS
-- 人間がACTIVE化を明示承認
+- Primary 5 / Shadow 4 = 9 URL
+- M12 URL完全一致
+- `status=DRAFT_NOT_ACTIVE`
+- `activation_phase=not_started`
+- 全体の自動Master / SourceHealth / Diagnosis / Work / site更新禁止
+- 全9 sourceでhuman review必須、auto publish / auto unblock禁止
+- Fintokei Variant保護5条件
+
+残るDry Run開始条件：
+
+1. `monitor_sources.schema.json` 本文確認・同期
+2. `sourcehealth_ids` の意味をSchemaで確定し、Master Canonical IDとの参照整合を解決または明示的にlogical tagとして分離
+3. global `DRAFT_NOT_ACTIVE` がsource-level `enabled=true` より優先されることをrunner contractで保証
+4. Schema validation PASS
+5. Primary 5 Preflight全PASS
+6. 人間がACTIVE化を明示承認
+
+注意：M15 DraftではDR01 `SH_FINTOKEI_SWIFT`、DR05/06 `SH_HANTEC_INSTANT_LITE`、DR07 `SH_FTM_INSTANT_PRO`、DR08/09 `SH_THE5ERS_FUTURES_LOCALE` 等の意味ラベルが使われ、Master Canonical ID（SH001 / SH003 / SH012 / SH008）と一致しない。元Artifactは改変せず、Schema確認までActivationしない。
 
 ### Gate E｜Runtime Snapshot
 
@@ -212,14 +226,13 @@ M16完了記録はあるが、仕様書本文をこのセッションでまだ�
 
 ### P1
 
-1. M15 `monitor_sources.json` Draft
-2. M15 JSON Schema
-3. M16 Runtime Snapshot仕様書
-4. M13 GitHub同期設計全文
+1. M15 JSON Schema
+2. M16 Runtime Snapshot仕様書
+3. M13 GitHub同期設計全文
 
 ### P2
 
-5. M01〜M06詳細報告（将来の監査履歴として必要なら保存）
+4. M01〜M06詳細報告（将来の監査履歴として必要なら保存）
 
 **未確認内容をPROGRESSから再生成して「元成果物」と呼ばない。**
 
@@ -254,13 +267,15 @@ M16完了記録はあるが、仕様書本文をこのセッションでまだ�
 
 1. M10読む
 2. M12読む
-3. M15実JSON/Schema本文確認
-4. `DRAFT_NOT_ACTIVE`確認
-5. Schema validation
-6. Primary 5だけPreflight
-7. 人間承認後にDry Run
-8. Shadow 4は後半条件を満たしてから有効化
-9. Master / SourceHealth / Diagnosis / Work / siteへ自動反映しない
+3. `monitoring/monitor_sources.json` 読む
+4. M15 Schema本文確認
+5. `DRAFT_NOT_ACTIVE`を最上位Gateとして確認
+6. SourceHealth ID参照整合
+7. Schema validation
+8. Primary 5だけPreflight
+9. 人間承認後にDry Run
+10. Shadow 4は後半条件を満たしてから有効化
+11. Master / SourceHealth / Diagnosis / Work / siteへ自動反映しない
 
 ---
 
@@ -268,7 +283,8 @@ M16完了記録はあるが、仕様書本文をこのセッションでまだ�
 
 以下の場合は推測で続行せず、該当部分だけ保留する。
 
-- M15/M16/M13の実ファイルが必要だが本文未確認
+- M15 Schema / M16 / M13の実ファイルが必要だが本文未確認
+- `sourcehealth_ids` をCanonical IDとlogical tagのどちらとして扱うか不明
 - Fintokeiの購入日Variantを表現できない
 - HOLD 5件の自動解除を要求される
 - DiagnosisLogicV2の変更が暗黙に必要になる
@@ -279,6 +295,6 @@ M16完了記録はあるが、仕様書本文をこのセッションでまだ�
 
 ## 8. 現時点の最小結論
 
-P0で最重要だったM07/M14の内容不確実性は解消した。
+P0で最重要だったM07/M14の内容不確実性は解消し、M15 JSONもGitHubへ正本候補として同期済み。
 
-次は **M15/M16/M13本文確認 → 明日のWork Day0監査 → P0/FAQをGOへ昇格 → 実装 → M08 QA** が最短経路。
+次は **M15 Schema → M16 → M13本文確認 → 明日のWork Day0監査 → P0/FAQをGOへ昇格 → 実装 → M08 QA** が最短経路。
