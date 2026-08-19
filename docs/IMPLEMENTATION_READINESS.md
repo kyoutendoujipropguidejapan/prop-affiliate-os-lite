@@ -1,6 +1,6 @@
 # IMPLEMENTATION_READINESS
 
-更新日：2026-08-19 JST
+更新日：2026-08-20 JST
 対象：プロップファームの歩き方
 目的：Work復活前後の実装・監視・公開Gateを一意にする。
 
@@ -13,7 +13,7 @@
 - Runtime Snapshot実装：**NO-GO**
 - 本番公開：**NO-GO**
 
-## 1. 2026-08-19までに実体確認できたもの
+## 1. 実体確認済みArtifact
 
 ### M07
 
@@ -61,7 +61,26 @@ UPDATE_REQUIRED 10件は `docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md` に検証済
 - `monitor_sources.json` をSchema検証：PASS（0 error）
 - 詳細：`docs/M15_SCHEMA_VALIDATION.md`
 
-ただしSchemaは意味的整合を完全には強制しないため、監視開始はまだNO-GO。
+ただしSchemaは意味的整合を完全には強制しないため、監視開始はNO-GO。
+
+### M16 Runtime Snapshot仕様
+
+回収PDF 12ページを全文確認済み。検証済み抽出は `docs/M16_VERIFIED_EXTRACTION_FROM_PDF.md`。
+
+確認PASS：
+
+- Excel Master = 編集・監査用の上位正本
+- Runtime Snapshot = human-approvedされた配布層
+- Work / Replitへread-only片方向
+- APPROVED + human_approved=trueのみ本番利用
+- manifest hash / source_master_version / source_master_hash / supersedes / rollback
+- Fintokei Variantの5保護条件
+- HOLD 5件のhuman_only / auto_unblock=false / top3_blocked=true
+- Affiliate / Commission / Coupon / Priceを診断採点Runtimeへ混ぜない
+- DiagnosisLogicV2の採点式・重み・質問順をRuntimeへ複製しない
+- M15 monitor source executionとRuntime Snapshot承認を同一視しない
+
+ただし実装前に解消すべき内部不整合があるためM16本文判定はPASS_WITH_CAUTION。
 
 ## 2. 絶対保護条件
 
@@ -144,10 +163,9 @@ JSON + Schemaの構造検証はPASSしたが、以下が未完了。
 1. `sourcehealth_ids` の契約確定
    - Canonical IDのみ許可するか
    - logical tagを許可してmappingするか
-2. Schema hardeningをする場合は元Artifactを上書きせず新versionにする
-3. Preflight全PASS
-4. HTTP/Baseline/failure handlingの実装確認
-5. 人間がACTIVE化を明示承認
+2. Preflight全PASS
+3. HTTP/Baseline/failure handlingの実装確認
+4. 人間がACTIVE化を明示承認
 
 代表的なID差：
 
@@ -162,17 +180,36 @@ JSON + Schemaの構造検証はPASSしたが、以下が未完了。
 
 現時点：**NO-GO**
 
-M16仕様書本文のこのセッションでの確認待ち。
+M16本文は確認済みだが、以下が未解消。
 
-確認後に以下を判定する。
+### R16-01｜diagnosis candidate Schema / Fintokei example
 
-- Excel Master = 上位正本
-- Runtime Snapshot = human-approved配布層
-- Work / Replitへ片方向
-- APPROVEDのみ本番利用
-- rollback / supersedes / source_master_version
-- Fintokei Variant / HOLD 5保護
-- Affiliate / commission / coupon / priceを診断採点へ混ぜない
+Schema草案は `additionalProperties:false` なのに、Fintokei具体例は未定義の `variant` を持つ。このままでは例がSchema violationになる。
+
+### R16-02｜SourceHealth ID mapping
+
+M16のFintokei例も `SH_FINTOKEI_SWIFT` を使う。M15と同じlogical label ↔ Master Canonical ID問題が残る。
+
+### R16-03｜Monitor execution gate
+
+M16本文はRuntime Snapshot APPROVEDとMonitor実行承認を分離すると定義するが、Runtime用monitor_sources Schema草案はtop-level `DRAFT_NOT_ACTIVE` を持たない。Worker側またはmanifest policyで明示的なexecution gateが必要。
+
+### R16-04｜source_refs hardening
+
+本文/V12はCONFIRMED/CURRENT確定値にsource_refs 1件以上を要求するが、plans Schema草案単体では `minItems:1` を強制していない。Validation layerまたは新Schema versionで強制する。
+
+### R16-05｜M13全文cross-check
+
+M16は作成時点でM13設計書実体を直接読めず、PROGRESSの二層Canonical要約を前提にしている。M13全文回収後に優先順位・保存境界・one-way sync・versioningを最終照合する。
+
+Runtime実装開始条件：
+
+- M13全文とのcross-check PASS
+- R16-01〜04のcontract decisionを確定
+- Runtime実JSON / Schemaを新versionとして生成
+- 全V01〜V17 / Preflight PASS
+- manifest APPROVED + human_approved=true
+- 人間承認
 
 ## 6. 公開Gate
 
@@ -193,7 +230,6 @@ M16仕様書本文のこのセッションでの確認待ち。
 
 ## 7. 次に確認するArtifact
 
-1. M16｜`M16_minimum_runtime_snapshot_spec.md`
-2. M13｜`M13_github_master_artifact_sync_design.md`
+1. M13｜`M13_github_master_artifact_sync_design.md`
 
-M15 JSON / Schemaは回収・検証・GitHub同期済み。
+M07 / M14 / M15 JSON / M15 Schema / M16はこのセッションで本文確認済み。
