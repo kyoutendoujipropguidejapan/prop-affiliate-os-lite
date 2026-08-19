@@ -8,9 +8,9 @@
 
 M01〜M16の回収・照合により、実装前優先度が高い6成果物はManus側で回収済み。
 
-2026-08-19、M07の元PDF `M07｜M01〜M06統合・Work実装仕様確定.pdf` はこのChatGPTセッションで全文読取可能となり、24ページを確認した。
+2026-08-19、M07とM14の元PDFはこのChatGPTセッションで全文読取・安全条件確認まで完了した。
 
-**全体状態：PARTIAL_INGEST_VERIFIED_PENDING_SYNC**
+**全体状態：P0_ARTIFACTS_INGESTED_VERIFIED_PENDING_ORIGINAL_SYNC**
 
 ## 6成果物の現在状態
 
@@ -18,13 +18,21 @@ M01〜M16の回収・照合により、実装前優先度が高い6成果物はM
 
 1. M07｜`M07_integrated_work_implementation_spec.md`
    - 状態：**INGESTED_VERIFIED_NOT_SYNCED**
-   - 受領実体：PDF 24ページ
+   - 受領実体：`M07｜M01〜M06統合・Work実装仕様確定.pdf` 24ページ
    - Source SHA-256：`bbd606616fd0c06de2ef3241b5b909e77e7834c600a0fa6764064c4809f5fa24`
    - 内容確認：PASS
    - 安全条件確認：PASS
-   - GitHub本文同期：未実施
+   - GitHub原Artifact本文同期：未実施
 2. M14｜`M14_firm_faq_primary_source_final_check.md`
-   - 状態：USER_REPORTED_ATTACHED_PENDING_INGEST
+   - 状態：**INGESTED_VERIFIED_DERIVATIVE_SYNCED_ORIGINAL_NOT_SYNCED**
+   - 受領実体：`M14｜14社FAQの公式一次情報最終チェック.pdf` 18ページ
+   - Source SHA-256：`f2c05035952f8ec38033ff31eecf89b324000462c2e9a85e99d00b8b437e648d`
+   - 内容確認：PASS
+   - 安全条件確認：PASS
+   - 70 FAQ判定：PASS 32 / PASS_WITH_CAUTION 23 / UPDATE_REQUIRED 10 / HOLD 5
+   - GitHub検証済み抽出：`docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md`
+   - 注意：上記は元M14 Artifactそのものではなく、回収PDFから作成した検証済み実装用抽出
+   - GitHub原Artifact本文同期：未実施
 
 ### P1
 
@@ -87,6 +95,32 @@ M07にはGA4追加イベント案として `guide_start`、`next_preview_click`�
 
 後続のMaster v2.2 / UXMeasurement / M08 / 現行Workで既存イベント命名が存在するため、**イベント名をM07だけで一括置換・二重追加しない**。既存GA4 ID・既存イベントを維持し、Day0監査で差分を確認してから実装する。
 
+## M14全文確認結果
+
+M14は14社・70 FAQを公式一次情報で最終照合した18ページの文書。
+
+- PASS：32
+- PASS_WITH_CAUTION：23
+- UPDATE_REQUIRED：10
+- HOLD：5
+
+HOLD 5件はM07/M06と一致し、FAQ schema対象外・診断Top3根拠外。
+
+Fintokei速攻プロも、2026-07-15以降の新規購入限定Variant、旧口座分離、Evidence、人間承認を維持する。
+
+UPDATE_REQUIRED 10件は、回収PDFから `docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md` へ実装用に検証済み抽出した。元Artifactそのものではないことを明示している。
+
+主な差し替え対象：
+
+- Fintokei Q2
+- Funded7 Q5
+- The5ers Q1/Q2
+- SuperFunded Q3
+- Blueberry Futures Q2/Q4
+- Trading Cult Pro Q5
+- Blueberry Funded Q2
+- The5ers Futures Q3
+
 ## GitHub昇格条件
 
 各Artifactは、次を満たした場合のみGitHub上の読める正本候補へ昇格する。
@@ -115,17 +149,17 @@ M07にはGA4追加イベント案として `guide_start`、`next_preview_click`�
 
 ## Readinessへの影響
 
-M07の実体確認によりP0仕様の不確実性は大きく低下したが、M14がまだ本文未確認のためGateはまだ慎重側に据え置く。
+P0で重要だったM07/M14の本文不確実性は解消した。ただし元Markdown Artifact自体はGitHub未同期であるため、WorkではPDF検証済み抽出・本台帳・Day0監査を併用する。
 
 - Work監査：GO
-- P0実装：CONDITIONAL GO（M07内容確認PASS。Work Day0監査とM14確認後に最終GO判定）
-- FAQ統合：CONDITIONAL GO（M14本文確認待ち）
+- P0実装：CONDITIONAL GO（M07本文確認PASS。Day0監査で現行Workとの差分確認後にGOへ昇格可能）
+- FAQ統合：CONDITIONAL GO（M14本文確認PASS、10差し替え抽出済み。Day0でM11/現行Workとの一致確認後にGOへ昇格可能）
 - 監視Dry Run：NO-GO（M15本文確認・同期・Preflight・人間承認待ち）
 - Runtime Snapshot実装：NO-GO（M16本文確認・同期待ち）
 - 本番公開：NO-GO
 
 ## 次のアクション
 
-残る5ファイルをこのセッションで読み取れる状態にし、**全文確認 → 既存GitHubとの照合 → 安全条件検証 → GitHub同期 → 再Fetch/SHA確認 → Readiness再判定** の順で進める。
+残る4ファイル（M15 JSON、M15 Schema、M16、M13）をこのセッションで読み取り、**全文確認 → 安全条件検証 → 必要なGitHub同期/検証済み抽出 → Readiness再判定** の順で進める。
 
 不足内容をPROGRESS要約から再生成して、回収Artifactと同一扱いしない。
