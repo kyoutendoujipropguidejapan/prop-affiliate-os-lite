@@ -8,127 +8,95 @@
 
 - Work監査開始：**GO / 完了**
 - M07 P0-01〜P0-03：**PASS（Work報告ベース）**
-- M07 P0-04〜P0-05：**GO**
+- M07 P0-05 Firm-first段階表示：**PASS（Work報告ベース）**
+- M07 P0-04 390px Mobile UX：**PASS_WITH_CAUTION / fresh 390px証跡未取得**
+- M07 P0-06〜P0-08：**390px証跡取得後にGO判定**
 - M14 FAQ統合：**CONDITIONAL GO**
 - 監視Dry Run開始：**NO-GO**
 - Runtime Snapshot実装：**NO-GO**
 - 本番公開：**NO-GO**
 
-重要更新：2026-08-20、WorkでDay0監査後にP0-01〜P0-03を実装。Work報告では14社 / PlanCatalog 69 / Diagnosis行65 / SourceHealth 14、FundingPips 5プラン、Block 6件を確認し、既存24回帰 + P0専用5 = 29/29 PASS、build PASS、lint error 0。本番公開・Version保存は未実施。
+重要更新：P0-04〜05の実装報告では14社Firm-first、69プラン初期閉鎖、会社→プラン一覧→詳細の3段階表示、Block 6件の公開向け「公式情報を確認中」表示、29/29 tests、build PASS、lint error 0、新規BLOCKER/CRITICALなしを確認。ただしCloud Browserが1363px固定で、fresh 390px実画面証跡だけ未取得。
 
 ---
 
-## 1. P0-01〜P0-03 実装結果（Work報告）
+## 1. P0-01〜P0-03 実装結果
 
-変更ファイル：
-
-- `app/master-data.json`
-- `scripts/sync-master-v2-2.mjs`
-- `scripts/sync-master-v2-2.sh`
-- `tests/master-v2-2-p0.test.mjs`
-- `tests/rendered-html.test.mjs`
-- `package.json`
-
-データ実数：
+Work報告ベースでPASS。
 
 - Firm = 14
 - PlanCatalog = 69
 - Diagnosis data rows = 65
 - SourceHealth = 14
 - FundingPips = 5 plans
-- SH011〜SH014 = synced
-
-Block 6件：
-
-- Fintokei｜速攻プロ
-- Funded7｜1フェーズ
-- Funded7｜インスタント
-- Funded Trader Markets｜インスタント Pro
-- Hantec Trader｜Instant Lite
-- FundedElite｜Flash Activation
-
-Work報告では全件 `blockTop3:true` / Conflict / confidence 55。FTM Instant Proは監査用データ行として保持するが診断結果候補へ復活させない。
-
-SuperFunded：
-
-- 1ステップ = Trailing / 最低3日
-- 2ステップ = 最低各フェーズ4日
-
-保護確認：
-
+- SH011〜SH014 synced
+- Block 6件維持
+- SuperFunded 1ステップ = Trailing / 最低3日
+- SuperFunded 2ステップ = 最低各フェーズ4日
 - DiagnosisLogicV2差分なし
-- 7問 / 質問順差分なし
-- 診断runtime変更なし
-- Affiliate / commission / coupon / priceを採点へ混入させない
-- price/coupon fixture未変更
-- `data/canonical/*` / `runtime/*` / monitoring未作成
+- Affiliate / commission / coupon / priceの採点混入なし
+- 29/29 tests PASS
+- build PASS
+- lint error 0
 - 本番Version 78未公開
 
-検証：
+## 2. P0-05｜Firm-first段階表示
 
-- 既存回帰 24/24 PASS
-- P0専用 5/5 PASS
-- 合計 29/29 PASS
+**PASS（Work報告ベース）**
+
+確認済み：
+
+- 14社を会社単位で初期表示
+- 全69プラン詳細は初期状態で閉じる
+- 会社 → プラン一覧 → 詳細の3段階表示
+- FundingPips検索で1社・5プラン
+- HOLD 5件 + Fintokei速攻プロ = 計6件を「公式情報を確認中」として区別
+- `SourceHealth` / `Conflict` / `Block Top3` / confidence等の内部語を公開UIへ出さない
+- DiagnosisLogicV2 / 質問 / 採点 / GA4 / price / couponは変更なし
+- 29/29 tests PASS
 - build PASS
-- lint error 0（既存img warning 1）
-- 新規BLOCKER / CRITICALなし
+- lint error 0
+- git diff --check PASS
 
-注意：上記はWorkからの実装報告を記録したもので、GitHub上のWorkコード実体をこの文書が独立再検証したことを意味しない。
+## 3. P0-04｜390px Mobile UX
 
----
+**PASS_WITH_CAUTION**
 
-## 2. 次の実装Gate｜P0-04〜P0-05
+CSS / 構造テストと1363px fresh renderでは問題なし。ただし、M07/M08の受入条件は「fresh 390px実画面」での確認を要求するため、まだ完全PASSへ昇格しない。
 
-### P0-04｜390px mobile UX
+未完了は1点のみ：
 
-GO。
+- current worktreeを390px viewportでfresh renderし、トップ / Firm一覧 / Firm内プラン一覧 / Plan詳細について、横スクロール・CTA見切れ・文字切れ・details clip・ボタン競合がないことを実画面証跡で確認する。
 
-目的：CSSテストだけでなく、fresh 390px実画面で以下を確認する。
+### 390px証跡の取得方針
 
-- horizontal scrollなし
-- CTA見切れなし
-- 文字・カード・detailsのクリップなし
-- 主要導線が1画面で競合しない
-- 既存基礎講座01→05→診断を壊さない
+Cloud Browser UIがviewport変更を提供しない場合、Work環境内で既存のheadless browser / browser test capabilityが利用可能なら、それを使って `390x844` 前後のviewportを明示指定してcurrent worktreeをrenderする。
 
-本番公開はまだ禁止。
+- 新規OSS / 新規browser依存を追加しない
+- 本番を公開しない
+- Version保存しない
+- verification-onlyで実行
+- screenshotまたは同等のfresh render evidenceを残す
 
-### P0-05｜段階表示 / Firm-first
+既存環境で390px viewport render自体が技術的に不可能な場合は、その制約を明示し、P0-04はPASS_WITH_CAUTIONのまま公開Gateまで持ち越す。CSSテストだけで完全PASSにはしない。
 
-GO。
+## 4. 次の実装Gate
 
-目標：
+P0-06〜P0-08へ進む前に、まず390px fresh render verificationを1回だけ試す。
 
-`14社一覧 → 選択した会社のプラン一覧 → 必要なプランだけ詳細`
+390pxで問題がなければP0-04をPASSへ昇格し、次に：
 
-14社一覧で69プラン詳細を初期展開しない。
+- P0-06｜共通Firm detail
+- P0-07｜7問診断の現行Logic維持・候補整合
+- P0-08｜「なぜこの3つ？」結果説明
 
-Firm detail冒頭の基本順：
+へ進む。
 
-- 特徴
-- 日本語対応
-- 無料トライアル
-- 取引環境
-- 注意点
-- プラン一覧
-
-その後、選択プランだけ詳細。
-
-DiagnosisLogicV2 / SourceHealth / price / coupon / GA4 / FAQの全面改修はこの単位で触らない。
-
-P0-04〜05完了条件：
-
-- fresh 390px証跡
-- firm-first表示
-- no horizontal overflow
-- 29 tests以上を維持
-- build / lint PASS
-- HOLD 5 + Fintokei Block維持
-- DiagnosisLogicV2差分なし
+390pxで修正が必要なら、その修正だけを行い、再render後にP0-04を閉じる。
 
 ---
 
-## 3. 絶対保護条件
+## 5. 絶対保護条件
 
 ### Fintokei｜速攻プロ
 
@@ -150,88 +118,42 @@ Variant単位でのみ扱う。
 - Hantec Trader｜Instant Lite
 - FundedElite｜Flash Activation
 
-共通：
-
-- human-only resolution
-- auto unblock禁止
-- Top3 Block継続
-- FAQ schemaへ入れない
-- 診断Top3根拠へ使わない
+共通：human-only resolution / auto unblock禁止 / Top3 Block継続 / FAQ schemaへ入れない / 診断Top3根拠へ使わない。
 
 ### Diagnosis
 
-- DiagnosisLogicV2を不用意に変更しない
+- DiagnosisLogicV2を変更しない
 - Affiliate / commission / coupon / priceを採点へ入れない
 - Unknownを0/falseで代用しない
 - Conflictを自動Verified化しない
 
 ---
 
-## 4. FAQ Gate
+## 6. FAQ / Monitoring / Runtime / Publish Gate
 
-M14 FAQ統合は **CONDITIONAL GO** のまま。
+### FAQ
 
-GO昇格条件：
+M14 FAQ統合：**CONDITIONAL GO**。
 
-- M11と現行WorkのQ ID照合
-- UPDATE_REQUIRED 10件だけ差し替え
-- PASS_WITH_CAUTIONの注記 / 再確認条件維持
-- HOLD 5件をschema化しない
-- Fintokei限定Variant FAQを確定schema化しない
+### Monitoring
 
-P0-04〜05完了後に着手する。
+**NO-GO**。M15は `DRAFT_NOT_ACTIVE` 維持。
 
----
+### Runtime Snapshot
 
-## 5. 監視Dry Run Gate
+**NO-GO**。M13/M16 contract未確定。
 
-現時点：**NO-GO**
+### Publish
 
-未完了：
-
-1. `sourcehealth_ids` Canonical mapping contract
-2. Preflight全PASS
-3. HTTP/Baseline/failure handling実装確認
-4. 人間がACTIVE化を明示承認
-
-`DRAFT_NOT_ACTIVE` のままでは監視開始しない。
+**NO-GO**。M08 Full Regression、BLOCKER=0、CRITICAL=0、fresh 390px最終確認、GA4確認、人間承認が必要。
 
 ---
 
-## 6. Runtime Snapshot Gate
+## 7. 最短経路
 
-現時点：**NO-GO**
-
-M13/M16大原則は一致するが、R01〜R08のcontract decision未確定。
-
-Work P0では `data/canonical/*` / `runtime/*` を新しい正本として生成しない。
-
----
-
-## 7. 公開Gate
-
-本番公開はM08完走までNO-GO。
-
-必要条件：
-
-- M08 Full Regression
-- BLOCKER = 0
-- CRITICAL = 0
-- fresh 390px render
-- DiagnosisLogicV2不変
-- HOLD 5件Top3除外
-- Fintokei Variant誤適用なし
-- Official / Affiliate link分離
-- GA4破損・二重発火なし
-- 人間の明示公開承認
-
----
-
-## 8. 最短経路
-
-1. P0-04｜fresh 390px mobile UX
-2. P0-05｜Firm-first段階表示
-3. P0-06〜P0-08｜Firm detail / 7問診断 / なぜこの3つ
+1. P0-04 fresh 390px verification-only
+2. P0-04 PASSへ昇格
+3. P0-06〜P0-08
 4. M14 FAQ統合
 5. 価格境界 / GA4修正
 6. SEO必要分統合
