@@ -25,6 +25,7 @@
 - M13↔M16 cross-check ✅
 - Work Day0監査 ✅
 - M07 P0-01〜P0-03 実装・検証 ✅（Work報告ベース）
+- M07 P0-05 Firm-first段階表示 ✅（Work報告ベース）
 - 追加SEO完成原稿5本 ✅
 - SEO内部リンク／Metadata Guardrail設計 ✅
 
@@ -35,9 +36,9 @@ Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 
 ## Work最新状態
 
-2026-08-20、Work Day0監査後にM07 P0-01〜P0-03を実装。
+### P0-01〜03
 
-Work報告：
+Work報告ベースでPASS。
 
 - Firm = 14
 - PlanCatalog = 69
@@ -45,27 +46,50 @@ Work報告：
 - SourceHealth = 14
 - FundingPips = 5 plans
 - SH011〜SH014 synced
-- Block 6件 = Fintokei速攻プロ + HOLD 5
+- Block 6件維持
 - SuperFunded 1-Step = Trailing / min 3 days
 - SuperFunded 2-Step = min 4 days each phase
 - DiagnosisLogicV2差分なし
 - commercial dataの診断採点混入なし
-- existing regression 24/24 PASS
-- P0 tests 5/5 PASS
 - total 29/29 PASS
 - build PASS
 - lint error 0 / existing img warning 1
-- new BLOCKER / CRITICAL = none
 - Production publish / Version save = not done
 
-注意：上記はWork報告を記録したもので、GitHub上のWorkコードをこの文書が独立再検証したことを意味しない。
+### P0-05 Firm-first
 
-次のWork実装単位：
+PASS。
 
-1. P0-04｜fresh 390px mobile UX
-2. P0-05｜Firm-first段階表示
+- 14社を会社単位で初期表示
+- 全69プランを初期閉鎖
+- 会社 → プラン一覧 → 詳細の3段階
+- FundingPips検索 = 1社 / 5プラン
+- Block 6件を「公式情報を確認中」として公開UIで区別
+- 内部用語は公開UIに出さない
+- DiagnosisLogicV2 / 質問 / 採点 / GA4 / price / couponは変更なし
+- 29/29 tests PASS
+- build PASS
+- lint error 0
+- git diff --check PASS
 
-その後P0-06〜08、M14 FAQ統合、価格境界・GA4、SEO、M08 QAへ進む。
+### P0-04 390px Mobile UX
+
+**PASS_WITH_CAUTION**。
+
+390px fresh renderを再試行したが環境制約で取得できなかった。
+
+- Playwright package：利用可能
+- Chromium / Firefox / WebKit binary：未配置
+- OS browser：なし
+- CDP接続先：未稼働
+- Cloud Browser：1363x936固定、390px変更不可
+- 390px向けCSS / 構造テスト：PASS
+- 29/29 tests：PASS
+- build：PASS
+- lint：0 errors / existing warning 1
+- 修正ファイル：なし
+
+P0-04は完全PASSへ上げない。ただし、同じ環境で再試行しても390px evidence取得不能であることが確認できたため、**P0-06〜08の実装は止めず、公開GateへCautionとして持ち越す**。
 
 ---
 
@@ -146,7 +170,7 @@ M14最終判定：
 - UPDATE_REQUIRED 10
 - HOLD 5
 
-P0-04〜05後にM11 Q IDとWorkを照合し、M14の10件差し替えを統合する。
+P0-06〜08後にM11 Q IDとWorkを照合し、M14の10件差し替えを統合する。
 
 ---
 
@@ -154,26 +178,17 @@ P0-04〜05後にM11 Q IDとWorkを照合し、M14の10件差し替えを統合�
 
 大原則は一致するが、Runtime contractは未確定。
 
-未決定：
-
-- unique Layer B path
-- variant_id + scope
-- structured approval
-- source_priority + evidence IDs
-- scope-aware diagnosis policy
-- Monitor execution gate
-- SourceHealth logical tag ↔ Canonical ID
-- source_refs hardening
-
 Runtime Snapshot実装はNO-GO。Work P0では `data/canonical/*` / `runtime/*` を作らない。
 
 ---
 
 ## 現在のGate
 
-- Day0監査：GO / 完了
+- Day0監査：完了
 - P0-01〜03：PASS
-- P0-04〜05：GO
+- P0-04：PASS_WITH_CAUTION
+- P0-05：PASS
+- P0-06〜08：GO
 - FAQ統合：CONDITIONAL GO
 - 監視Dry Run：NO-GO
 - Runtime Snapshot：NO-GO
@@ -181,6 +196,8 @@ Runtime Snapshot実装はNO-GO。Work P0では `data/canonical/*` / `runtime/*` 
 
 ## 次
 
-最優先：WorkでP0-04〜P0-05のみ実装・検証。
+最優先：WorkでP0-06〜P0-08のみ実装・検証。
+
+390px fresh evidenceは取得可能な環境が得られた時点で再確認し、公開Gateで必ず再評価する。
 
 公開はまだ行わない。
