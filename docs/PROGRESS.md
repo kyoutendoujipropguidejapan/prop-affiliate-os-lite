@@ -1,6 +1,6 @@
 # プロップファームの歩き方｜進捗
 
-更新日：2026-08-18
+更新日：2026-08-20
 
 ## 完了
 
@@ -20,48 +20,52 @@
 - M14｜14社FAQの公式一次情報最終チェック ✅
 - M15｜M12 Dry Run用 monitor_sources 設定ファイル案 ✅
 - M16｜最小Runtime Snapshot仕様確定 ✅
-- 実装前Readiness Gate v1 ✅
+- 実装前Readiness Gate ✅
 - M01〜M16 Artifact回収・照合 ✅
+- M13↔M16 cross-check ✅
+- Work Day0監査 ✅
+- M07 P0-01〜P0-03 実装・検証 ✅（Work報告ベース）
 - 追加SEO完成原稿5本 ✅
 - SEO内部リンク／Metadata Guardrail設計 ✅
 
 Readiness Gate正本：`docs/IMPLEMENTATION_READINESS.md`
-Artifact同期待ち台帳：`docs/ARTIFACT_SYNC_STATUS.md`
+Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 
 ---
 
-## GitHub上のArtifact状態
+## Work最新状態
 
-### 実体確認済み
+2026-08-20、Work Day0監査後にM07 P0-01〜P0-03を実装。
 
-- `docs/M08_QA_REGRESSION_SPEC.md`
-- `docs/M09_SEO_CONTENT_PACK.md`
-- `docs/M09B_SEO_CONTENT_PACK_2.md`
-- `docs/M10_SOURCE_MONITORING_AUTOMATION_DESIGN.md`
-- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`
-- `docs/M12_DRY_RUN_SOURCE_SET.md`
-- `docs/SEO_INTERNAL_LINK_MAP.md`
-- `docs/WORK_RESTART_PROMPT.md`
-- `docs/IMPLEMENTATION_READINESS.md`
-- `docs/ARTIFACT_SYNC_STATUS.md`
+Work報告：
 
-### Manus側で回収済み・GitHub未同期
+- Firm = 14
+- PlanCatalog = 69
+- Diagnosis data rows = 65
+- SourceHealth = 14
+- FundingPips = 5 plans
+- SH011〜SH014 synced
+- Block 6件 = Fintokei速攻プロ + HOLD 5
+- SuperFunded 1-Step = Trailing / min 3 days
+- SuperFunded 2-Step = min 4 days each phase
+- DiagnosisLogicV2差分なし
+- commercial dataの診断採点混入なし
+- existing regression 24/24 PASS
+- P0 tests 5/5 PASS
+- total 29/29 PASS
+- build PASS
+- lint error 0 / existing img warning 1
+- new BLOCKER / CRITICAL = none
+- Production publish / Version save = not done
 
-P0：
+注意：上記はWork報告を記録したもので、GitHub上のWorkコードをこの文書が独立再検証したことを意味しない。
 
-1. M07最終統合仕様
-2. M14 全70 FAQ判定 + UPDATE_REQUIRED 10件の差し替え本文
+次のWork実装単位：
 
-P1：
+1. P0-04｜fresh 390px mobile UX
+2. P0-05｜Firm-first段階表示
 
-3. M15 `monitor_sources.json` Draft
-4. M15 JSON Schema
-5. M16 Runtime Snapshot仕様書 / 各Schema
-6. M13 GitHub同期設計全文
-
-これらは **RECOVERED_LOCAL_NOT_SYNCED**。GitHubへ実ファイル同期・再検証するまで、GitHub上のCanonical Artifactとして扱わない。
-
-M01〜M06の詳細報告は、必要になった時だけ実体の有無を確認する。既存正本から不要に再生成しない。
+その後P0-06〜08、M14 FAQ統合、価格境界・GA4、SEO、M08 QAへ進む。
 
 ---
 
@@ -69,15 +73,13 @@ M01〜M06の詳細報告は、必要になった時だけ実体の有無を確�
 
 ### Fintokei｜速攻プロ
 
-Block解除候補はVariant単位で次を保持できる場合のみ。
-
 - `effective_from = 2026-07-15`
-- `new_purchase_only = true`
+- new purchase only
 - 旧口座分離
-- Evidence保持
+- Evidence
 - human approval
 
-条件を安全に評価できない場合はBlock継続。
+現行Workでは条件付き解除を実装せず、Top3 Block継続。
 
 ### HOLD / Block継続 5件
 
@@ -87,14 +89,14 @@ Block解除候補はVariant単位で次を保持できる場合のみ。
 - Hantec Trader｜Instant Lite
 - FundedElite｜Flash Activation
 
-共通：
+共通：human-only / auto-unblock禁止 / Top3 Block継続 / FAQ schemaへ使わない / 診断Top3根拠へ使わない。
 
-- `resolution_mode = human_only`
-- `auto_unblock_allowed = false`
-- `top3_blocked = true`
-- 確定値・FAQ schema・診断Top3根拠に使用しない
+### Diagnosis
 
-回収したM07/M13/M14/M15/M16 Artifactでも、この安全条件が整合していると報告済み。GitHub同期時に再確認する。
+- DiagnosisLogicV2不変
+- Affiliate / commission / coupon / priceを採点へ入れない
+- Unknownを0/falseで代用しない
+- Conflictを自動Verified化しない
 
 ---
 
@@ -104,117 +106,81 @@ Block解除候補はVariant単位で次を保持できる場合のみ。
 
 BLOCKERまたはCRITICALが1件でも残る場合はNo-Go。
 
+---
+
 ## M09 / M09B
 
-`docs/M09_SEO_CONTENT_PACK.md`
+完成原稿10本：
 
 - 最大DD
 - Static DD
 - Trailing DD
 - EOD DD
 - 失格しやすいルール
-
-`docs/M09B_SEO_CONTENT_PACK_2.md`
-
 - 無料トライアル
 - ニュース取引
 - 週末持ち越し
 - 最低取引日数
 - 出金条件
 
-合計10本の初心者向け完成原稿。動的な各社数値は一般論として断定せず、公開前Fact-check Gateを通す。
+内部リンク・Metadata Guardrail：`docs/SEO_INTERNAL_LINK_MAP.md`
 
-内部リンク・Title/Meta/Canonicalの重複防止は `docs/SEO_INTERNAL_LINK_MAP.md` を使用する。
+---
 
 ## M10 / M12 / M15
 
-監視設計：
+監視はまだ `DRAFT_NOT_ACTIVE`。
 
-`公式URL → normalize → diff → noise filter → semantic candidate → SourceHealth cross-check → human review`
-
-- M12：Primary 5 + Shadow 4 URL実体あり
-- M15：`monitor_sources.json` Draft / SchemaをManus側で回収済み
-- M15 status：`DRAFT_NOT_ACTIVE`
-- まだGitHub未同期
-
-**M15実体同期＋Preflight＋人間承認までDry Runは開始しない。**
+M15 JSON / SchemaはGitHub同期・構造検証済みだが、SourceHealth ID mapping / Preflight / 人間承認未完了のためDry RunはNO-GO。
 
 Master / SourceHealth / Diagnosis / Work / siteへの自動反映は禁止。
 
+---
+
 ## M11 / M14
 
-M11で14社70 FAQを作成。M14で公式一次情報により最終照合。
+M14最終判定：
 
 - PASS 32
 - PASS_WITH_CAUTION 23
 - UPDATE_REQUIRED 10
 - HOLD 5
 
-M14の全70判定とUPDATE_REQUIRED 10件の差し替え本文はManus側で回収済み。ただしGitHub未同期のため、差し替え実体を同期・照合するまでUPDATE_REQUIRED 10件をM11のまま公開しない。
+P0-04〜05後にM11 Q IDとWorkを照合し、M14の10件差し替えを統合する。
+
+---
 
 ## M13 / M16
 
-二層Canonical設計：
+大原則は一致するが、Runtime contractは未確定。
 
-- Excel Master = 編集・監査用上位正本
-- GitHub Runtime Snapshot = 人間承認済み機械可読配布層
-- Work / Replitへ片方向handoff
+未決定：
 
-M13設計全文、M16 Runtime Snapshot仕様 / SchemaはManus側で回収済み。ただしGitHub未同期。
+- unique Layer B path
+- variant_id + scope
+- structured approval
+- source_priority + evidence IDs
+- scope-aware diagnosis policy
+- Monitor execution gate
+- SourceHealth logical tag ↔ Canonical ID
+- source_refs hardening
 
-**Runtime実装はM16実体同期まで開始しない。APPROVED以外を本番データとして使わない。**
-
-Affiliate / commission / coupon / priceは診断採点データへ混ぜない。
+Runtime Snapshot実装はNO-GO。Work P0では `data/canonical/*` / `runtime/*` を作らない。
 
 ---
 
-## Readiness Gate v1 結論
+## 現在のGate
 
-Artifact回収後も、GitHub未同期のためGateはまだ据え置く。
-
-- Work監査開始：GO
-- P0実装：CONDITIONAL GO
+- Day0監査：GO / 完了
+- P0-01〜03：PASS
+- P0-04〜05：GO
 - FAQ統合：CONDITIONAL GO
 - 監視Dry Run：NO-GO
-- Runtime Snapshot実装：NO-GO
-- 本番公開：M08 PASS + 人間承認までNO-GO
-
-次のGate更新条件：回収済み6 Artifactの実ファイル同期・全文照合・安全条件再確認。
-
----
-
-## Work復活時
-
-1. `README.md`
-2. `AGENTS.md`
-3. `docs/CURRENT_STATE.md`
-4. `docs/PROGRESS.md`
-5. `docs/IMPLEMENTATION_READINESS.md`
-6. `docs/ARTIFACT_SYNC_STATUS.md`
-7. `docs/WORK_RESTART_PROMPT.md`
-8. Master v2.2確認
-9. 未公開作業版監査（まだコード変更しない）
-10. M07同期状況を確認
-11. 人間確認後にP0差分実装
-12. M14同期済み判定に沿ってFAQ統合
-13. M09/M09B記事と内部リンクを必要な分だけ実装
-14. M08 QA
-15. BLOCKER / CRITICAL = 0
-16. 390px fresh render
-17. 公開は別途人間承認
+- Runtime Snapshot：NO-GO
+- 本番公開：NO-GO
 
 ## 次
 
-最優先は、回収済み6 Artifactの実ファイルをGitHubへ安全に同期すること。
+最優先：WorkでP0-04〜P0-05のみ実装・検証。
 
-同期手順：
-
-`実ファイル受領 → 全文確認 → 既存Artifact照合 → Fintokei/HOLD安全条件確認 → 保存先確定 → GitHub同期 → 再Fetch/SHA確認 → Readiness再判定`
-
-並行して安全に進められるもの：
-
-- 14社ページの「次に読む」導線コピー最終調整
-- SEO記事10本の掲載優先順位とSearch Console投入順の整理
-- Metadata重複防止表
-
-サイト・Master・SourceHealth・DiagnosisLogicV2・監視状態・本番公開は変更しない。
+公開はまだ行わない。
