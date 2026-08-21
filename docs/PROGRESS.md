@@ -1,6 +1,6 @@
 # プロップファームの歩き方｜進捗
 
-更新日：2026-08-21
+更新日：2026-08-22
 
 ## 完了
 
@@ -28,10 +28,14 @@
 - M07 P0-05 Firm-first段階表示 ✅（Work報告ベース）
 - M07 P0-06〜P0-08 実装・検証 ✅（Work報告ベース）
 - M14 FAQ統合 ✅（Work報告ベース）
+- 価格境界修正 ✅（Work報告ベース）
+- GA4整理 ✅ / 実送信のみCaution（Work報告ベース）
 - 追加SEO完成原稿5本 ✅
 - SEO内部リンク／Metadata Guardrail設計 ✅
 
 P0-04｜390px Mobile UX は **PASS_WITH_CAUTION**。既存環境で390px fresh renderが技術的に取得できず、公開GateまでCautionを持ち越す。
+
+GA4はコード・VM検証でPASS。Cloud Browserが計測スクリプトを `ERR_BLOCKED_BY_CLIENT` で遮断したため、実送信確認のみ公開Gateへ持ち越す。
 
 Readiness Gate正本：`docs/IMPLEMENTATION_READINESS.md`
 Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
@@ -76,34 +80,40 @@ Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 - HOLD 5
 - FAQ全件初期閉鎖
 - HOLD / Coupon / 限定Variant等をFAQ schemaから除外
-- 70判定固定の回帰テスト追加
-- 33/33 tests PASS
+
+### 価格境界
+
+- 割引後価格の自動計算 / 表示 = 0件
+- 公式キャンペーン7件 + Coupon 13件
+- code / effect / eligibility / expiry の4項目表示
+- 全カードで購入前の公式購入画面による最終価格確認を案内
+- 3価格セクション初期折りたたみ維持
+- Price / Coupon正本hash不変
+
+### GA4
+
+- GA4 ID = `G-L4DRJ0FQPN` のみ
+- 初期化責務 = `public/site-events.js` 1箇所
+- inline初期化 / React click listener撤去
+- Official 175 / Affiliate CTA 21 を自動検証、分類違反0
+- diagnosis_complete payload = completed / result_count / eligible_count / excluded_count のみ
+- 生回答 / Top firm / Top plan送信なし
+- beginner_course_start / next / complete、diagnosis_start / complete維持
+- 新規イベント追加なし
+- VM検証：初期化1回 / listener 1個 / 1click = 1event
+- Cloud Browserで実送信のみ未確認
+
+### Verification
+
+- 36/36 tests PASS
 - build PASS
-- lint error 0
+- lint error 0 / existing warning 1
+- git diff --check PASS
+- DiagnosisLogicV2保護区間hash不変
+- Block 6件Top3不可
+- 新規BLOCKER = 0
+- 新規CRITICAL = 0
 - Version保存 / 本番公開 / checkpoint作成なし
-
----
-
-## 安全条件
-
-### Fintokei｜速攻プロ
-
-- 2026-07-15以降
-- new purchase only
-- 旧口座分離
-- Evidence
-- human approval
-- 現行WorkではTop3 Block継続
-
-### HOLD 5
-
-- Funded7｜1フェーズ
-- Funded7｜Instant
-- Funded Trader Markets｜Instant Pro
-- Hantec Trader｜Instant Lite
-- FundedElite｜Flash Activation
-
-Top3 Block継続 / FAQ schemaへ使わない / 自動解除禁止。
 
 ---
 
@@ -115,23 +125,16 @@ Top3 Block継続 / FAQ schemaへ使わない / 自動解除禁止。
 - P0-05：PASS
 - P0-06〜08：PASS
 - M14 FAQ統合：PASS
-- 価格境界 / GA4：GO
-- SEO統合：価格境界 / GA4後
+- 価格境界：PASS
+- GA4：PASS_WITH_CAUTION（実送信のみ未確認）
+- SEO必要分統合：GO
+- M08 Full Regression：SEO後
 - 監視Dry Run：NO-GO
 - Runtime Snapshot：NO-GO
 - 本番公開：NO-GO
 
 ## 次
 
-最優先：**価格境界 / GA4修正のみ**をWorkで実装・検証する。
+最優先：**SEO必要分統合のみ**をWorkで実装・検証する。
 
-Day0監査で確認した対象：
-
-- 割引後価格の自動計算表示を削除
-- GA4二重初期化 / 二重発火
-- Official linkのAffiliate誤分類
-- `diagnosis_complete`の回答生値送信
-
-その後、SEO必要分 → M08 Full Regression → 390px Caution再評価 → 公開Gate。
-
-公開・Version保存はまだ行わない。
+その後、M08 Full Regression → 390px / GA4 Caution再評価 → Go / No-Go → 公開は別承認。
