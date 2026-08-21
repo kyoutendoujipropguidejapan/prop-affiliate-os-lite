@@ -1,6 +1,6 @@
 # IMPLEMENTATION_READINESS
 
-更新日：2026-08-20 JST
+更新日：2026-08-21 JST
 対象：プロップファームの歩き方
 目的：Work復活後の実装・監視・公開Gateを一意にする。
 
@@ -11,9 +11,9 @@
 - M07 P0-04 390px Mobile UX：**PASS_WITH_CAUTION**
 - M07 P0-05 Firm-first：**PASS（Work報告ベース）**
 - M07 P0-06〜P0-08：**PASS（Work報告ベース）**
-- M14 FAQ統合：**GO**
-- 価格境界 / GA4修正：**FAQ統合後**
-- SEO統合：**その後**
+- M14 FAQ統合：**PASS（Work報告ベース）**
+- 価格境界 / GA4修正：**GO**
+- SEO統合：**価格境界 / GA4後**
 - 監視Dry Run：**NO-GO**
 - Runtime Snapshot：**NO-GO**
 - 本番公開：**NO-GO**
@@ -67,69 +67,68 @@ Work報告ベースでPASS。
 
 **PASS（Work報告ベース）**。
 
-変更ファイル：
-
-- `app/route.ts`
-- `public/integrated-tools.js`
-- `public/home-integrated.css`
-- `tests/rendered-html.test.mjs`
-
-確認済み：
-
-- 14社Firm detailの冒頭順を統一：特徴 → 日本語対応 → 無料トライアル → 取引環境 → 注意点 → プラン一覧
+- 14社Firm detail：特徴 → 日本語対応 → 無料トライアル → 取引環境 → 注意点 → プラン一覧
 - Firm-first 3段階表示維持
 - 69プラン初期閉鎖
 - 7問 / 質問順 / DiagnosisLogicV2差分なし
 - Diagnosis候補65件維持
-- Unknownはnull扱い。0 / falseとして確定評価しない
-- 結果冒頭に「なぜ、この3つが候補になったのか。」
+- Unknownはnull扱い
+- 「なぜ、この3つが候補になったのか。」表示
 - 各候補：あなたとの相性 → 理由2点 → 注意1点 → 詳細を見る
-- 品質ランキング表現 / 内部用語なし
-- Block 6件は実診断Top3へ混入なし
+- Block 6件はTop3混入なし
 - 30/30 tests PASS
 - build PASS
 - lint error 0（既存warning 1）
 - git diff --check PASS
-- 新規BLOCKER / CRITICALなし
-- Version保存 / 本番公開なし
 
-Fresh renderはCloud Browser 1363x936で、14社 / 69プラン / 初期展開0 / Firm→Plan→Detail / Top3理由表示を確認。390px Cautionは継続。
+## 4. M14 FAQ統合
 
----
+**PASS（Work報告ベース）**。
 
-## 4. 次のGate｜M14 FAQ統合
+Work報告：
+
+- 14社 / 70 FAQ統合
+- PASS 32
+- PASS_WITH_CAUTION 23
+- UPDATE_REQUIRED 10（U01〜U10適用）
+- HOLD 5（確認中表示を維持）
+- FAQ全件を初期閉鎖
+- HOLD / Coupon / 限定Variant等をFAQ構造化データから除外
+- 70件すべての判定を個別固定する回帰テスト追加
+- 33/33 tests PASS
+- build PASS
+- lint error 0
+- Version保存 / 本番公開 / checkpoint作成なし
+
+FAQ schemaは、表示Q&Aと一致させ、HOLD / Coupon / Fintokei限定Variant等の変動性・競合性が高い項目を除外する方針を維持。
+
+## 5. 次のGate｜価格境界 / GA4
 
 **GO**。
 
-正本：
+Day0監査で残った主な修正対象：
 
-- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`
-- `docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md`
+### 価格境界
 
-M14判定：PASS 32 / PASS_WITH_CAUTION 23 / UPDATE_REQUIRED 10 / HOLD 5。
+- 割引後金額の自動計算表示を削除
+- Price / Couponを診断採点へ接続しない
+- Coupon表示は code / effect / eligibility / expiry を基本とする
+- 最終価格は購入前に公式購入画面で確認する導線へ
+- 既存price / coupon正本値を不用意に変更しない
 
-実装ルール：
+### GA4
 
-- PASS：M11を基本維持
-- PASS_WITH_CAUTION：注記 / 公開前再確認条件を維持
-- UPDATE_REQUIRED：M14 U01〜U10の差し替え本文を使用
-- HOLD：確定FAQ schemaへ入れない
-- Fintokei速攻プロ限定Variant FAQはschema化しない
-- Coupon / Referral / Eligibility / SourceHealth conflict / Legacy / Campaign / locale価格差など変動性が高いFAQは原則schema化しない
-- 画面に実際に表示するQ&Aだけschema化する
-- FAQ schemaと可視本文を完全一致させる
+- GA4 IDは維持
+- inline初期化と `site-events.js` の二重初期化 / 二重発火を解消
+- React側Analyticsとsite-events.jsの同一クリック二重処理を解消
+- Official linkをAffiliate eventとして誤分類しない
+- `diagnosis_complete`で回答の生値を送らない
+- 既存イベントを不用意に削除しない
+- 新イベント追加は必要最小限。既存との重複を避ける
 
-HOLD 5：
+この単位ではSEO本文、Runtime、monitoring、本番公開には進まない。
 
-- Funded7｜1フェーズ
-- Funded7｜Instant
-- Funded Trader Markets｜Instant Pro
-- Hantec Trader｜Instant Lite
-- FundedElite｜Flash Activation
-
----
-
-## 5. 絶対保護
+## 6. 絶対保護
 
 ### Fintokei｜速攻プロ
 
@@ -141,6 +140,16 @@ HOLD 5：
 
 現行Workでは条件付き解除せずTop3 Block継続。
 
+### HOLD 5
+
+- Funded7｜1フェーズ
+- Funded7｜Instant
+- Funded Trader Markets｜Instant Pro
+- Hantec Trader｜Instant Lite
+- FundedElite｜Flash Activation
+
+Top3 Block継続 / FAQ schemaへ使わない / 自動解除禁止。
+
 ### Diagnosis
 
 - DiagnosisLogicV2を変更しない
@@ -148,17 +157,15 @@ HOLD 5：
 - Unknownを0/falseで代用しない
 - Conflictを自動Verified化しない
 
----
-
-## 6. Monitoring / Runtime / Publish
+## 7. Monitoring / Runtime / Publish
 
 ### Monitoring
 
-**NO-GO**。M15 `DRAFT_NOT_ACTIVE` 維持。SourceHealth ID mapping / Preflight / human approval未完了。
+**NO-GO**。M15 `DRAFT_NOT_ACTIVE` 維持。
 
 ### Runtime Snapshot
 
-**NO-GO**。M13/M16 contract未確定。Work P0で `data/canonical/*` / `runtime/*` を作らない。
+**NO-GO**。M13/M16 contract未確定。
 
 ### Publish
 
@@ -166,9 +173,7 @@ HOLD 5：
 
 公開前に必要：
 
-- M14 FAQ統合PASS
-- 価格境界修正
-- GA4重複 / Official-Affiliate誤分類 / diagnosis_complete raw answer送信の修正
+- 価格境界 / GA4 PASS
 - 必要SEO統合
 - M08 Full Regression
 - BLOCKER = 0
@@ -176,14 +181,11 @@ HOLD 5：
 - P0-04 390px Cautionの明示再評価
 - 人間の公開承認
 
----
+## 8. 最短経路
 
-## 7. 最短経路
-
-1. M14 FAQ統合
-2. 価格境界 / GA4修正
-3. SEO必要分統合
-4. M08 Full Regression
-5. 390px Caution再評価
-6. Go / No-Go
-7. 公開は別承認
+1. 価格境界 / GA4修正
+2. SEO必要分統合
+3. M08 Full Regression
+4. 390px Caution再評価
+5. Go / No-Go
+6. 公開は別承認
