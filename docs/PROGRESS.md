@@ -1,6 +1,6 @@
 # プロップファームの歩き方｜進捗
 
-更新日：2026-08-20
+更新日：2026-08-21
 
 ## 完了
 
@@ -27,6 +27,7 @@
 - M07 P0-01〜P0-03 実装・検証 ✅（Work報告ベース）
 - M07 P0-05 Firm-first段階表示 ✅（Work報告ベース）
 - M07 P0-06〜P0-08 実装・検証 ✅（Work報告ベース）
+- M14 FAQ統合 ✅（Work報告ベース）
 - 追加SEO完成原稿5本 ✅
 - SEO内部リンク／Metadata Guardrail設計 ✅
 
@@ -66,39 +67,20 @@ Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 - 品質ランキング表現 / 内部用語なし
 - Block 6件のTop3混入なし
 
-### Verification
+### M14 FAQ統合
 
-- 30/30 tests PASS
-- build PASS
-- lint error 0 / existing warning 1
-- git diff --check PASS
-- 新規BLOCKER / CRITICALなし
-- Version保存 / 本番公開なし
-- Cloud Browser fresh render = 1363x936。390px Caution継続
-
----
-
-## M14 FAQ
-
-M14最終判定：
-
+- 14社 / 70 FAQ
 - PASS 32
 - PASS_WITH_CAUTION 23
-- UPDATE_REQUIRED 10
+- UPDATE_REQUIRED 10（U01〜U10）
 - HOLD 5
-
-実装正本：
-
-- `docs/M11_FIRM_FAQ_CONTENT_PACK.md`
-- `docs/M14_VERIFIED_EXTRACTION_FROM_PDF.md`
-
-次はM11と現行WorkのQ IDを照合し、M14に従ってFAQを統合する。
-
-- UPDATE_REQUIREDはU01〜U10差し替え本文を使用
-- HOLD 5件はschema化しない
-- Fintokei限定Variant FAQはschema化しない
-- Coupon / Referral / Eligibility / SourceHealth conflict / Legacy / Campaign / locale差など変動性が高いFAQは原則schema化しない
-- 可視Q&AとFAQ schemaを一致させる
+- FAQ全件初期閉鎖
+- HOLD / Coupon / 限定Variant等をFAQ schemaから除外
+- 70判定固定の回帰テスト追加
+- 33/33 tests PASS
+- build PASS
+- lint error 0
+- Version保存 / 本番公開 / checkpoint作成なし
 
 ---
 
@@ -132,15 +114,24 @@ Top3 Block継続 / FAQ schemaへ使わない / 自動解除禁止。
 - P0-04：PASS_WITH_CAUTION
 - P0-05：PASS
 - P0-06〜08：PASS
-- M14 FAQ統合：GO
+- M14 FAQ統合：PASS
+- 価格境界 / GA4：GO
+- SEO統合：価格境界 / GA4後
 - 監視Dry Run：NO-GO
 - Runtime Snapshot：NO-GO
 - 本番公開：NO-GO
 
 ## 次
 
-最優先：**M14 FAQ統合のみ**をWorkで実装・検証する。
+最優先：**価格境界 / GA4修正のみ**をWorkで実装・検証する。
 
-その後、価格境界 / GA4 → SEO必要分 → M08 Full Regression → 公開Gate。
+Day0監査で確認した対象：
+
+- 割引後価格の自動計算表示を削除
+- GA4二重初期化 / 二重発火
+- Official linkのAffiliate誤分類
+- `diagnosis_complete`の回答生値送信
+
+その後、SEO必要分 → M08 Full Regression → 390px Caution再評価 → 公開Gate。
 
 公開・Version保存はまだ行わない。
