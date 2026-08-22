@@ -33,6 +33,7 @@
 - SEO必要分統合 ✅
 - ER-01 remediation ✅
 - M08 Full Regression再実行 ✅ / PASS_WITH_CAUTION
+- Release Candidate Final Verification ✅ / PASS_WITH_CAUTION
 
 ---
 
@@ -80,16 +81,7 @@ PASS。
 QA正本：`docs/M08_QA_REGRESSION_SPEC.md`
 SHA：`2bd92e1f1fb77df93fd1fd41735521f0c51fe0cc`
 
-ER-01修正後のWorkをQA-onlyで先頭から再検証。
-
-### 件数
-
-正本本文の一意なTest IDは106件：
-
-- SM〜GA = 98
-- ER = 8
-- 合計 = 106
-
+正本本文の一意なTest IDは106件：SM〜GA 98 + ER 8。
 106件すべて判定。
 
 ### 集計
@@ -104,10 +96,7 @@ ER-01修正後のWorkをQA-onlyで先頭から再検証。
 
 NOT_EXECUTABLE：`SM-02`, `SM-10`, `MB-01`〜`MB-12`, `GA-01`〜`GA-09`。
 
-SM〜GAの98件のみでは PASS 75 / FAIL 0 / NOT_EXECUTABLE 23。
-ER-01〜ER-08は8/8 PASS。
-
-### 主な確認
+主な確認：
 
 - Beginner 01→05→Diagnosis：PASS
 - Firm 14社 / Plan 69 / FundingPips 5 / Firm→Plan→Detail：PASS
@@ -125,22 +114,49 @@ ER-01〜ER-08は8/8 PASS。
 - git diff --check PASS
 - QAによるソース変更 0
 
-### 残るCaution
+残るCaution：
 
-1. **390px fresh実画面**
-   - Cloud Browserは1363px固定でviewport変更不可
-   - mobile CSS / DOM系自動検証はPASS
-   - 未確認のためPASSにはしない
-
-2. **GA4実送信**
-   - 静的 / VM検証PASS
-   - ID 1 / loader 1 / init 1 / listener 1 / 1click=1event
-   - diagnosis_completeに生回答なし
-   - Cloud Browserでは `ERR_BLOCKED_BY_CLIENT` のため実送信未確認
+1. 390px fresh実画面未確認
+2. GA4実送信未確認
 
 判定：
 
 - M08 Full Regression = **PASS_WITH_CAUTION**
+- 本番公開判定 = **CONDITIONAL GO**
+
+---
+
+## Release Candidate Final Verification
+
+新規実装なし。残る2 Cautionの実環境確認可否だけを確認。
+
+### Preview
+
+- Sites `current_preview_url = null`
+- 未公開Release Candidateを外部iPhone Safariから開けるpreview URLなし
+- 保存済み最新版はVersion 78のまま
+- 既存本番URLは未公開Release Candidateを反映していないためpreviewとして使用せず
+
+### 390px
+
+**NOT_EXECUTABLE**。
+
+外部preview URLがないためiPhone Safariで指定画面を確認できない。mobile CSS / DOM自動検証PASSは維持するが実画面PASSには上げない。
+
+### GA4
+
+**NOT_EXECUTABLE**。
+
+通常ブラウザから未公開Release Candidateへ接続できず、Realtime / DebugViewで実イベント到達を確認できない。静的 / VM検証PASSは維持するが実送信PASSには上げない。
+
+### Final判定
+
+- 新規BLOCKER = 0
+- 新規CRITICAL = 0
+- コード変更 = 0
+- git diff --check PASS
+- Version保存 / checkpoint / 本番公開 = なし
+- Release Candidate Final Verification = **PASS_WITH_CAUTION**
 - 本番公開判定 = **CONDITIONAL GO**
 
 ---
@@ -158,19 +174,22 @@ ER-01〜ER-08は8/8 PASS。
 - SEO必要分統合：PASS
 - ER-01 remediation：PASS
 - M08 Full Regression：PASS_WITH_CAUTION
+- Release Candidate Final Verification：PASS_WITH_CAUTION
 - 本番公開：CONDITIONAL GO
 - 監視Dry Run：NO-GO
 - Runtime Snapshot：NO-GO
 
 ## 次
 
-**Release Candidate Final Verification**。
+未公開preview経路がないため、同じWork環境では390px実画面とGA4実送信の追加証跡を取得できない。
 
-残る2点だけ確認する：
+次に必要なのは新規実装ではなく、**残る2 Cautionをどう扱うかの人間判断**。
 
-1. 390px fresh実画面 / 実機
-2. GA4実送信
+選択肢は、
 
-両方問題なければ公開GO候補。問題があればSeverity判定して停止し、勝手に修正しない。
+1. 2 Cautionを残したまま公開を承認し、公開直後に390px実機 / GA4実送信を限定確認する
+2. preview経路が用意できるまで公開を保留する
 
-本番公開・Version保存・checkpointは別承認まで実施しない。
+のどちらか。
+
+Version保存 / checkpoint / 本番公開は明示承認まで実施しない。
