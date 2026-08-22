@@ -14,8 +14,8 @@
 - M14 FAQ統合：**PASS（Work報告ベース）**
 - 価格境界：**PASS（Work報告ベース）**
 - GA4整理：**PASS_WITH_CAUTION（実送信のみ未確認）**
-- SEO必要分統合：**GO**
-- M08 Full Regression：**SEO統合後**
+- SEO必要分統合：**PASS（Work報告ベース）**
+- M08 Full Regression：**GO**
 - 監視Dry Run：**NO-GO**
 - Runtime Snapshot：**NO-GO**
 - 本番公開：**NO-GO**
@@ -64,13 +64,6 @@ Work報告ベースで以下を維持：
 
 **PASS（Work報告ベース）**。
 
-変更ファイル：
-
-- `app/route.ts`
-- `public/home-integrated.css`
-
-確認済み：
-
 - 割引後価格の自動計算 / 表示 = 0件
 - 公式キャンペーン7件 + Coupon 13件を code / effect / eligibility / expiry の4項目で表示
 - 全カードに「購入前に公式購入画面で最終価格を確認してください。」
@@ -81,16 +74,6 @@ Work報告ベースで以下を維持：
 ## 4. GA4整理
 
 **PASS_WITH_CAUTION（Work報告ベース）**。
-
-変更ファイル：
-
-- `app/layout.tsx`
-- `app/analytics.tsx`
-- `public/site-events.js`
-- `public/integrated-tools.js`
-- `app/diagnosis.tsx`
-
-確認済み：
 
 - GA4 ID = `G-L4DRJ0FQPN` のみ
 - GA4初期化責務 = `public/site-events.js` の1箇所
@@ -105,40 +88,87 @@ Work報告ベースで以下を維持：
 
 Caution：Cloud Browserでは計測スクリプトが `ERR_BLOCKED_BY_CLIENT` となり、GA4の実送信だけ未確認。本番公開Gateで可能なら実機・通常ブラウザで確認する。
 
-## 5. Verification latest
+## 5. SEO必要分統合
 
-Work報告：
+**PASS（Work報告ベース）**。
 
-- tests = 36/36 PASS
+正本3件のGitHub blob SHA一致を確認してから統合：
+
+- `docs/M09_SEO_CONTENT_PACK.md` = `8a57ce6ba1edf24b0142cf711e6abe2b08d672e6`
+- `docs/M09B_SEO_CONTENT_PACK_2.md` = `e91b7a51d45eaa3b03421f3e4478ab561cb8d4f1`
+- `docs/SEO_INTERNAL_LINK_MAP.md` = `6eed1a9db8243314b221f31279c5d4b7225406e8`
+
+最終10テーマ / slug：
+
+- 最大DD：`/daily-loss-vs-max-loss`（既存・導線更新）
+- Static / Trailing / EOD：`/fixed-vs-trailing-drawdown`（既存統合ページ維持）
+- 失格しやすいルール：`/beginner-guide/rules-that-cause-disqualification`（既存・関連記事追加）
+- 無料トライアル：`/articles/prop-firm-free-trial`（新規）
+- ニュース取引：`/articles/news-trading-rules`（新規）
+- 週末持ち越し：`/articles/weekend-holding-rules`（新規）
+- 最低取引日数：`/articles/minimum-trading-days`（新規）
+- 出金条件：`/first-payout-checklist`（既存・導線更新）
+
+確認済み：
+
+- duplicate article = 0
+- Sitemap 18 → 22 URL（新規4記事のみ追加）
+- Title duplicate = 0
+- Meta description duplicate = 0
+- H1 = index対象各URL 1件
+- canonical error = 0
+- internal 404 = 0
+- Firm detail関連記事 = 14社すべて1〜3本 / 最大3本
+- HOLD / Conflictプランを関連記事根拠から除外
+- Affiliate URLの情報源利用 = 0
+- Price / CouponをTitle/Metaの主役にしたページ = 0
+- Beginner 01→05→Diagnosis維持
+- DiagnosisLogicV2 hash一致 / Block 6件維持
+- tests = 41/41 PASS
 - build PASS
-- lint error 0（既存warning 1）
+- lint error 0（既存image warning 1）
 - git diff --check PASS
-- DiagnosisLogicV2保護区間hash不変
-- Block 6件Top3不可
-- Diagnosis rows 65 / SourceHealth 14 / 7問・質問順維持
-- 新規BLOCKER = 0
-- 新規CRITICAL = 0
-- Version保存 / 本番公開 / checkpoint作成なし
+- 新規BLOCKER / CRITICAL = 0
 
-## 6. 次のGate｜SEO必要分統合
+## 6. 次のGate｜M08 Full Regression
 
 **GO**。
 
-正本：
+唯一のQA正本：`docs/M08_QA_REGRESSION_SPEC.md`
 
-- `docs/M09_SEO_CONTENT_PACK.md`
-- `docs/M09B_SEO_CONTENT_PACK_2.md`
-- `docs/SEO_INTERNAL_LINK_MAP.md`
+実行順はM08に従う：
 
-方針：
+1. Build / lint / automated tests
+2. Smoke
+3. 390px mobile
+4. Beginner 01〜05
+5. Firm → Plan → Detail
+6. Diagnosis Q1〜Q7 / Result
+7. SourceHealth Block matrix
+8. Fintokei variant/date boundary
+9. Price / Coupon
+10. Official / Affiliate links
+11. SEO head / sitemap / robots
+12. GA4
+13. 404 / empty / direct URL
+14. 390px最終fresh render
+15. Go / No-Go
 
-- 完成原稿を不用意にリライトしない
-- 既存ページ・記事と重複する場合は重複作成しない
-- Title / Meta / Canonical / internal linksの重複を防ぐ
-- 初心者導線を優先し、price / coupon / affiliateをSEO本文の主役にしない
-- 動的なFirm/Plan数値は現在のMaster/Workと整合しない限り新たに断定しない
-- DiagnosisLogicV2 / Block / SourceHealth / FAQ / GA4 / price boundaryは変更しない
-- 本番公開・Version保存はまだしない
+ただし現在のWork契約ではFintokei速攻プロはVariant条件を安全に判定できないため、**M08 FK-02/FK-03で条件付き解除を実装してPASSさせようとしない**。現行方針どおり、条件保持不可 / scope判定不可ならBlock継続を正解とする。
+
+公開候補判定の絶対条件：
+
+- BLOCKER = 0
+- CRITICAL = 0
+- DiagnosisLogicV2不変
+- Affiliate / commission / coupon / priceを診断採点に使用しない
+- HOLD 5 + Fintokei速攻プロの計6件をTop3から除外
+- Official / Affiliate link separation維持
+- Beginner既存URL維持
+- SEO重大異常なし
+- Build / regression / lint PASS
+
+390px fresh実画面とGA4実送信は環境制約のため未確認。M08で再試行し、取得不能ならCautionとして明示して最終Go/No-Goを分ける。
 
 ## 7. 絶対保護
 
@@ -182,20 +212,11 @@ Top3 Block継続 / FAQ schemaへ使わない / 自動解除禁止。
 
 **NO-GO**。
 
-公開前に必要：
-
-- SEO必要分統合PASS
-- M08 Full Regression
-- BLOCKER = 0
-- CRITICAL = 0
-- 390px Caution再評価
-- GA4実送信Caution再評価
-- 人間の公開承認
+M08 Full Regression完了後に、BLOCKER / CRITICALと2件のCautionを明示したうえで最終Go/No-Goを判定し、人間の明示公開承認があって初めて公開へ進む。
 
 ## 9. 最短経路
 
-1. SEO必要分統合
-2. M08 Full Regression
-3. 390px / GA4 Caution再評価
-4. Go / No-Go
-5. 公開は別承認
+1. M08 Full Regression
+2. 390px / GA4 Caution再評価
+3. 最終Go / No-Go
+4. 公開は別承認
