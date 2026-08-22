@@ -15,19 +15,22 @@
 - 価格境界：**PASS（Work報告ベース）**
 - GA4整理：**PASS_WITH_CAUTION（実送信のみ未確認）**
 - SEO必要分統合：**PASS（Work報告ベース）**
-- M08 Full Regression：**GO**
+- M08 Full Regression：**FAIL / ER-01 CRITICAL**
+- ER-01 remediation：**GO**
 - 監視Dry Run：**NO-GO**
 - Runtime Snapshot：**NO-GO**
 - 本番公開：**NO-GO**
 
-公開Gateへ持ち越すCautionは2件：
+公開Gateへ持ち越す既知Cautionは2件：
 
 1. 390px fresh実画面証跡未取得
 2. GA4実送信未確認（Cloud Browserで計測スクリプトがERR_BLOCKED_BY_CLIENT。コード/VM検証はPASS）
 
+加えて、M08でER-01 CRITICALを検出したため、現時点では公開不可。
+
 ---
 
-## 1. P0 / FAQ 実装済み状態
+## 1. 実装済み基盤
 
 Work報告ベースで以下を維持：
 
@@ -47,6 +50,11 @@ Work報告ベースで以下を維持：
 - M14 FAQ 14社 / 70件統合
 - PASS 32 / PASS_WITH_CAUTION 23 / UPDATE_REQUIRED 10 / HOLD 5
 - HOLD / Coupon / 限定Variant等をFAQ schemaから除外
+- 割引後価格の自動計算 / 表示 = 0件
+- Official / Affiliate link separation維持
+- SEO Sitemap = 22 URL
+- SEO必要分統合後 41/41 tests PASS
+- build PASS / lint error 0 / git diff --check PASS
 
 ## 2. P0-04｜390px Mobile UX
 
@@ -58,117 +66,112 @@ Work報告ベースで以下を維持：
 - OS browserなし / CDP未稼働 / Cloud Browser viewport固定
 - 390px実画面証跡のみ未取得
 
-本番公開Gateで再評価する。
+公開Gateで再評価する。
 
-## 3. 価格境界
+## 3. GA4
 
-**PASS（Work報告ベース）**。
+**PASS_WITH_CAUTION**。
 
-- 割引後価格の自動計算 / 表示 = 0件
-- 公式キャンペーン7件 + Coupon 13件を code / effect / eligibility / expiry の4項目で表示
-- 全カードに「購入前に公式購入画面で最終価格を確認してください。」
-- 3価格セクションは初期折りたたみ維持
-- Price / Coupon正本はタスク前後でhash不変
-- Price / CouponをDiagnosisへ接続していない
+- GA4 ID = `G-L4DRJ0FQPN`
+- 初期化責務 = `public/site-events.js` 1箇所
+- inline初期化 / React click listener撤去
+- Official 175 / Affiliate CTA 21 を自動検証、分類違反0
+- `diagnosis_complete` payload = completed / result_count / eligible_count / excluded_count のみ
+- 生回答 / Top firm / Top plan送信なし
+- VM検証：初期化1回 / listener 1個 / 1click = 1event
+- Cloud Browserで実送信のみ未確認
 
-## 4. GA4整理
+## 4. SEO必要分統合
 
-**PASS_WITH_CAUTION（Work報告ベース）**。
+**PASS**。
 
-- GA4 ID = `G-L4DRJ0FQPN` のみ
-- GA4初期化責務 = `public/site-events.js` の1箇所
-- inline初期化とReact側click listener撤去
-- `data-track-firm`単独でAffiliate判定しない
-- Official 175 links / Affiliate conversion CTA 21 linksを自動検証し、分類違反0
-- `diagnosis_complete` payloadは `completed / result_count / eligible_count / excluded_count` のみ
-- 回答コード / 生回答 / Top firm / Top planを送信しない
-- `beginner_course_start / next / complete`、`diagnosis_start / complete`を維持
-- 新規イベント追加なし
-- VM検証で初期化1回 / listener 1個 / 1click = 1event
-
-Caution：Cloud Browserでは計測スクリプトが `ERR_BLOCKED_BY_CLIENT` となり、GA4の実送信だけ未確認。本番公開Gateで可能なら実機・通常ブラウザで確認する。
-
-## 5. SEO必要分統合
-
-**PASS（Work報告ベース）**。
-
-正本3件のGitHub blob SHA一致を確認してから統合：
-
-- `docs/M09_SEO_CONTENT_PACK.md` = `8a57ce6ba1edf24b0142cf711e6abe2b08d672e6`
-- `docs/M09B_SEO_CONTENT_PACK_2.md` = `e91b7a51d45eaa3b03421f3e4478ab561cb8d4f1`
-- `docs/SEO_INTERNAL_LINK_MAP.md` = `6eed1a9db8243314b221f31279c5d4b7225406e8`
-
-最終10テーマ / slug：
-
-- 最大DD：`/daily-loss-vs-max-loss`（既存・導線更新）
-- Static / Trailing / EOD：`/fixed-vs-trailing-drawdown`（既存統合ページ維持）
-- 失格しやすいルール：`/beginner-guide/rules-that-cause-disqualification`（既存・関連記事追加）
-- 無料トライアル：`/articles/prop-firm-free-trial`（新規）
-- ニュース取引：`/articles/news-trading-rules`（新規）
-- 週末持ち越し：`/articles/weekend-holding-rules`（新規）
-- 最低取引日数：`/articles/minimum-trading-days`（新規）
-- 出金条件：`/first-payout-checklist`（既存・導線更新）
-
-確認済み：
-
-- duplicate article = 0
-- Sitemap 18 → 22 URL（新規4記事のみ追加）
-- Title duplicate = 0
-- Meta description duplicate = 0
-- H1 = index対象各URL 1件
-- canonical error = 0
-- internal 404 = 0
-- Firm detail関連記事 = 14社すべて1〜3本 / 最大3本
-- HOLD / Conflictプランを関連記事根拠から除外
-- Affiliate URLの情報源利用 = 0
-- Price / CouponをTitle/Metaの主役にしたページ = 0
+- M09 / M09B / Internal Link Map のGitHub blob SHA一致を確認後に実装
+- 重複ページ 0
+- Sitemap 22 URL
+- Title重複 0
+- Meta重複 0
+- H1異常 0
+- canonical誤り 0
+- 内部404 0
 - Beginner 01→05→Diagnosis維持
-- DiagnosisLogicV2 hash一致 / Block 6件維持
-- tests = 41/41 PASS
-- build PASS
-- lint error 0（既存image warning 1）
-- git diff --check PASS
-- 新規BLOCKER / CRITICAL = 0
+- HOLD / Conflictを確定例に使用しない
+- Affiliate URLを情報源に使用しない
+- Price / CouponをTitle / Metaの主役にしない
 
-## 6. 次のGate｜M08 Full Regression
+## 5. M08 Full Regression 初回結果
+
+QA正本：`docs/M08_QA_REGRESSION_SPEC.md`
+
+確認SHA：`2bd92e1f1fb77df93fd1fd41735521f0c51fe0cc`
+
+WorkはER-01でCRITICALを検出し、M08のFAIL時停止ルールに従ってFull Regressionを中断。
+
+集計：
+
+- M08総Test数 = 98
+- 実行済みM08 Test ID = 1
+- PASS = 0
+- FAIL = 1
+- NOT_EXECUTABLE = 0
+- 未実施 = 97
+- BLOCKER = 0
+- CRITICAL = 1
+- MAJOR = 0
+- MINOR = 0
+- FAIL Test ID = `ER-01`
+
+### ER-01
+
+条件：存在しないURLへ直接アクセス。
+
+期待：404に加えて、基礎講座・診断への復帰導線が表示される。
+
+実結果：
+
+- HTTP status = 404
+- Content-Type = text/plain
+- body = `Not found`
+- 基礎講座CTAなし
+- 診断CTAなし
+- 再現例 = `/__m08_missing__`
+
+原因候補：カスタム404実装がなく、未知ルートがAssets側の標準404へ委譲されている。
+
+停止前の基盤検証：
+
+- automated regression = 41/41 PASS
+- build PASS
+- lint error 0（既存warning 1）
+- git diff --check PASS
+- QA開始前後のtracked diff SHA一致
+- untracked file SHA一致
+- コード変更 0
+- Version保存 / checkpoint / publish なし
+
+M08 Full Regression判定：**FAIL**
+
+本番公開判定：**NO-GO**
+
+## 6. 次のGate｜ER-01 remediation
 
 **GO**。
 
-唯一のQA正本：`docs/M08_QA_REGRESSION_SPEC.md`
+次の変更はER-01解消に必要な最小範囲だけに限定する。
 
-実行順はM08に従う：
+受入条件：
 
-1. Build / lint / automated tests
-2. Smoke
-3. 390px mobile
-4. Beginner 01〜05
-5. Firm → Plan → Detail
-6. Diagnosis Q1〜Q7 / Result
-7. SourceHealth Block matrix
-8. Fintokei variant/date boundary
-9. Price / Coupon
-10. Official / Affiliate links
-11. SEO head / sitemap / robots
-12. GA4
-13. 404 / empty / direct URL
-14. 390px最終fresh render
-15. Go / No-Go
+- 未知URLがHTTP 404を維持する
+- `text/plain Not found`ではなく既存サイトトーンに沿う404 UIを返す
+- 基礎講座への復帰CTAを表示する
+- 30秒診断への復帰CTAを表示する
+- 404から価格 / Coupon / Affiliateを主導線にしない
+- noindex相当の安全な扱いを維持し、404ページをindex対象化しない
+- 既存の正常URL / sitemap / canonicalを壊さない
+- DiagnosisLogicV2 / Block 6 / SourceHealth / FAQ / price / GA4 / SEO記事本文を変更しない
 
-ただし現在のWork契約ではFintokei速攻プロはVariant条件を安全に判定できないため、**M08 FK-02/FK-03で条件付き解除を実装してPASSさせようとしない**。現行方針どおり、条件保持不可 / scope判定不可ならBlock継続を正解とする。
+ER-01修正後は、ER-01 targeted verificationだけで公開判定に進まない。
 
-公開候補判定の絶対条件：
-
-- BLOCKER = 0
-- CRITICAL = 0
-- DiagnosisLogicV2不変
-- Affiliate / commission / coupon / priceを診断採点に使用しない
-- HOLD 5 + Fintokei速攻プロの計6件をTop3から除外
-- Official / Affiliate link separation維持
-- Beginner既存URL維持
-- SEO重大異常なし
-- Build / regression / lint PASS
-
-390px fresh実画面とGA4実送信は環境制約のため未確認。M08で再試行し、取得不能ならCautionとして明示して最終Go/No-Goを分ける。
+**コード変更が入るため、M08 Full Regressionは98件を先頭から再実行する。前回の未実施97件へ途中再開しない。**
 
 ## 7. 絶対保護
 
@@ -212,11 +215,13 @@ Top3 Block継続 / FAQ schemaへ使わない / 自動解除禁止。
 
 **NO-GO**。
 
-M08 Full Regression完了後に、BLOCKER / CRITICALと2件のCautionを明示したうえで最終Go/No-Goを判定し、人間の明示公開承認があって初めて公開へ進む。
+ER-01修正 → targeted verification → M08 Full Regressionを最初から再実行 → BLOCKER / CRITICAL = 0 → 390px / GA4 Caution再評価 → 人間の明示公開承認、の順でのみ進む。
 
 ## 9. 最短経路
 
-1. M08 Full Regression
-2. 390px / GA4 Caution再評価
-3. 最終Go / No-Go
-4. 公開は別承認
+1. ER-01のみ修正
+2. ER-01 targeted verification
+3. M08 Full Regressionを98件先頭から再実行
+4. 390px / GA4 Caution再評価
+5. 最終Go / No-Go
+6. 公開は別承認
