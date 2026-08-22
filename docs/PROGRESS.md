@@ -24,22 +24,15 @@
 - M01〜M16 Artifact回収・照合 ✅
 - M13↔M16 cross-check ✅
 - Work Day0監査 ✅
-- M07 P0-01〜P0-03 実装・検証 ✅（Work報告ベース）
-- M07 P0-05 Firm-first段階表示 ✅（Work報告ベース）
-- M07 P0-06〜P0-08 実装・検証 ✅（Work報告ベース）
-- M14 FAQ統合 ✅（Work報告ベース）
-- 価格境界修正 ✅（Work報告ベース）
-- GA4整理 ✅ / 実送信のみCaution（Work報告ベース）
-- SEO必要分統合 ✅（Work報告ベース）
-- 追加SEO完成原稿5本 ✅
-- SEO内部リンク／Metadata Guardrail設計 ✅
-
-P0-04｜390px Mobile UX は **PASS_WITH_CAUTION**。既存環境で390px fresh renderが技術的に取得できず、公開GateまでCautionを持ち越す。
-
-GA4はコード・VM検証でPASS。Cloud Browserが計測スクリプトを `ERR_BLOCKED_BY_CLIENT` で遮断したため、実送信確認のみ公開Gateへ持ち越す。
-
-Readiness Gate正本：`docs/IMPLEMENTATION_READINESS.md`
-Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
+- M07 P0-01〜P0-03 実装・検証 ✅
+- M07 P0-05 Firm-first段階表示 ✅
+- M07 P0-06〜P0-08 実装・検証 ✅
+- M14 FAQ統合 ✅
+- 価格境界修正 ✅
+- GA4整理 ✅ / 実送信のみCaution
+- SEO必要分統合 ✅
+- ER-01 remediation ✅
+- M08 Full Regression再実行 ✅ / PASS_WITH_CAUTION
 
 ---
 
@@ -57,68 +50,98 @@ Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 - 割引後価格自動表示 = 0
 - Official 175 / Affiliate CTA 21、分類違反0
 - Sitemap = 22 URL
-- SEO Title / Meta / H1 / canonical / internal 404 重大異常なし
-- SEO統合後 41/41 tests PASS
-- build PASS
-- lint error 0 / existing warning 1
-- git diff --check PASS
+- SEO重大異常なし
 - Version保存 / checkpoint / 本番公開なし
 
 ---
 
-## M08 Full Regression 初回
+## ER-01 remediation
+
+PASS。
+
+- unknown HTML navigation = HTTP 404
+- Content-Type = HTML
+- 専用404 UI
+- 基礎講座CTA / 30秒診断CTA / Home link
+- noindex,nofollow
+- canonicalなし
+- Sitemap非掲載
+- static asset 404 / normal responseへ干渉なし
+- targeted 1/1 PASS
+- regression 42/42 PASS
+- build PASS
+- lint error 0
+- git diff --check PASS
+
+---
+
+## M08 Full Regression 再実行
 
 QA正本：`docs/M08_QA_REGRESSION_SPEC.md`
+SHA：`2bd92e1f1fb77df93fd1fd41735521f0c51fe0cc`
 
-確認SHA：`2bd92e1f1fb77df93fd1fd41735521f0c51fe0cc`
+ER-01修正後のWorkをQA-onlyで先頭から再検証。
 
-ER-01でCRITICALを検出し、正本のFAIL時停止ルールに従って中断。
+### 件数
+
+正本本文の一意なTest IDは106件：
+
+- SM〜GA = 98
+- ER = 8
+- 合計 = 106
+
+106件すべて判定。
 
 ### 集計
 
-- M08総Test数 = 98
-- 実行済み = 1
-- PASS = 0
-- FAIL = 1
-- NOT_EXECUTABLE = 0
-- 停止により未実施 = 97
+- PASS = 83
+- FAIL = 0
+- NOT_EXECUTABLE = 23
 - BLOCKER = 0
-- CRITICAL = 1
+- CRITICAL = 0
 - MAJOR = 0
 - MINOR = 0
-- FAIL Test ID = `ER-01`
 
-### ER-01
+NOT_EXECUTABLE：`SM-02`, `SM-10`, `MB-01`〜`MB-12`, `GA-01`〜`GA-09`。
 
-存在しないURLへの直接アクセス。
+SM〜GAの98件のみでは PASS 75 / FAIL 0 / NOT_EXECUTABLE 23。
+ER-01〜ER-08は8/8 PASS。
 
-期待：HTTP 404 + 基礎講座 / 診断への復帰導線。
+### 主な確認
 
-実結果：
-
-- HTTP 404
-- Content-Type `text/plain`
-- body `Not found`
-- 基礎講座CTAなし
-- 診断CTAなし
-- 再現例 `/__m08_missing__`
-
-原因候補：カスタム404不在でAssets側標準404へ委譲。
-
-停止前の基盤検証：
-
-- automated regression 41/41 PASS
+- Beginner 01→05→Diagnosis：PASS
+- Firm 14社 / Plan 69 / FundingPips 5 / Firm→Plan→Detail：PASS
+- Diagnosis 7問 / Top3 / 理由2＋注意1 / 相性表示：PASS
+- DiagnosisLogicV2 hash一致
+- SourceHealth 14 / Block 6件Top3除外
+- Fintokei速攻プロは安全側Block維持
+- Price / Coupon：PASS
+- Official 175 / Affiliate CTA 21：PASS
+- SEO Sitemap 22 / title / meta / H1 / canonical / robots / internal 404：PASS
+- ER-01〜ER-08：PASS
+- regression 42/42 PASS
 - build PASS
 - lint error 0 / existing warning 1
 - git diff --check PASS
-- QA前後 tracked diff SHA一致
-- untracked file SHA一致
-- コード変更 0
+- QAによるソース変更 0
+
+### 残るCaution
+
+1. **390px fresh実画面**
+   - Cloud Browserは1363px固定でviewport変更不可
+   - mobile CSS / DOM系自動検証はPASS
+   - 未確認のためPASSにはしない
+
+2. **GA4実送信**
+   - 静的 / VM検証PASS
+   - ID 1 / loader 1 / init 1 / listener 1 / 1click=1event
+   - diagnosis_completeに生回答なし
+   - Cloud Browserでは `ERR_BLOCKED_BY_CLIENT` のため実送信未確認
 
 判定：
 
-- M08 Full Regression = **FAIL**
-- 本番公開 = **NO-GO**
+- M08 Full Regression = **PASS_WITH_CAUTION**
+- 本番公開判定 = **CONDITIONAL GO**
 
 ---
 
@@ -133,28 +156,21 @@ ER-01でCRITICALを検出し、正本のFAIL時停止ルールに従って中断
 - 価格境界：PASS
 - GA4：PASS_WITH_CAUTION
 - SEO必要分統合：PASS
-- M08 Full Regression：**FAIL / ER-01 CRITICAL**
-- ER-01 remediation：**GO**
+- ER-01 remediation：PASS
+- M08 Full Regression：PASS_WITH_CAUTION
+- 本番公開：CONDITIONAL GO
 - 監視Dry Run：NO-GO
 - Runtime Snapshot：NO-GO
-- 本番公開：NO-GO
 
 ## 次
 
-最優先：**ER-01のみ修正**。
+**Release Candidate Final Verification**。
 
-受入条件：
+残る2点だけ確認する：
 
-- 未知URLはHTTP 404を維持
-- サイトトーンに沿う404 UI
-- 基礎講座CTA
-- 30秒診断CTA
-- 404から価格 / Coupon / Affiliateを主導線にしない
-- 404をindex対象化しない
-- 正常URL / sitemap / canonicalを壊さない
+1. 390px fresh実画面 / 実機
+2. GA4実送信
 
-修正後にER-01 targeted verificationを実施する。
+両方問題なければ公開GO候補。問題があればSeverity判定して停止し、勝手に修正しない。
 
-その後、コード変更が入るため **M08 Full Regressionは98件を先頭から再実行**する。前回の未実施97件へ途中再開しない。
-
-公開・Version保存はまだ行わない。
+本番公開・Version保存・checkpointは別承認まで実施しない。
