@@ -30,6 +30,7 @@
 - M14 FAQ統合 ✅（Work報告ベース）
 - 価格境界修正 ✅（Work報告ベース）
 - GA4整理 ✅ / 実送信のみCaution（Work報告ベース）
+- SEO必要分統合 ✅（Work報告ベース）
 - 追加SEO完成原稿5本 ✅
 - SEO内部リンク／Metadata Guardrail設計 ✅
 
@@ -63,6 +64,7 @@ Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 - 会社 → プラン一覧 → 詳細の3段階
 - Firm detail冒頭：特徴 → 日本語対応 → 無料トライアル → 取引環境 → 注意点 → プラン一覧
 - HOLD 5 + Fintokei速攻プロを「公式情報を確認中」として区別
+- Firm detail関連記事は14社すべて1〜3本 / 最大3本
 
 ### Diagnosis result
 
@@ -103,14 +105,47 @@ Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 - VM検証：初期化1回 / listener 1個 / 1click = 1event
 - Cloud Browserで実送信のみ未確認
 
-### Verification
+### SEO必要分統合
 
-- 36/36 tests PASS
+正本3件のGitHub SHA一致を確認後に実装。
+
+- M09 = `8a57ce6ba1edf24b0142cf711e6abe2b08d672e6`
+- M09B = `e91b7a51d45eaa3b03421f3e4478ab561cb8d4f1`
+- Internal Link Map = `6eed1a9db8243314b221f31279c5d4b7225406e8`
+
+最終slug：
+
+- 最大DD：`/daily-loss-vs-max-loss`
+- Static / Trailing / EOD：`/fixed-vs-trailing-drawdown`
+- 失格しやすいルール：`/beginner-guide/rules-that-cause-disqualification`
+- 無料トライアル：`/articles/prop-firm-free-trial`
+- ニュース取引：`/articles/news-trading-rules`
+- 週末持ち越し：`/articles/weekend-holding-rules`
+- 最低取引日数：`/articles/minimum-trading-days`
+- 出金条件：`/first-payout-checklist`
+
+確認：
+
+- 重複ページ 0
+- Sitemap 18 → 22 URL
+- Title重複 0
+- Meta重複 0
+- H1異常 0
+- canonical誤り 0
+- 内部404 0
+- HOLD / Conflictを確定例に使用しない
+- Affiliate URLを情報源に使用しない
+- Price / CouponをTitle / Metaの主役にしない
+- Beginner 01→05→Diagnosis維持
+
+### Verification latest
+
+- 41/41 tests PASS
 - build PASS
 - lint error 0 / existing warning 1
 - git diff --check PASS
-- DiagnosisLogicV2保護区間hash不変
-- Block 6件Top3不可
+- DiagnosisLogicV2 hash一致
+- Block 6件維持
 - 新規BLOCKER = 0
 - 新規CRITICAL = 0
 - Version保存 / 本番公開 / checkpoint作成なし
@@ -127,14 +162,18 @@ Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 - M14 FAQ統合：PASS
 - 価格境界：PASS
 - GA4：PASS_WITH_CAUTION（実送信のみ未確認）
-- SEO必要分統合：GO
-- M08 Full Regression：SEO後
+- SEO必要分統合：PASS
+- M08 Full Regression：GO
 - 監視Dry Run：NO-GO
 - Runtime Snapshot：NO-GO
 - 本番公開：NO-GO
 
 ## 次
 
-最優先：**SEO必要分統合のみ**をWorkで実装・検証する。
+最優先：**M08 Full Regression**。
 
-その後、M08 Full Regression → 390px / GA4 Caution再評価 → Go / No-Go → 公開は別承認。
+`docs/M08_QA_REGRESSION_SPEC.md` を唯一のQA正本として、Build / Smoke / Beginner / Firm→Plan→Detail / Diagnosis / SourceHealth / Fintokei / Price / Link separation / SEO / GA4 / 404・empty / mobileを通し、BLOCKER=0・CRITICAL=0を確認する。
+
+390px fresh実画面とGA4実送信は既知Caution。M08で再試行し、取得不能なら明示したまま最終Go/No-Goへ進む。
+
+公開・Version保存はまだ行わない。
