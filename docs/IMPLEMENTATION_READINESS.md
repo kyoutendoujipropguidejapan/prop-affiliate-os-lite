@@ -15,24 +15,24 @@
 - 価格境界：**PASS（Work報告ベース）**
 - GA4整理：**PASS_WITH_CAUTION（実送信のみ未確認）**
 - SEO必要分統合：**PASS（Work報告ベース）**
-- M08 Full Regression：**FAIL / ER-01 CRITICAL**
-- ER-01 remediation：**GO**
+- ER-01 remediation：**PASS（Work報告ベース）**
+- M08 Full Regression：**PASS_WITH_CAUTION**
+- 本番公開判定：**CONDITIONAL GO**
 - 監視Dry Run：**NO-GO**
 - Runtime Snapshot：**NO-GO**
-- 本番公開：**NO-GO**
 
-公開Gateへ持ち越す既知Cautionは2件：
+公開Gateへ持ち越すCautionは2件だけ：
 
 1. 390px fresh実画面証跡未取得
-2. GA4実送信未確認（Cloud Browserで計測スクリプトがERR_BLOCKED_BY_CLIENT。コード/VM検証はPASS）
+2. GA4実送信未確認（Cloud Browserで `ERR_BLOCKED_BY_CLIENT`。静的/VM検証はPASS）
 
-加えて、M08でER-01 CRITICALを検出したため、現時点では公開不可。
+本番公開・Version保存・checkpoint作成はまだ行わない。
 
 ---
 
 ## 1. 実装済み基盤
 
-Work報告ベースで以下を維持：
+Work報告ベース：
 
 - Firm = 14
 - PlanCatalog = 69
@@ -45,144 +45,144 @@ Work報告ベースで以下を維持：
 - Firm detail：特徴 → 日本語対応 → 無料トライアル → 取引環境 → 注意点 → プラン一覧
 - 7問 / 質問順 / DiagnosisLogicV2差分なし
 - Unknownはnull扱い
-- 「なぜ、この3つが候補になったのか。」表示
-- 各候補：あなたとの相性 → 理由2点 → 注意1点 → 詳細を見る
-- M14 FAQ 14社 / 70件統合
+- Result「なぜ、この3つが候補になったのか。」＋理由2点＋注意1点＋「あなたとの相性」
+- M14 FAQ = 14社 / 70件
 - PASS 32 / PASS_WITH_CAUTION 23 / UPDATE_REQUIRED 10 / HOLD 5
 - HOLD / Coupon / 限定Variant等をFAQ schemaから除外
-- 割引後価格の自動計算 / 表示 = 0件
+- 割引後価格自動計算 / 表示 = 0
 - Official / Affiliate link separation維持
-- SEO Sitemap = 22 URL
-- SEO必要分統合後 41/41 tests PASS
-- build PASS / lint error 0 / git diff --check PASS
+- Sitemap = 22 URL
+- SEO重複 / canonical / internal 404重大異常なし
 
-## 2. P0-04｜390px Mobile UX
+---
 
-**PASS_WITH_CAUTION**。
-
-- 390px向けCSS / 構造テスト：PASS
-- Cloud Browser fresh render：1363x936でPASS
-- Playwright packageはあるがbrowser binaryなし
-- OS browserなし / CDP未稼働 / Cloud Browser viewport固定
-- 390px実画面証跡のみ未取得
-
-公開Gateで再評価する。
-
-## 3. GA4
-
-**PASS_WITH_CAUTION**。
-
-- GA4 ID = `G-L4DRJ0FQPN`
-- 初期化責務 = `public/site-events.js` 1箇所
-- inline初期化 / React click listener撤去
-- Official 175 / Affiliate CTA 21 を自動検証、分類違反0
-- `diagnosis_complete` payload = completed / result_count / eligible_count / excluded_count のみ
-- 生回答 / Top firm / Top plan送信なし
-- VM検証：初期化1回 / listener 1個 / 1click = 1event
-- Cloud Browserで実送信のみ未確認
-
-## 4. SEO必要分統合
+## 2. ER-01 remediation
 
 **PASS**。
 
-- M09 / M09B / Internal Link Map のGitHub blob SHA一致を確認後に実装
-- 重複ページ 0
-- Sitemap 22 URL
-- Title重複 0
-- Meta重複 0
-- H1異常 0
-- canonical誤り 0
-- 内部404 0
-- Beginner 01→05→Diagnosis維持
-- HOLD / Conflictを確定例に使用しない
-- Affiliate URLを情報源に使用しない
-- Price / CouponをTitle / Metaの主役にしない
+変更：
 
-## 5. M08 Full Regression 初回結果
+- `worker/index.ts`
+- `er-01-remediation.test.mjs`
 
-QA正本：`docs/M08_QA_REGRESSION_SPEC.md`
+確認：
 
-確認SHA：`2bd92e1f1fb77df93fd1fd41735521f0c51fe0cc`
-
-WorkはER-01でCRITICALを検出し、M08のFAIL時停止ルールに従ってFull Regressionを中断。
-
-集計：
-
-- M08総Test数 = 98
-- 実行済みM08 Test ID = 1
-- PASS = 0
-- FAIL = 1
-- NOT_EXECUTABLE = 0
-- 未実施 = 97
-- BLOCKER = 0
-- CRITICAL = 1
-- MAJOR = 0
-- MINOR = 0
-- FAIL Test ID = `ER-01`
-
-### ER-01
-
-条件：存在しないURLへ直接アクセス。
-
-期待：404に加えて、基礎講座・診断への復帰導線が表示される。
-
-実結果：
-
-- HTTP status = 404
-- Content-Type = text/plain
-- body = `Not found`
-- 基礎講座CTAなし
-- 診断CTAなし
-- 再現例 = `/__m08_missing__`
-
-原因候補：カスタム404実装がなく、未知ルートがAssets側の標準404へ委譲されている。
-
-停止前の基盤検証：
-
-- automated regression = 41/41 PASS
+- unknown HTML navigation = HTTP 404維持
+- Content-Type = `text/html; charset=utf-8`
+- 専用404 UI
+- Primary CTA = `/beginner-guide`「基礎講座へ戻る」
+- Secondary CTA = `/#diagnosis`「30秒診断を始める」
+- Home linkあり
+- `noindex,nofollow`
+- canonicalなし
+- Sitemap 22 URL維持 / 404 URL非掲載
+- static asset 404 / 正常レスポンスへ干渉しない
+- targeted 1/1 PASS
+- regression 42/42 PASS
 - build PASS
 - lint error 0（既存warning 1）
 - git diff --check PASS
-- QA開始前後のtracked diff SHA一致
-- untracked file SHA一致
-- コード変更 0
-- Version保存 / checkpoint / publish なし
 
-M08 Full Regression判定：**FAIL**
+---
 
-本番公開判定：**NO-GO**
+## 3. M08 Full Regression 再実行結果
 
-## 6. 次のGate｜ER-01 remediation
+唯一のQA正本：`docs/M08_QA_REGRESSION_SPEC.md`
+確認SHA：`2bd92e1f1fb77df93fd1fd41735521f0c51fe0cc`
 
-**GO**。
+ER-01修正後のWorkを対象にQA-onlyで先頭から再検証。
 
-次の変更はER-01解消に必要な最小範囲だけに限定する。
+### Test ID件数
 
-受入条件：
+正本本文を一意なTest IDで採番すると106件：
 
-- 未知URLがHTTP 404を維持する
-- `text/plain Not found`ではなく既存サイトトーンに沿う404 UIを返す
-- 基礎講座への復帰CTAを表示する
-- 30秒診断への復帰CTAを表示する
-- 404から価格 / Coupon / Affiliateを主導線にしない
-- noindex相当の安全な扱いを維持し、404ページをindex対象化しない
-- 既存の正常URL / sitemap / canonicalを壊さない
-- DiagnosisLogicV2 / Block 6 / SourceHealth / FAQ / price / GA4 / SEO記事本文を変更しない
+- SM〜GA = 98
+- ER-01〜ER-08 = 8
+- 合計 = 106
 
-ER-01修正後は、ER-01 targeted verificationだけで公開判定に進まない。
+従来の「98件」はER群を除いた件数として扱い、実際のFull RegressionではERを省略せず106件すべて判定した。
 
-**コード変更が入るため、M08 Full Regressionは98件を先頭から再実行する。前回の未実施97件へ途中再開しない。**
+### 集計
 
-## 7. 絶対保護
+- 総Test ID = 106
+- PASS = 83
+- FAIL = 0
+- NOT_EXECUTABLE = 23
+- BLOCKER = 0
+- CRITICAL = 0
+- MAJOR = 0
+- MINOR = 0
+
+NOT_EXECUTABLE：
+
+- `SM-02`
+- `SM-10`
+- `MB-01`〜`MB-12`
+- `GA-01`〜`GA-09`
+
+SM〜GAの98件だけでは PASS 75 / FAIL 0 / NOT_EXECUTABLE 23。
+ER-01〜ER-08は8/8 PASS。
+
+### 主なPASS
+
+- ER-01 = 404 status / HTML UI / beginner+diagnosis CTA / noindex / canonicalなし
+- Beginner 01→02→03→04→05→Diagnosis 実クリック完走
+- Firm 14社 / Plan 69 / FundingPips 5 / Firm→Plan→Detail正常
+- Diagnosis 7問 / Top3 / 理由2＋注意1 / 相性表示 / back/reload正常
+- DiagnosisLogicV2 hash一致
+- SourceHealth 14 / Block 6件Top3除外
+- Fintokei速攻プロはRuntime条件評価不能のため安全側Block維持
+- Price / Coupon境界PASS
+- Official 175 / Affiliate CTA 21、分類違反0
+- SEO Sitemap 22/22、title/meta/H1/canonical/robots/internal 404 PASS
+- Error / Empty ER-01〜ER-08 PASS
+- regression 42/42 PASS
+- build PASS
+- lint error 0（既存warning 1）
+- git diff --check PASS
+- QAによるソース差分 0
+
+### Caution / NOT_EXECUTABLE
+
+#### 390px
+
+Cloud Browserは1363px固定でviewport変更不可。390px fresh renderは未確認。
+モバイルCSS / 単一カラム / 折返し / 404 CTA縦配置の自動検証はPASS。
+未確認のためPASSには上げない。
+
+#### GA4
+
+静的/VM検証はPASS：
+
+- GA4 ID `G-L4DRJ0FQPN` のみ
+- loader 1
+- 初期化責務 1
+- click listener 1
+- VMで1 click = 1 event
+- Beginner / Diagnosis event定義維持
+- `diagnosis_complete` payload = `completed / result_count / eligible_count / excluded_count` のみ
+
+Cloud Browserでは `site-events.js` が `ERR_BLOCKED_BY_CLIENT` となるため実送信は未確認。
+
+### 判定
+
+- M08 Full Regression：**PASS_WITH_CAUTION**
+- 本番公開判定：**CONDITIONAL GO**
+
+条件：公開Gateで390px fresh実画面確認とGA4実送信確認を行う。
+
+---
+
+## 4. 絶対保護
 
 ### Fintokei｜速攻プロ
 
-- effective_from = 2026-07-15
+- `effective_from = 2026-07-15`
 - new purchase only
 - legacy separation
 - Evidence
 - human approval
-- 現行Workでは条件付き解除せずTop3 Block継続
+- 現行Runtimeでは条件判定不能なのでTop3 Block継続
 
 ### HOLD 5
 
@@ -201,7 +201,9 @@ Top3 Block継続 / FAQ schemaへ使わない / 自動解除禁止。
 - Unknownを0/falseで代用しない
 - Conflictを自動Verified化しない
 
-## 8. Monitoring / Runtime / Publish
+---
+
+## 5. Monitoring / Runtime
 
 ### Monitoring
 
@@ -211,17 +213,17 @@ Top3 Block継続 / FAQ schemaへ使わない / 自動解除禁止。
 
 **NO-GO**。M13/M16 contract未確定。
 
-### Publish
+---
 
-**NO-GO**。
+## 6. 次のGate｜Release Candidate Final Verification
 
-ER-01修正 → targeted verification → M08 Full Regressionを最初から再実行 → BLOCKER / CRITICAL = 0 → 390px / GA4 Caution再評価 → 人間の明示公開承認、の順でのみ進む。
+M08でBLOCKER / CRITICAL = 0になったため、次は新機能実装ではなく残る2 Cautionだけを確認する。
 
-## 9. 最短経路
+1. 390px fresh実画面 / 実機確認
+2. GA4実送信確認
 
-1. ER-01のみ修正
-2. ER-01 targeted verification
-3. M08 Full Regressionを98件先頭から再実行
-4. 390px / GA4 Caution再評価
-5. 最終Go / No-Go
-6. 公開は別承認
+この2件が問題なく確認できれば、本番公開判定をGOへ上げられる候補になる。
+
+このGateでもコード・データ変更は原則行わない。問題を検出した場合はSeverityを判定し、勝手に修正せず停止する。
+
+公開・Version保存・checkpoint作成は人間の明示承認後に別工程で行う。
