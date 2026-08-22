@@ -17,6 +17,7 @@
 - SEO必要分統合：**PASS（Work報告ベース）**
 - ER-01 remediation：**PASS（Work報告ベース）**
 - M08 Full Regression：**PASS_WITH_CAUTION**
+- Release Candidate Final Verification：**PASS_WITH_CAUTION**
 - 本番公開判定：**CONDITIONAL GO**
 - 監視Dry Run：**NO-GO**
 - Runtime Snapshot：**NO-GO**
@@ -24,7 +25,9 @@
 公開Gateへ持ち越すCautionは2件だけ：
 
 1. 390px fresh実画面証跡未取得
-2. GA4実送信未確認（Cloud Browserで `ERR_BLOCKED_BY_CLIENT`。静的/VM検証はPASS）
+2. GA4実送信未確認
+
+Final Verificationで確認したが、未公開Workを外部iPhone Safariから開けるpreview URLがなく、`current_preview_url = null`。したがって両項目とも `NOT_EXECUTABLE` のまま。
 
 本番公開・Version保存・checkpoint作成はまだ行わない。
 
@@ -169,11 +172,50 @@ Cloud Browserでは `site-events.js` が `ERR_BLOCKED_BY_CLIENT` となるため
 - M08 Full Regression：**PASS_WITH_CAUTION**
 - 本番公開判定：**CONDITIONAL GO**
 
-条件：公開Gateで390px fresh実画面確認とGA4実送信確認を行う。
+---
+
+## 4. Release Candidate Final Verification
+
+**PASS_WITH_CAUTION**。
+
+新規実装は行わず、残る2 Cautionの実環境確認可否だけを確認した。
+
+### 外部preview
+
+- Sites `current_preview_url = null`
+- 未公開Release Candidateを外部iPhone Safariで開けるpreview URLなし
+- 保存済み最新版はVersion 78のまま
+- 既存本番URLは未公開Release Candidateを反映していないためpreviewとして使用しない
+
+### 390px fresh実画面
+
+**NOT_EXECUTABLE**。
+
+外部向けpreview URLがないため、iPhone Safariで指定11画面を確認できない。
+既存のmobile CSS / DOM系自動検証PASSは維持するが、実画面PASSには上げない。
+
+### GA4実送信
+
+**NOT_EXECUTABLE**。
+
+previewへ通常ブラウザから接続する経路がなく、GA4 Realtime / DebugViewで未公開Release Candidateのイベント到達を確認できない。
+静的 / VM検証結果は維持するが、実送信PASSには上げない。
+
+### Final Verification結果
+
+- 新規BLOCKER = 0
+- 新規CRITICAL = 0
+- コード変更 = 0
+- Version保存 / checkpoint / 本番公開 = なし
+- git diff --check PASS
+- Release Candidate Final Verification = **PASS_WITH_CAUTION**
+- 本番公開判定 = **CONDITIONAL GO**
+
+この時点では、環境制約を理由に未確認項目をPASSへ昇格させない。
 
 ---
 
-## 4. 絶対保護
+## 5. 絶対保護
 
 ### Fintokei｜速攻プロ
 
@@ -203,7 +245,7 @@ Top3 Block継続 / FAQ schemaへ使わない / 自動解除禁止。
 
 ---
 
-## 5. Monitoring / Runtime
+## 6. Monitoring / Runtime
 
 ### Monitoring
 
@@ -215,15 +257,17 @@ Top3 Block継続 / FAQ schemaへ使わない / 自動解除禁止。
 
 ---
 
-## 6. 次のGate｜Release Candidate Final Verification
+## 7. 次のGate
 
-M08でBLOCKER / CRITICAL = 0になったため、次は新機能実装ではなく残る2 Cautionだけを確認する。
+現状のRelease Candidateは機能・回帰上はBLOCKER / CRITICAL = 0だが、実環境確認2件が未実施のため **CONDITIONAL GO** を維持する。
 
-1. 390px fresh実画面 / 実機確認
+残件：
+
+1. 390px fresh実画面確認
 2. GA4実送信確認
 
-この2件が問題なく確認できれば、本番公開判定をGOへ上げられる候補になる。
+未公開preview経路がないため、これ以上同じWork環境で再試行しても新しい証跡は得られない。
 
-このGateでもコード・データ変更は原則行わない。問題を検出した場合はSeverityを判定し、勝手に修正せず停止する。
+次に進む場合は、**人間がこの2 Cautionを残したまま公開候補として扱うか、公開直後の限定確認を許容するかを別途判断する必要がある。**
 
-公開・Version保存・checkpoint作成は人間の明示承認後に別工程で行う。
+ただし、Version保存・checkpoint作成・本番公開は明示承認まで実施しない。
