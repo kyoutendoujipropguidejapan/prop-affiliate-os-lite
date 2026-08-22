@@ -45,8 +45,6 @@ Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 
 ## Work最新状態
 
-### データ / Diagnosis
-
 - Firm = 14
 - PlanCatalog = 69
 - Diagnosis rows = 65
@@ -54,101 +52,73 @@ Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 - FundingPips = 5 plans
 - Block 6件維持
 - DiagnosisLogicV2 / 7問 / 質問順差分なし
-- Unknownはnull扱い
-- commercial dataを診断採点へ混ぜない
-
-### Firm-first / Firm detail
-
-- 14社を会社単位で初期表示
-- 69プラン初期閉鎖
-- 会社 → プラン一覧 → 詳細の3段階
-- Firm detail冒頭：特徴 → 日本語対応 → 無料トライアル → 取引環境 → 注意点 → プラン一覧
-- HOLD 5 + Fintokei速攻プロを「公式情報を確認中」として区別
-- Firm detail関連記事は14社すべて1〜3本 / 最大3本
-
-### Diagnosis result
-
-- 「なぜ、この3つが候補になったのか。」を表示
-- 各候補：あなたとの相性 → 理由2点 → 注意1点 → 詳細を見る
-- 品質ランキング表現 / 内部用語なし
-- Block 6件のTop3混入なし
-
-### M14 FAQ統合
-
-- 14社 / 70 FAQ
-- PASS 32
-- PASS_WITH_CAUTION 23
-- UPDATE_REQUIRED 10（U01〜U10）
-- HOLD 5
-- FAQ全件初期閉鎖
-- HOLD / Coupon / 限定Variant等をFAQ schemaから除外
-
-### 価格境界
-
-- 割引後価格の自動計算 / 表示 = 0件
-- 公式キャンペーン7件 + Coupon 13件
-- code / effect / eligibility / expiry の4項目表示
-- 全カードで購入前の公式購入画面による最終価格確認を案内
-- 3価格セクション初期折りたたみ維持
-- Price / Coupon正本hash不変
-
-### GA4
-
-- GA4 ID = `G-L4DRJ0FQPN` のみ
-- 初期化責務 = `public/site-events.js` 1箇所
-- inline初期化 / React click listener撤去
-- Official 175 / Affiliate CTA 21 を自動検証、分類違反0
-- diagnosis_complete payload = completed / result_count / eligible_count / excluded_count のみ
-- 生回答 / Top firm / Top plan送信なし
-- beginner_course_start / next / complete、diagnosis_start / complete維持
-- 新規イベント追加なし
-- VM検証：初期化1回 / listener 1個 / 1click = 1event
-- Cloud Browserで実送信のみ未確認
-
-### SEO必要分統合
-
-正本3件のGitHub SHA一致を確認後に実装。
-
-- M09 = `8a57ce6ba1edf24b0142cf711e6abe2b08d672e6`
-- M09B = `e91b7a51d45eaa3b03421f3e4478ab561cb8d4f1`
-- Internal Link Map = `6eed1a9db8243314b221f31279c5d4b7225406e8`
-
-最終slug：
-
-- 最大DD：`/daily-loss-vs-max-loss`
-- Static / Trailing / EOD：`/fixed-vs-trailing-drawdown`
-- 失格しやすいルール：`/beginner-guide/rules-that-cause-disqualification`
-- 無料トライアル：`/articles/prop-firm-free-trial`
-- ニュース取引：`/articles/news-trading-rules`
-- 週末持ち越し：`/articles/weekend-holding-rules`
-- 最低取引日数：`/articles/minimum-trading-days`
-- 出金条件：`/first-payout-checklist`
-
-確認：
-
-- 重複ページ 0
-- Sitemap 18 → 22 URL
-- Title重複 0
-- Meta重複 0
-- H1異常 0
-- canonical誤り 0
-- 内部404 0
-- HOLD / Conflictを確定例に使用しない
-- Affiliate URLを情報源に使用しない
-- Price / CouponをTitle / Metaの主役にしない
-- Beginner 01→05→Diagnosis維持
-
-### Verification latest
-
-- 41/41 tests PASS
+- Firm-first：会社 → プラン一覧 → 詳細
+- M14 FAQ：14社 / 70件
+- 割引後価格自動表示 = 0
+- Official 175 / Affiliate CTA 21、分類違反0
+- Sitemap = 22 URL
+- SEO Title / Meta / H1 / canonical / internal 404 重大異常なし
+- SEO統合後 41/41 tests PASS
 - build PASS
 - lint error 0 / existing warning 1
 - git diff --check PASS
-- DiagnosisLogicV2 hash一致
-- Block 6件維持
-- 新規BLOCKER = 0
-- 新規CRITICAL = 0
-- Version保存 / 本番公開 / checkpoint作成なし
+- Version保存 / checkpoint / 本番公開なし
+
+---
+
+## M08 Full Regression 初回
+
+QA正本：`docs/M08_QA_REGRESSION_SPEC.md`
+
+確認SHA：`2bd92e1f1fb77df93fd1fd41735521f0c51fe0cc`
+
+ER-01でCRITICALを検出し、正本のFAIL時停止ルールに従って中断。
+
+### 集計
+
+- M08総Test数 = 98
+- 実行済み = 1
+- PASS = 0
+- FAIL = 1
+- NOT_EXECUTABLE = 0
+- 停止により未実施 = 97
+- BLOCKER = 0
+- CRITICAL = 1
+- MAJOR = 0
+- MINOR = 0
+- FAIL Test ID = `ER-01`
+
+### ER-01
+
+存在しないURLへの直接アクセス。
+
+期待：HTTP 404 + 基礎講座 / 診断への復帰導線。
+
+実結果：
+
+- HTTP 404
+- Content-Type `text/plain`
+- body `Not found`
+- 基礎講座CTAなし
+- 診断CTAなし
+- 再現例 `/__m08_missing__`
+
+原因候補：カスタム404不在でAssets側標準404へ委譲。
+
+停止前の基盤検証：
+
+- automated regression 41/41 PASS
+- build PASS
+- lint error 0 / existing warning 1
+- git diff --check PASS
+- QA前後 tracked diff SHA一致
+- untracked file SHA一致
+- コード変更 0
+
+判定：
+
+- M08 Full Regression = **FAIL**
+- 本番公開 = **NO-GO**
 
 ---
 
@@ -161,19 +131,30 @@ Artifact台帳：`docs/ARTIFACT_SYNC_STATUS.md`
 - P0-06〜08：PASS
 - M14 FAQ統合：PASS
 - 価格境界：PASS
-- GA4：PASS_WITH_CAUTION（実送信のみ未確認）
+- GA4：PASS_WITH_CAUTION
 - SEO必要分統合：PASS
-- M08 Full Regression：GO
+- M08 Full Regression：**FAIL / ER-01 CRITICAL**
+- ER-01 remediation：**GO**
 - 監視Dry Run：NO-GO
 - Runtime Snapshot：NO-GO
 - 本番公開：NO-GO
 
 ## 次
 
-最優先：**M08 Full Regression**。
+最優先：**ER-01のみ修正**。
 
-`docs/M08_QA_REGRESSION_SPEC.md` を唯一のQA正本として、Build / Smoke / Beginner / Firm→Plan→Detail / Diagnosis / SourceHealth / Fintokei / Price / Link separation / SEO / GA4 / 404・empty / mobileを通し、BLOCKER=0・CRITICAL=0を確認する。
+受入条件：
 
-390px fresh実画面とGA4実送信は既知Caution。M08で再試行し、取得不能なら明示したまま最終Go/No-Goへ進む。
+- 未知URLはHTTP 404を維持
+- サイトトーンに沿う404 UI
+- 基礎講座CTA
+- 30秒診断CTA
+- 404から価格 / Coupon / Affiliateを主導線にしない
+- 404をindex対象化しない
+- 正常URL / sitemap / canonicalを壊さない
+
+修正後にER-01 targeted verificationを実施する。
+
+その後、コード変更が入るため **M08 Full Regressionは98件を先頭から再実行**する。前回の未実施97件へ途中再開しない。
 
 公開・Version保存はまだ行わない。
