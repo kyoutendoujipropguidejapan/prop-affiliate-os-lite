@@ -15,8 +15,11 @@
 - M08 Full Regression：PASS_WITH_CAUTION
 - Firm → Plan Selector：実装・検証完了
 - Version 80：本番公開済み
-- Graphic Style Refinement：implementation COMPLETE / PASS_WITH_CAUTION
-- SourceHealth recheck 2026-08-24：REVIEWED / PATCH_SPEC_READY
+- Graphic Style Refinement：COMPLETE / PASS_WITH_CAUTION
+- SourceHealth recheck：COMPLETE
+- Blue Guardian / Hantec patch spec：COMPLETE
+- Block Review Final：COMPLETE
+- Work Data Patch：**PASS**
 
 ---
 
@@ -24,117 +27,113 @@
 
 - Production = **Version 80**
 - Firm 14社
-- PlanCatalog 69
+- V80公開時PlanCatalog = 69
 - Firm → Plan → Detail 3段階Selector公開済み
-- Firm紹介 14/14
-- プラン一言紹介 69/69
-- Diagnosis 7問 / DiagnosisLogicV2変更なし
-- Price / Couponは後段のまま
-
-※ 未公開Workのグラフィック4点はまだ本番へ反映していない。
+- 今回のGraphic / Data Patchはまだ未公開
 
 ---
 
-## 未公開Graphic Work
+## 未公開Work：Graphic
 
-4点を都会・日常・プロップファーム / トレード文脈へ差し替え済み：
+4点を都会・日常・プロップファーム / トレード文脈へ差し替え済み。
 
 - learning-path.webp
 - diagnosis-flow.webp
 - firm-compare.webp
 - selector-flow.webp
 
-検証：
+Graphic単体検証：
 
 - 1363px fresh PASS
 - regression 46/46 PASS
 - build PASS
 - lint error 0 / existing warning 1
 - git diff --check PASS
-- console error 0
 - BLOCKER 0 / CRITICAL 0
-- DiagnosisLogicV2 / Master / GA4 / Sitemap hash不変
-- 390px fresh実画面：NOT_EXECUTABLE
+- 390px fresh：NOT_EXECUTABLE
 
 判定：**Graphic Style Refinement = PASS_WITH_CAUTION**
 
-Cautionは390px実画面未確認のみ。
-
 ---
 
-## SourceHealth再評価
+## 未公開Work：Data Patch
 
-判断記録：`docs/SOURCEHEALTH_RECHECK_2026-08-24.md`
+正本：`docs/WORK_DATA_PATCH_SPEC_2026-08-24.md`
+結果：`docs/WORK_DATA_PATCH_RESULT_2026-08-24.md`
 
-### Block継続
+判定：**Data Patch Verification = PASS**
 
-- Fintokei｜速攻プロ
-- Funded7｜1フェーズ
-- Funded7｜Instant
-- Funded Trader Markets｜Instant Pro
-- FundedElite｜Flash Activation
+Actual：
 
-### Block解除候補
+- Firm 14
+- PlanCatalog 72
+- Current 67
+- Legacy / ended 4
+- Listed-only 1
+- Diagnosis rows 64
+- Block 5
+- SourceHealth 16
 
-- Hantec Trader｜Instant Lite
-  - 標準 Max Loss 5%
-  - Add-on +1%
-  - Master整理 + 回帰後にunblock候補
+Blue Guardian：
 
-### Blue Guardian
+- P042 3 Step → Legacy / Diagnosis除外
+- P070 1 Step Nano → Active / Diagnosis未接続
+- P071 2 Step Nano → Active / Diagnosis未接続
+- P072 BNPL → Active WITH_CAUTION / Diagnosis未接続
+- P045 Crypto → listed-only / HOLD維持
+- P046 1 Step Pro → Legacy維持
 
-- 1 Step Crypto：listed-only / HOLD維持
-- 1 Step Pro：Legacy維持
-- 3 Step：Legacy変更候補 / Diagnosis除外候補
-- 1 Step Nano：Active catalog追加候補 / 初回Diagnosis未接続
-- 2 Step Nano：Active catalog追加候補 / 初回Diagnosis未接続
-- BNPL：Active catalog追加候補 / 初回Diagnosis未接続
+Hantec：
 
-Blue Guardian 3 Stepは、現行Masterのcurrent扱いと現行公式専用ページのLegacy表記が一致しないため、次回データパッチ最優先。
+- P028 Instant Lite → Daily3 / Max5 / Add-on6
+- SH003 → RESOLVED
+- blockTop3 = false
+- confidence 55維持
 
----
+SourceHealth：
 
-## 次回データパッチ見込み
+- SH003 RESOLVED
+- SH015 BG 3 Step RESOLVED_TO_LEGACY
+- SH016 BG BNPL 要確認
 
-Blue Guardian 3 StepをLegacy化し、Nano 2件 + BNPLをcatalogへ追加する場合：
+残るBlock 5：
 
-- PlanCatalog 69 → 72
-- current plan families 65 → 67
-- legacy / ended 3 → 4
-- listed-only 1維持
+1. Fintokei｜速攻プロ
+2. Funded7｜1フェーズ
+3. Funded7｜Instant
+4. Funded Trader Markets｜Instant Pro
+5. FundedElite｜Flash Activation
 
-新規3モデルを初回Diagnosisへ接続しない場合：
+検証：
 
-- Diagnosis rows 65 → 64
-
-Hantec Instant Liteを回帰後にunblockした場合：
-
-- Block 6 → 5
-
-3 StepのLegacy不整合をSourceHealth履歴へ追加する場合：
-
-- SourceHealth 14 → 15
-
-件数維持のためだけに新規PlanをDiagnosisへ接続しない。
+- regression 48/48 PASS
+- Production build PASS
+- lint error 0 / existing warning 1
+- git diff --check PASS
+- Cloud Browser：Blue Guardian / Hantec / Diagnosis PASS
+- Block 5 / P042 / P070-P072 Top3混入 0
+- site console error 0
+- protected hash不変
+- 新規BLOCKER 0 / CRITICAL 0
 
 ---
 
 ## 現在のGate
 
-### Graphic
+### Production
 
-- implementation = COMPLETE
-- Final Verification = PASS_WITH_CAUTION
-- 390px = NOT_EXECUTABLE
-- Version保存 / publish = 未実施
+- Version 80
+- 今回差分未公開
 
-### SourceHealth / Master
+### Unpublished Work
 
-- Recheck = REVIEWED / PATCH_SPEC_READY
-- Master update = NOT_STARTED
-- Diagnosis data update = NOT_STARTED
-- DiagnosisLogicV2 update = NOT_REQUIRED / PROHIBITED
-- Work implementation = NOT_STARTED
+- Graphic = COMPLETE
+- Data Patch = PASS
+- Integrated state = **READY_FOR_RELEASE_CANDIDATE_GATE**
+- 390px fresh = NOT_EXECUTABLE
+- Version保存 = 未実施
+- Work commit / push = 未実施
+- publish = 未実施
 
 ### Monitoring / Runtime
 
@@ -145,19 +144,16 @@ Hantec Instant Liteを回帰後にunblockした場合：
 
 ## 次
 
-Workへ調査をさせず、Chat / GitHubで以下を先に確定する。
+新規調査や機能追加は一旦止める。
 
-1. Blue Guardian 1 Step Nano / 2 Step Nano / BNPLのMaster必須フィールド
-2. 日本居住者Eligibility
-3. platform
-4. news trading
-5. weekend holding
-6. payout timing / first payout
-7. consistency
-8. drawdown type / calculation timing
-9. source URLs / checked_at
-10. Hantec Instant Lite Add-onの最終表現
+未公開Work全体（Graphic + Data Patch）をRelease Candidateとして固定し、以下だけ行う。
 
-確定後、Workへ渡すのは**最小データ差分仕様のみ**。
+1. 最終差分確認
+2. 統合回帰
+3. Blue Guardian / Hantec / Diagnosis / Graphicのfresh確認
+4. protected hash再確認
+5. 新規BLOCKER / CRITICAL 0確認
 
-Graphic本番反映とSourceHealth / Master更新は別Gateで扱う。
+390px実画面は現環境でNOT_EXECUTABLEの既知Cautionとして扱い、同じ確認を繰り返さない。
+
+上記がPASSならRelease判断へ進む。
