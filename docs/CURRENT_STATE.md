@@ -1,22 +1,60 @@
 # CURRENT_STATE
 
-確認基準日：2026-08-17 JST
+確認基準日：2026-08-24 JST
 
 ## 本番
 
 - 公開サイト：`https://kyouten-prop-guide.utsr.chatgpt.site`
-- 本番：Version 78
+- 本番：**Version 80**
+- V80で Firm → Plan → Detail の3段階Selectorを公開済み
+- 14社Firm紹介 / 69プラン一言紹介を公開済み
+- 現在の未公開Workにあるグラフィック4点は、まだ本番へ未反映
 - 本番は不用意に変更しない
 
 ## Work
 
-最新把握ではWorkは利用上限により一時停止中。
+Workは利用可能。
 
-Work復活までは、調査・仕様・UX・QA・SEO・GitHub整理を進め、実装差分を小さくしておく。
+役割分担：
 
-Work復活時は最初に `docs/IMPLEMENTATION_READINESS.md` と `docs/WORK_RESTART_PROMPT.md` を確認し、コードを書く前に未公開作業版を監査する。
+- Chat：調査、SourceHealth判定、仕様、文言、Master更新案、Work用差分指示
+- GitHub：正本、判断根拠、進捗、引き継ぎ、変更履歴
+- Work：最小差分実装、tests / build / lint、Cloud Browser表示確認、Version保存 / 公開
 
-## 最新データ/UX正本
+Workに重複調査や仕様再設計をさせず、Chat / GitHubで判断を固めてから最小差分だけ渡す。
+
+## 未公開Graphic Work
+
+Graphic Style Refinement：**PASS_WITH_CAUTION / implementation COMPLETE**
+
+4点を都会・日常・プロップファーム / トレード文脈の線画へ差し替え済み：
+
+- `learning-path.webp`
+- `diagnosis-flow.webp`
+- `firm-compare.webp`
+- `selector-flow.webp`
+
+仕様：
+
+- 960×640 WebP
+- 白背景 / ネイビー線 / 淡いブルー / 控えめなティール
+- 山、登山、冒険、順位、価格、クーポン、実在Firmロゴなし
+- 既存配置、lazy load、CTA、導線は維持
+
+検証：
+
+- 1363px fresh PASS
+- 46/46 regression PASS
+- build PASS
+- lint error 0 / existing warning 1
+- git diff --check PASS
+- DiagnosisLogicV2 / Master / GA4 / Sitemap hash不変
+- BLOCKER 0 / CRITICAL 0
+- 390px fresh実画面：環境上 NOT_EXECUTABLE
+
+Graphicはこれ以上機能追加せず固定する。
+
+## 最新データ / UX正本
 
 最新Master：`Prop_Firm_Master_v2_2_Final_UX_Copy.xlsx`
 
@@ -41,47 +79,87 @@ Work復活時は最初に `docs/IMPLEMENTATION_READINESS.md` と `docs/WORK_REST
 
 Excel Masterがデータ・診断・SourceHealthの上位正本。GitHubの要約文だけでMasterを上書きしない。
 
-## 進捗
+## ファーム / プラン（現行Master基準）
 
-M01〜M16は完了記録あり。詳細は `docs/PROGRESS.md`。
+- Firm = 14
+- PlanCatalog = 69
+- current plan families = 65
+- current verified = 59
+- official conflict / Top3保留 = 6
+- legacy / ended = 3
+- listed-only / detail未確定 = 1
+- Diagnosis rows = 65
+- SourceHealth = 14
+- Block = 6
 
-ただし、完了記録とGitHub上の実体ファイルは一致しない。
+現行Block 6：
 
-GitHubに主要実体があるもの：
-
-- M08 QA
-- M09 SEO原稿
-- M10監視技術設計
-- M11 14社FAQ原稿
-- M12 Dry Run URLセット
-
-M07 / M13 / M14 / M15 / M16等は詳細成果物がGitHubで確認できない部分があるため、`docs/IMPLEMENTATION_READINESS.md` のArtifact Existence Gateを適用する。
-
-## ファーム/プラン
-
-- 14社
-- v2.0監査カタログ：69レコード
-- 現行プランファミリー：65
-- 現行確認済：59
-- 公式情報競合で診断Top3保留：6（Master v2.2基準）
-- Legacy/販売終了：3
-- 一覧掲載のみ・詳細未確定：1
-
-M06以降、Fintokei速攻プロは2026-07-15以降の新規購入Variantに限り条件付き解除候補。旧口座との分離、Evidence、人間承認を保持できない場合はBlock継続。
-
-Block継続5件：
-
-- Funded7 1フェーズ
-- Funded7 Instant
-- Funded Trader Markets Instant Pro
-- Hantec Trader Instant Lite
-- FundedElite Flash Activation
+- Fintokei｜速攻プロ
+- Funded7｜1フェーズ
+- Funded7｜Instant
+- Funded Trader Markets｜Instant Pro
+- Hantec Trader｜Instant Lite
+- FundedElite｜Flash Activation
 
 自動unblock禁止。
 
+## SourceHealth再評価 2026-08-24
+
+判断記録：`docs/SOURCEHEALTH_RECHECK_2026-08-24.md`
+
+現在のレビュー結論：
+
+### Block継続
+
+- Fintokei｜速攻プロ：2026-07-15以降の新規購入Variantは確認できるが、現Runtimeで購入日を安全に判定できない
+- Funded7｜1フェーズ：公式内Conflict継続
+- Funded7｜Instant：公式内Conflict継続
+- Funded Trader Markets｜Instant Pro：Daily DD公式内Conflict継続
+- FundedElite｜Flash Activation：standard / custom / marketing条件の分離確認不足
+
+### 解除候補
+
+- Hantec Trader｜Instant Lite：標準 Max Loss 5%、Add-on +1%として整理可能。Master反映 + 回帰後にBlock解除候補
+
+### Blue Guardian
+
+- 1 Step Crypto：listed-only / HOLD / Diagnosis除外継続
+- 1 Step Pro：Legacy継続
+- 3 Step：現行公式専用ページがLegacy。**current → legacy変更候補 / Diagnosis除外候補**
+- 1 Step Nano：Active catalog追加候補 / 初回Diagnosis未接続
+- 2 Step Nano：Active catalog追加候補 / 初回Diagnosis未接続
+- BNPL：Active catalog追加候補 / 初回Diagnosis未接続
+
+3 StepのLegacy不整合は次回データパッチ最優先。
+
+## 次回パッチの件数見込み
+
+Blue Guardian 3 StepをLegacy化し、Nano 2件 + BNPLをcatalogへ追加する場合：
+
+- PlanCatalog：69 → **72**
+- current plan families：65 → **67**（65 - 1 + 3）
+- legacy / ended：3 → **4**
+- listed-only：1維持
+
+新規3モデルを初回Diagnosisへ接続しない場合：
+
+- Diagnosis rows：65 → **64**（3 Step除外）
+
+Hantec Instant Liteを回帰後にunblockした場合：
+
+- Block：6 → **5**
+
+Blue Guardian 3 StepはLegacy除外であり、Block追加とは数えない。
+
+SourceHealthへ3 StepのLegacy不整合を追加する場合：
+
+- SourceHealth：14 → **15**
+
+件数を65へ合わせる目的でNano / BNPLをDiagnosisへ早期接続しない。
+
 ## 公開設計
 
-### 基本構造
+基本構造：
 
 ファーム一覧
 ↓
@@ -89,20 +167,9 @@ Block継続5件：
 ↓
 必要なプランだけ詳細
 
-内部ではプラン単位で精密管理するが、公開画面で65件の詳細カードを連続表示しない。
+V80で公開済み。
 
-### ファーム詳細の冒頭
-
-- 特徴
-- 日本語対応
-- 無料トライアル
-- 取引環境
-- 注意点
-- プラン一覧
-
-その後、必要なプランのみ展開する。
-
-FAQは後段。M11原稿を基礎とするが、M14でPASS 32 / PASS_WITH_CAUTION 23 / UPDATE_REQUIRED 10 / HOLD 5に再分類済み。M14差し替え全文がないUPDATE_REQUIRED項目は公開前に回収または再照合する。
+Firm / Plan Selectorは「会社から探す」、Diagnosisは「条件から探す」と役割を分離する。
 
 ## 基礎講座
 
@@ -128,21 +195,17 @@ FAQは後段。M11原稿を基礎とするが、M14でPASS 32 / PASS_WITH_CAUTIO
 - Secondaryは弱くする
 - CTA前に次に得られることを予告
 - ページ末尾を行き止まりにしない
-- 価格/クーポンを途中で主役にしない
+- 価格 / クーポンを途中で主役にしない
 
-## 診断
+## Diagnosis絶対保護
 
-診断はプラン単位。
+- DiagnosisLogicV2を変更しない
+- Affiliate / commission / coupon / priceを採点へ入れない
+- Unknownを0 / falseで代用しない
+- Conflictを自動Verified化しない
+- 新規PlanはMaster必須フィールドの完全Mapping前にDiagnosisへ接続しない
 
-- DiagnosisPlanCurrent：現行候補母集団
-- DiagnosisLogicV2：採点ロジック
-- Top3はファーム＋プラン名
-- 理由2点＋注意1点
-- 「品質順位」ではなく「あなたとの相性」
-
-Affiliate、コミッション、クーポン、価格は採点に使用禁止。
-
-## 価格/クーポン
+## 価格 / クーポン
 
 割引適用後金額は公開しない。
 
@@ -154,27 +217,9 @@ Affiliate、コミッション、クーポン、価格は採点に使用禁止�
 
 価格3区分は初期折りたたみ。
 
-## FundingPips
-
-現行5プランを監査済み：
-
-- 1 Step Flex
-- 2 Step Standard
-- 2 Step Pro
-- 2 Step Flex
-- Zero
-
-無料Trial：2 Step Standard / 2 Step Pro。
-
-公開では5プランをファーム単位で集約する。
-
-FundingPips紹介条件はSH011の公式表示差を維持し、診断採点には使用しない。
-
 ## GitHub
 
-`kyoutendoujipropguidejapan/prop-affiliate-os-lite`
-
-AIエージェント向けハンドオフ基盤。
+Repository：`kyoutendoujipropguidejapan/prop-affiliate-os-lite`
 
 推奨読み順：
 
@@ -183,26 +228,26 @@ AIエージェント向けハンドオフ基盤。
 3. CURRENT_STATE
 4. PROGRESS
 5. IMPLEMENTATION_READINESS
-6. タスク別実体ファイル
-7. Work時はWORK_RESTART_PROMPT
+6. `SOURCEHEALTH_RECHECK_2026-08-24.md`
+7. タスク別実体ファイル
 
-現時点ではWork本体コードの同期はまだ行っていない。
+## 次のGate
 
-## 監視 / Runtime
+Workへまだデータ更新を渡さない。
 
-M10/M12はGitHubに実体あり。
-M15 `monitor_sources` とM16 Runtime Snapshotは仕様完了記録があるが、実JSON / Schema実体はGitHub未確認。
+Chat / GitHub側で次を確定する：
 
-- 監視Dry RunはM15実体同期＋Preflight＋人間承認まで開始しない
-- Runtime SnapshotはAPPROVEDのみWork/Replit利用可能という設計を維持
-- Master / SourceHealth / Diagnosis / Work / siteへの自動反映禁止
+1. Blue Guardian 1 Step Nano / 2 Step Nano / BNPLのMaster必須フィールド
+2. 日本居住者Eligibility
+3. platform
+4. news trading
+5. weekend holding
+6. payout timing / first payout
+7. consistency
+8. drawdown type / calculation timing
+9. source URLs / checked_at
+10. Hantec Instant Lite Add-onの正確な表現
 
-## OSS事前調査
+確定後、Workには調査をさせず**最小データ差分仕様だけ**渡す。
 
-- shadcn/ui：UI部品の部分流用候補
-- Formity：診断UXの参考
-- TanStack Table：将来のフィルタ/Faceting候補
-- openstatusHQ/data-table-filters：高度な検索時だけ検討
-- Payload：将来の管理画面候補
-
-現時点では新規依存を入れること自体を目的にしない。
+Graphicの本番反映とSourceHealth / Master更新は別Gateで扱い、混ぜない。
