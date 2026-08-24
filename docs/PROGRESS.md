@@ -1,195 +1,163 @@
 # プロップファームの歩き方｜進捗
 
-更新日：2026-08-22
+更新日：2026-08-24 JST
 
 ## 完了
 
-- M01｜公開サイト・モバイルUX総監査 ✅
-- M02｜診断7問UX監査 ✅
-- M03｜SEO・検索流入設計 ✅
-- M04｜14社ファーム詳細ページのSEO/UX設計 ✅
-- M05｜公式ソース監視設計 ✅
-- M06｜SourceHealth競合6件の再調査 ✅
-- M07｜M01〜M06統合・Work実装仕様確定 ✅
-- M08｜実装前QA・回帰テスト仕様 ✅
-- M09｜SEO記事・ルール解説の完成原稿 ✅
-- M10｜公式ソース監視の自動化技術設計 ✅
-- M11｜14社ファーム詳細FAQ完成原稿 ✅
-- M12｜監視Dry Run用URLセット確定 ✅
-- M13｜GitHubへのMaster／成果物同期設計 ✅
-- M14｜14社FAQの公式一次情報最終チェック ✅
-- M15｜M12 Dry Run用 monitor_sources 設定ファイル案 ✅
-- M16｜最小Runtime Snapshot仕様確定 ✅
-- 実装前Readiness Gate ✅
-- M01〜M16 Artifact回収・照合 ✅
-- M13↔M16 cross-check ✅
-- Work Day0監査 ✅
-- M07 P0-01〜P0-03 実装・検証 ✅
-- M07 P0-05 Firm-first段階表示 ✅
-- M07 P0-06〜P0-08 実装・検証 ✅
-- M14 FAQ統合 ✅
-- 価格境界修正 ✅
-- GA4整理 ✅ / 実送信のみCaution
-- SEO必要分統合 ✅
-- ER-01 remediation ✅
-- M08 Full Regression再実行 ✅ / PASS_WITH_CAUTION
-- Release Candidate Final Verification ✅ / PASS_WITH_CAUTION
+- M01〜M16：完了記録あり
+- Work Day0監査：完了
+- M07 P0-01〜P0-08：実装・検証完了
+- M14 FAQ統合：完了
+- 価格境界修正：完了
+- GA4整理：完了 / 実送信のみCaution
+- SEO必要分統合：完了
+- ER-01 remediation：完了
+- M08 Full Regression：PASS_WITH_CAUTION
+- Firm → Plan Selector：実装・検証完了
+- Version 80：本番公開済み
+- Graphic Style Refinement：implementation COMPLETE / PASS_WITH_CAUTION
+- SourceHealth recheck 2026-08-24：REVIEWED / PATCH_SPEC_READY
 
 ---
 
-## Work最新状態
+## 本番
 
-- Firm = 14
-- PlanCatalog = 69
-- Diagnosis rows = 65
-- SourceHealth = 14
-- FundingPips = 5 plans
-- Block 6件維持
-- DiagnosisLogicV2 / 7問 / 質問順差分なし
-- Firm-first：会社 → プラン一覧 → 詳細
-- M14 FAQ：14社 / 70件
-- 割引後価格自動表示 = 0
-- Official 175 / Affiliate CTA 21、分類違反0
-- Sitemap = 22 URL
-- SEO重大異常なし
-- Version保存 / checkpoint / 本番公開なし
+- Production = **Version 80**
+- Firm 14社
+- PlanCatalog 69
+- Firm → Plan → Detail 3段階Selector公開済み
+- Firm紹介 14/14
+- プラン一言紹介 69/69
+- Diagnosis 7問 / DiagnosisLogicV2変更なし
+- Price / Couponは後段のまま
+
+※ 未公開Workのグラフィック4点はまだ本番へ反映していない。
 
 ---
 
-## ER-01 remediation
+## 未公開Graphic Work
 
-PASS。
+4点を都会・日常・プロップファーム / トレード文脈へ差し替え済み：
 
-- unknown HTML navigation = HTTP 404
-- Content-Type = HTML
-- 専用404 UI
-- 基礎講座CTA / 30秒診断CTA / Home link
-- noindex,nofollow
-- canonicalなし
-- Sitemap非掲載
-- static asset 404 / normal responseへ干渉なし
-- targeted 1/1 PASS
-- regression 42/42 PASS
-- build PASS
-- lint error 0
-- git diff --check PASS
+- learning-path.webp
+- diagnosis-flow.webp
+- firm-compare.webp
+- selector-flow.webp
 
----
+検証：
 
-## M08 Full Regression 再実行
-
-QA正本：`docs/M08_QA_REGRESSION_SPEC.md`
-SHA：`2bd92e1f1fb77df93fd1fd41735521f0c51fe0cc`
-
-正本本文の一意なTest IDは106件：SM〜GA 98 + ER 8。
-106件すべて判定。
-
-### 集計
-
-- PASS = 83
-- FAIL = 0
-- NOT_EXECUTABLE = 23
-- BLOCKER = 0
-- CRITICAL = 0
-- MAJOR = 0
-- MINOR = 0
-
-NOT_EXECUTABLE：`SM-02`, `SM-10`, `MB-01`〜`MB-12`, `GA-01`〜`GA-09`。
-
-主な確認：
-
-- Beginner 01→05→Diagnosis：PASS
-- Firm 14社 / Plan 69 / FundingPips 5 / Firm→Plan→Detail：PASS
-- Diagnosis 7問 / Top3 / 理由2＋注意1 / 相性表示：PASS
-- DiagnosisLogicV2 hash一致
-- SourceHealth 14 / Block 6件Top3除外
-- Fintokei速攻プロは安全側Block維持
-- Price / Coupon：PASS
-- Official 175 / Affiliate CTA 21：PASS
-- SEO Sitemap 22 / title / meta / H1 / canonical / robots / internal 404：PASS
-- ER-01〜ER-08：PASS
-- regression 42/42 PASS
+- 1363px fresh PASS
+- regression 46/46 PASS
 - build PASS
 - lint error 0 / existing warning 1
 - git diff --check PASS
-- QAによるソース変更 0
+- console error 0
+- BLOCKER 0 / CRITICAL 0
+- DiagnosisLogicV2 / Master / GA4 / Sitemap hash不変
+- 390px fresh実画面：NOT_EXECUTABLE
 
-残るCaution：
+判定：**Graphic Style Refinement = PASS_WITH_CAUTION**
 
-1. 390px fresh実画面未確認
-2. GA4実送信未確認
-
-判定：
-
-- M08 Full Regression = **PASS_WITH_CAUTION**
-- 本番公開判定 = **CONDITIONAL GO**
+Cautionは390px実画面未確認のみ。
 
 ---
 
-## Release Candidate Final Verification
+## SourceHealth再評価
 
-新規実装なし。残る2 Cautionの実環境確認可否だけを確認。
+判断記録：`docs/SOURCEHEALTH_RECHECK_2026-08-24.md`
 
-### Preview
+### Block継続
 
-- Sites `current_preview_url = null`
-- 未公開Release Candidateを外部iPhone Safariから開けるpreview URLなし
-- 保存済み最新版はVersion 78のまま
-- 既存本番URLは未公開Release Candidateを反映していないためpreviewとして使用せず
+- Fintokei｜速攻プロ
+- Funded7｜1フェーズ
+- Funded7｜Instant
+- Funded Trader Markets｜Instant Pro
+- FundedElite｜Flash Activation
 
-### 390px
+### Block解除候補
 
-**NOT_EXECUTABLE**。
+- Hantec Trader｜Instant Lite
+  - 標準 Max Loss 5%
+  - Add-on +1%
+  - Master整理 + 回帰後にunblock候補
 
-外部preview URLがないためiPhone Safariで指定画面を確認できない。mobile CSS / DOM自動検証PASSは維持するが実画面PASSには上げない。
+### Blue Guardian
 
-### GA4
+- 1 Step Crypto：listed-only / HOLD維持
+- 1 Step Pro：Legacy維持
+- 3 Step：Legacy変更候補 / Diagnosis除外候補
+- 1 Step Nano：Active catalog追加候補 / 初回Diagnosis未接続
+- 2 Step Nano：Active catalog追加候補 / 初回Diagnosis未接続
+- BNPL：Active catalog追加候補 / 初回Diagnosis未接続
 
-**NOT_EXECUTABLE**。
+Blue Guardian 3 Stepは、現行Masterのcurrent扱いと現行公式専用ページのLegacy表記が一致しないため、次回データパッチ最優先。
 
-通常ブラウザから未公開Release Candidateへ接続できず、Realtime / DebugViewで実イベント到達を確認できない。静的 / VM検証PASSは維持するが実送信PASSには上げない。
+---
 
-### Final判定
+## 次回データパッチ見込み
 
-- 新規BLOCKER = 0
-- 新規CRITICAL = 0
-- コード変更 = 0
-- git diff --check PASS
-- Version保存 / checkpoint / 本番公開 = なし
-- Release Candidate Final Verification = **PASS_WITH_CAUTION**
-- 本番公開判定 = **CONDITIONAL GO**
+Blue Guardian 3 StepをLegacy化し、Nano 2件 + BNPLをcatalogへ追加する場合：
+
+- PlanCatalog 69 → 72
+- current plan families 65 → 67
+- legacy / ended 3 → 4
+- listed-only 1維持
+
+新規3モデルを初回Diagnosisへ接続しない場合：
+
+- Diagnosis rows 65 → 64
+
+Hantec Instant Liteを回帰後にunblockした場合：
+
+- Block 6 → 5
+
+3 StepのLegacy不整合をSourceHealth履歴へ追加する場合：
+
+- SourceHealth 14 → 15
+
+件数維持のためだけに新規PlanをDiagnosisへ接続しない。
 
 ---
 
 ## 現在のGate
 
-- Day0監査：完了
-- P0-01〜03：PASS
-- P0-04：PASS_WITH_CAUTION
-- P0-05：PASS
-- P0-06〜08：PASS
-- M14 FAQ統合：PASS
-- 価格境界：PASS
-- GA4：PASS_WITH_CAUTION
-- SEO必要分統合：PASS
-- ER-01 remediation：PASS
-- M08 Full Regression：PASS_WITH_CAUTION
-- Release Candidate Final Verification：PASS_WITH_CAUTION
-- 本番公開：CONDITIONAL GO
-- 監視Dry Run：NO-GO
-- Runtime Snapshot：NO-GO
+### Graphic
+
+- implementation = COMPLETE
+- Final Verification = PASS_WITH_CAUTION
+- 390px = NOT_EXECUTABLE
+- Version保存 / publish = 未実施
+
+### SourceHealth / Master
+
+- Recheck = REVIEWED / PATCH_SPEC_READY
+- Master update = NOT_STARTED
+- Diagnosis data update = NOT_STARTED
+- DiagnosisLogicV2 update = NOT_REQUIRED / PROHIBITED
+- Work implementation = NOT_STARTED
+
+### Monitoring / Runtime
+
+- Monitoring Dry Run = NO-GO
+- Runtime Snapshot = NO-GO
+
+---
 
 ## 次
 
-未公開preview経路がないため、同じWork環境では390px実画面とGA4実送信の追加証跡を取得できない。
+Workへ調査をさせず、Chat / GitHubで以下を先に確定する。
 
-次に必要なのは新規実装ではなく、**残る2 Cautionをどう扱うかの人間判断**。
+1. Blue Guardian 1 Step Nano / 2 Step Nano / BNPLのMaster必須フィールド
+2. 日本居住者Eligibility
+3. platform
+4. news trading
+5. weekend holding
+6. payout timing / first payout
+7. consistency
+8. drawdown type / calculation timing
+9. source URLs / checked_at
+10. Hantec Instant Lite Add-onの最終表現
 
-選択肢は、
+確定後、Workへ渡すのは**最小データ差分仕様のみ**。
 
-1. 2 Cautionを残したまま公開を承認し、公開直後に390px実機 / GA4実送信を限定確認する
-2. preview経路が用意できるまで公開を保留する
-
-のどちらか。
-
-Version保存 / checkpoint / 本番公開は明示承認まで実施しない。
+Graphic本番反映とSourceHealth / Master更新は別Gateで扱う。
