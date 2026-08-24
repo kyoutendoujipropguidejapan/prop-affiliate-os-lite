@@ -18,85 +18,71 @@
 - Blue Guardian｜1 Step Crypto：存在は確認できるが専用ルール未確認のため **listed-only / diagnosis除外継続**
 - Blue Guardian｜1 Step Pro：**Legacy継続**
 
-### 変更候補
+### 変更候補 / Patch Ready
 
-- Hantec Trader｜Instant Lite：旧Conflictは解消候補。標準 Max Loss 5%、Add-on +1% を別条件として保持し、**レビュー / 回帰後にBlock解除候補**
+- Hantec Trader｜Instant Lite：**SH003 RESOLVED_FOR_PATCH**。2026-08-20更新の専用HelpでStandard Max Loss 5%、+1% Add-on時6%に収束。旧6→7表示は履歴として保持し、回帰後にBlock解除候補
 - Blue Guardian｜3 Step：現行公式専用ページでは Legacy と明示。**current → legacy変更候補**、Diagnosisから除外候補
-- Blue Guardian｜1 Step Nano：**新規Active catalog追加候補**。Diagnosisは必要項目の完全Mappingまで接続しない
-- Blue Guardian｜2 Step Nano：**新規Active catalog追加候補**。Diagnosisは必要項目の完全Mappingまで接続しない
-- Blue Guardian｜BNPL：**新規Active catalog追加候補**。Diagnosisは必要項目の完全Mappingまで接続しない
+- Blue Guardian｜1 Step Nano：**新規Active catalog追加候補**。初回はDiagnosis未接続
+- Blue Guardian｜2 Step Nano：**新規Active catalog追加候補**。初回はDiagnosis未接続
+- Blue Guardian｜BNPL：**新規Active catalog追加候補（CAUTION）**。専用ページ内Profit Split等の不整合をSourceHealthで保持し、Diagnosis未接続
 
-## 1. 重要Gate
+詳細仕様：
 
-### Blue Guardian 3 Step
+- `docs/BLUE_GUARDIAN_MASTER_PATCH_SPEC_2026-08-24.md`
+- `docs/HANTEC_INSTANT_LITE_PATCH_SPEC_2026-08-24.md`
+
+## 1. Blue Guardian 重要Gate
+
+### 3 Step
 
 現行Masterでは current / Diagnosis対象だが、現行公式専用ページでは Legacy 扱い。
 
-これは公開候補母集団に直接影響するため、次回データパッチの最優先。
-
-**安全側の判断：**
+安全側の判断：
 
 1. 3 StepをLegacyへ移す
 2. Diagnosisから除外する
-3. LegacyとしてFirm詳細の後段に残す場合は「旧モデル」表示にする
-4. SourceHealthへ「General Information / checkout残存 vs dedicated rules Legacy」の履歴を追加する
+3. LegacyとしてFirm詳細の後段に残す場合は「旧モデル」表示
+4. SourceHealthへ「General Information / checkout残存 vs dedicated rules Legacy」の履歴を追加
 
 販売導線に残っていることだけを理由に current へ戻さない。
 
-## 2. Blue Guardian 再構成案
+### Nano / BNPL
 
-### Active / catalog追加候補
+- 1 Step Nano：Active catalog追加候補、Diagnosis初回未接続
+- 2 Step Nano：Active catalog追加候補、Diagnosis初回未接続
+- BNPL：Active catalog追加候補。ただし専用ページ内のProfit Split 85% / 80%等をCAUTIONとして保持し、Diagnosis初回未接続
+- 1 Step Crypto：listed-only / HOLD / Diagnosis除外継続
+- 1 Step Pro：Legacy継続
 
-#### 1 Step Nano
+全フィールド詳細はBlue Guardian patch specを参照。
 
-公式専用ルール記事あり。
+## 2. Hantec Instant Lite SH003再判定
 
-- 現行Masterには未登録
-- Active catalog追加候補
-- 方式：1ステップ
-- Diagnosis：初回追加時は除外
+Master v2.2のP028は、旧取得時点で「本文Max Loss 5% / Add-on欄がstandard 6%を示唆」のためConflict / Blockだった。
 
-理由：Diagnosisへ接続する前に、Masterが要求する全 scoring fields、Eligibility、platform、news、weekend、payout等の完全Mappingを確認する。
+2026-08-20更新の現行専用Instant Lite Helpでは：
 
-#### 2 Step Nano
+- Daily Loss 3%
+- Max Total Loss 5%
+- Max Loss +1% Add-on = 6%（standard 5%）
+- Consistency 20%
+- Payout cycle 5 profitable days（各日0.5%以上）
+- First payout 14日
+- Standard split 80%
 
-公式専用ルール記事あり。
+へ収束。
 
-- 現行Masterには未登録
-- Active catalog追加候補
-- 方式：2ステップ
-- Diagnosis：初回追加時は除外
+旧Helpキャッシュには「7%（standard 6%）」版が残るため、その履歴は削除しない。ただし現行値としては採用しない。
 
-#### BNPL
+判定：
 
-公式専用ルール記事あり。
+- SH003 = RESOLVED_FOR_PATCH
+- P028 Max Loss canonical = 5%
+- Add-on = 6%
+- Diagnosis Block解除 = READY_FOR_REVIEW
+- Work回帰成功後にBlock解除確定候補
 
-- 現行Masterには未登録
-- Active catalog追加候補
-- 方式：1ステップ系 / BNPL固有モデル
-- Diagnosis：初回追加時は除外
-
-名称を通常1 Stepへ吸収せず、公式モデル名を保持する。
-
-### listed-only / HOLD
-
-#### 1 Step Crypto
-
-- General Information上の存在確認あり
-- 専用現行ルール記事未確認
-- current rulesを確定できない
-
-**判定：listed-only / HOLD / Diagnosis除外継続**
-
-### Legacy
-
-#### 3 Step
-
-**Legacy化候補。Diagnosis除外。**
-
-#### 1 Step Pro
-
-現行MasterのLegacy扱いを維持。
+「No minimum trading days」と「Payout cycleごと5 profitable days」はスコープが異なるため、公開では `開始条件なし / 出金cycleでは5 profitable days` と分ける。
 
 ## 3. 既存確認中項目
 
@@ -106,14 +92,14 @@
 | Funded7 1フェーズ | KEEP_BLOCK | 値を一本化しない。公式確定回答または表示収束まで待つ |
 | Funded7 Instant | KEEP_BLOCK | Max Loss 6/8/10履歴を消さずConflict維持 |
 | FTM Instant Pro | KEEP_BLOCK | Daily DDなし / 3%のConflict維持 |
-| Hantec Instant Lite | RESOLVED_CANDIDATE | Standard 5% と Add-on +1% を別フィールド / 注記で保持。回帰後にunblock候補 |
+| Hantec Instant Lite | RESOLVED_FOR_PATCH | Standard 5% / Add-on 6%。回帰後unblock候補 |
 | FundedElite Flash Activation | KEEP_BLOCK | standard FAQとcustom / marketing訴求を分離できるまでBlock |
 | Blue Guardian 1 Step Crypto | KEEP_HOLD | listed-only / diagnosis除外 |
 | Blue Guardian 3 Step | LEGACY_CANDIDATE | currentからLegacyへ。Diagnosis除外 |
 | Blue Guardian 1 Step Pro | KEEP_LEGACY | 変更不要 |
 | Blue Guardian 1 Step Nano | ADD_ACTIVE_CANDIDATE | catalog追加。Diagnosis未接続 |
 | Blue Guardian 2 Step Nano | ADD_ACTIVE_CANDIDATE | catalog追加。Diagnosis未接続 |
-| Blue Guardian BNPL | ADD_ACTIVE_CANDIDATE | catalog追加。Diagnosis未接続 |
+| Blue Guardian BNPL | ADD_ACTIVE_WITH_CAUTION | catalog追加。Diagnosis未接続。Split等はSourceHealth保持 |
 
 ## 4. 件数への影響見込み
 
@@ -127,60 +113,37 @@
 - SourceHealth = 14
 - Block = 6
 
-Blue Guardian 3 StepをLegacyへ移し、Nano 2件 + BNPLをcatalogへ追加した場合の**catalog上の見込み**：
+Blue Guardian 3 StepをLegacyへ移し、Nano 2件 + BNPLをcatalogへ追加した場合：
 
 - PlanCatalog = 72
 - current plan families = 67（65 - 1 + 3）
 - legacy / ended = 4
 - listed-only = 1
-
-ただし新規3モデルを初回パッチでDiagnosisへ接続しない場合：
-
-- Diagnosis rows = 64（現65から3 Stepを除外）
+- Diagnosis rows = 64（新規3モデルを初回Diagnosisへ接続しないため）
 
 Hantec Instant LiteのBlock解除を同時承認した場合：
 
 - Block = 5
 
-Blue Guardian 3 StepはLegacy除外であり「Block追加」とは数えない。
+Blue Guardian 3 StepはLegacy除外でありBlock追加とは数えない。
 
-SourceHealthは、3 StepのLegacy不整合を新規履歴として追加する場合：
-
-- SourceHealth = 15
-
-※ 件数を65へ合わせるためだけに新規Nano / BNPLをDiagnosisへ早期接続しない。
+SourceHealth件数は、解消履歴を行として保持するか、新規Blue Guardian conflictを何件の独立行にするかで変わるため、件数合わせを目的に固定しない。
 
 ## 5. 次回Master更新の推奨順
 
 1. Blue Guardian 3 StepをLegacyへ変更
 2. 3 StepをDiagnosisから除外
 3. Blue Guardian 1 Step Nano / 2 Step Nano / BNPLをcatalogへ新規追加
-4. 3モデルは `diagnosis_eligible = false` 相当で開始
+4. 新規3モデルはDiagnosis未接続
 5. 1 Step Cryptoはlisted-only維持
 6. 1 Step ProはLegacy維持
-7. Hantec Instant Liteの標準 / Add-on表現を整理
-8. Hantec unblockは回帰テスト成功後に確定
-9. 他の既存ConflictはBlock維持
-10. DiagnosisLogicV2自体は変更しない
+7. Hantec Instant LiteをStandard Max5% / Add-on6%へ整理
+8. SH003をResolved履歴へ
+9. Hantec Block解除は回帰成功を条件に反映
+10. 他の既存ConflictはBlock維持
+11. DiagnosisLogicV2は変更しない
 
-## 6. Workへ渡す前の追加確認
-
-Chat / GitHub側で以下を確定してからWorkへ渡す。
-
-- Blue Guardian Nano / BNPLの全Master必須フィールド
-- 日本居住者Eligibility
-- platform
-- news trading
-- weekend holding
-- payout timing / first payout
-- consistency
-- drawdown type / calculation timing
-- source URLs / checked_at
-- Hantec Instant Lite Add-onの正確な表現
-
-不足項目を0 / falseで補完しない。
-
-## 7. 公式参照URL（再確認対象）
+## 6. 公式参照URL
 
 Blue Guardian：
 
@@ -193,6 +156,7 @@ Blue Guardian：
 Hantec Trader：
 
 - `https://help.htrader.hmarkets.com/en/support/solutions/articles/158000445802-instant-lite`
+- `https://htrader.hmarkets.com/programs/instant-lite/`
 
 Funded7：
 
@@ -203,13 +167,15 @@ FundedElite：
 
 - `https://www.fundedelite.com/challenges/flash-activation`
 
-## 8. Status
+## 7. Status
 
 - Graphic: COMPLETE
-- SourceHealth recheck: REVIEWED / PATCH_SPEC_READY
+- Blue Guardian patch spec: READY_FOR_REVIEW
+- Hantec Instant Lite patch spec: READY_FOR_REVIEW
+- SourceHealth recheck: PATCH_SPEC_READY
 - Master update: NOT_STARTED
 - Diagnosis data update: NOT_STARTED
 - DiagnosisLogicV2 update: PROHIBITED / NOT_REQUIRED
 - Work implementation: NOT_STARTED
 
-次工程は、Chat側でBlue Guardian Nano / BNPLのMaster必須フィールドを埋め、Workへ渡す**最小データ差分仕様**を完成させること。
+次工程は、残るKEEP_BLOCK項目をChat側で最終確認し、変更不要を確定したうえで、Blue Guardian + Hantecの**最小Work実装指示**を作ること。
