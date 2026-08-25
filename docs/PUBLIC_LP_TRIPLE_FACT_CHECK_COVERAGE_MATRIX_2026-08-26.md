@@ -1,7 +1,7 @@
 # PUBLIC LP TRIPLE FACT-CHECK COVERAGE MATRIX
 
 更新日：2026-08-26 JST
-Status：FIRST-PASS HIGH-RISK COVERAGE COMPLETE / ROUTE-LEVEL AUDIT CONTINUES THROUGH WAVE 13
+Status：FIRST-PASS HIGH-RISK COVERAGE COMPLETE / ROUTE-LEVEL AUDIT CONTINUES THROUGH WAVE 14
 Standard：`FACT_CHECK_STANDARD_V1_2026-08-26.md`
 
 ## Purpose
@@ -14,7 +14,7 @@ Standard：`FACT_CHECK_STANDARD_V1_2026-08-26.md`
 
 | Firm | High-risk audit | Main current status |
 |---|---|---|
-| Fintokei | Wave 1 / 2 / 8 | SwiftTrader cohort correction required; NEW20 general English scope triple-verified with checkout caution |
+| Fintokei | Wave 1 / 2 / 8 / 14 | SwiftTrader cohort correction; NEW20 general English scope verified with checkout caution; ProTrader Slim public legacy status is stale and must return to current Japan-variant status |
 | Fundora | Wave 8 + local campaign review | Core rules verified; Professional/Master JPY price surfaces conflict; FND25 local accepted not Production-confirmed |
 | SuperFunded | Wave 1 / 3 | Core values supported; current Rules V2.0 explicitly states $100 minimum payout but route wording remains conservative pending implementation-time recheck |
 | Trading Cult Pro | Wave 6 / 12 | Current family/MT5 and Pay After Pass core payment flow materially supported; fresh English-help/checkout check required before detailed rewrite |
@@ -39,6 +39,7 @@ Standard：`FACT_CHECK_STANDARD_V1_2026-08-26.md`
 - `/pay-after-pass-payg`
 - `/one-step-two-step-instant` scoped structure checks; FTMO 1-Step/2-Step example currently supported by current English official product/FAQ surfaces
 - `/funded-trader-markets` dedicated article — full current high-risk re-audit through Wave 13
+- Fintokei Home/FAQ plan-status reconciliation through Wave 14
 - current Firm rule cards
 - selected Futures surfaces
 - public freshness metadata
@@ -63,6 +64,14 @@ Standard：`FACT_CHECK_STANDARD_V1_2026-08-26.md`
 - Nitro X is a current sixth FTM program; public dedicated article still says five
 - Instant Pro current English product page itself contains `no daily drawdown limits` in promotional copy and `3% Daily DD` in its matrix, while dedicated FAQ says 3%; exact Daily DD remains HOLD
 - public Home already uses conflict-safe Instant Pro wording, but the dedicated FTM article is still too definitive and needs alignment
+
+### Wave 14 — Fintokei ProTrader Slim
+- public Home marks Slim as `新規販売対象外 / 2026-03-31販売終了`, while current official sources show a relaunched/current offer
+- current English dedicated Slim FAQ is recently updated and describes Slim as an active ProTrader variant
+- current English product collections still include ProTrader Slim
+- current Japan-specific official product page exposes active prices, `今すぐ始める`, free-trial and plan links
+- current baseline 8/6 target, Daily5, Max10, min3 days and MT5-only are supported for the scoped Slim variant
+- correction must restore Slim as current Japan/JPY ProTrader variant without auto-changing Diagnosis scoring
 
 ---
 
@@ -101,9 +110,9 @@ Until sufficient evidence is captured, do not strengthen effect/scope beyond the
 
 All 14 currently represented Firms have received at least one high-risk retrospective audit pass under the three-check standard.
 
-Route-level work has advanced through current payout, payment-model, Futures-price/promo and FTM dedicated-route surfaces.
+Route-level work has advanced through current payout, payment-model, Futures-price/promo, FTM dedicated-route and Fintokei current-plan-status surfaces.
 
 This is sufficient to maintain a controlled post-auth correction queue, but **not** sufficient to declare the full public site `TRIPLE_VERIFIED`.
 
 Final Status：
-`ALL_14_FIRMS_HIGH_RISK_FIRST_PASS_COVERED / ROUTE_LEVEL_RETROSPECTIVE_AUDIT_CONTINUES_THROUGH_WAVE13`
+`ALL_14_FIRMS_HIGH_RISK_FIRST_PASS_COVERED / ROUTE_LEVEL_RETROSPECTIVE_AUDIT_CONTINUES_THROUGH_WAVE14`
