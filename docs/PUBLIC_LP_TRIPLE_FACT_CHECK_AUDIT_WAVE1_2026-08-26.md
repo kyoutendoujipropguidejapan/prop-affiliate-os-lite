@@ -125,15 +125,15 @@ Also preserve current payout threshold / consistency conditions separately.
 
 ---
 
-## 3. The5ers Summer Plan 200K
+## 3. The5ers Summer Plan 200K — audit correction
 
 ### Public surfaces observed
 
 `/the5ers-summer-plan`
 
-Current public article claims:
+Current public article states:
 
-- NEW Summer 200K 2-Step
+- Summer 200K 2-Step
 - 10/5 $249
 - 8/5 $279
 - funded split 80%
@@ -147,55 +147,59 @@ Current public article claims:
 - payout cap $3,000
 - minimum $250
 
-### Triple check — current official Summer offering
+### Why the earlier classification was wrong
 
-Check 1 — current official Summer Plan product page
+The first Wave 1 audit treated absence of a 200K block from the currently crawlable generic The5ers Summer landing page as evidence that the 200K product had been removed or superseded.
+
+That inference was too strong.
+
+A crawler/index/static landing page not exposing a product is not proof that the product is unavailable through the purchase flow, dynamic selector, partner route, account-specific route, or current checkout.
+
+On 2026-08-26, the site owner/user directly confirmed that the The5ers Summer 200K plan still exists.
+
+Therefore the previous status:
+
+`CORRECTION_REQUIRED / CURRENT_PRODUCT_REMOVED_OR_SUPERSEDED`
+
+is **REVOKED**.
+
+### Current verification state under the 3-check standard
+
+Check 1 — current generic official Summer page
 `https://the5ers.com/summer-plan/`
 
-Current rendered product:
-- Summer Plan centered on $100K
-- 1-Step $249
-- current funded 1-Step split 75/25
-- payout cap $2,000
-- minimum withdrawal $250
-- 2-Step Summer options described as routes to $100K
+- currently crawlable/static render prominently exposes the 100K Summer options
+- it does not provide enough evidence to prove 200K removal
 
-Check 2 — current The5ers homepage program selector
-`https://the5ers.com/`
+Check 2 — current official purchase route
+`https://hub.the5ers.com/en/purchase?asset=forex&promotion=true&step=programs`
 
-Current Summer Plan display:
-- $100K
-- 1-Step current table
-- 75/25 split
-- $2,000 payout cap
-- $250 minimum withdrawal
+- current The5ers Summer page links to this official purchase flow
+- the purchase surface is dynamic and is not fully exposed in the text crawler used for this audit
+- therefore absence from crawler text is not treated as a negative fact
 
-Check 3 — current official Summer Plan 2026 article
-`https://the5ers.com/prop-firm-summer-plan-2026/`
+Check 3 — direct current availability confirmation / fresh official checkout evidence
 
-- describes two evaluation paths to a $100,000 account
-- current Summer entry starting at $149
-- no current 200K Summer offer described
-
-Fresh exact searches for `Summer Plan 200K`, `200,000 Summer Plan`, and `$3,000 Summer payout cap` on the current The5ers domain did not return a current CFD Summer 200K product page.
+- user/site owner confirmed on 2026-08-26 that Summer 200K is still available
+- this is sufficient to cancel a removal/correction action
+- however, per `FACT_CHECK_STANDARD_V1_2026-08-26.md`, direct user confirmation alone is not substituted for three independent official checks when promoting the detailed 200K conditions to `TRIPLE_VERIFIED`
+- exact 200K price/rules/availability remain queued for fresh purchase-screen or official-support verification before any future rewrite/republication
 
 ### Result
 
-The public 200K Summer sections are no longer supported by the current official Summer offering observed on 2026-08-26.
+Status：
 
-Status：`CORRECTION_REQUIRED / CURRENT_PRODUCT_REMOVED_OR_SUPERSEDED`
+`DO_NOT_CORRECT / USER_CONFIRMED_CURRENT / OFFICIAL_DYNAMIC_SOURCE_RECHECK_PENDING`
 
-### Safe correction direction
+Operational decision：
 
-Do not silently convert every old 200K number into 100K numbers.
+- do **not** remove or archive the public Summer 200K sections
+- do **not** convert the page to 100K-only
+- do **not** treat generic-page crawler absence as evidence of discontinuation
+- preserve current 200K content until a stronger current official source contradicts it
+- before any future modification of the 200K section, complete fresh triple verification against purchase/checkout/support evidence
 
-Required Production patch direction after source reconciliation:
-
-1. remove / archive current-product claims for Summer 200K unless checkout/current source proves still purchasable,
-2. make current Summer section 100K-led,
-3. use current plan-specific values only,
-4. preserve historical 200K only in history/legacy context if evidence warrants,
-5. fresh Check 3 again immediately before publish.
+Production correction required from this issue：**NONE**.
 
 ---
 
@@ -271,18 +275,16 @@ Do not generalize to Nitro X / Instant Pro / newer cohorts.
 ### P0 correction after internal Git recovery + Production reconciliation
 
 1. FTM Nitro X reward split wording
-2. The5ers Summer 200K current-product claims on:
-   - `/the5ers-summer-plan`
-   - `/prop-firm-payout-comparison`
 
 ### P1 update candidate
 
-3. SuperFunded minimum payout $100 — only after fresh current-rule/override recheck
+2. SuperFunded minimum payout $100 — only after fresh current-rule/override recheck
 
 ### No correction from this Wave
 
 - Fintokei payout 3-day / 5-day distinction
 - FTM Nitro / 2-Step Plus 5 profitable days + 1% minimum profit
+- The5ers Summer 200K — previous correction candidate revoked; current availability is retained pending fresh official dynamic-source triple verification
 
 ---
 
@@ -302,4 +304,4 @@ When auth recovers:
 6. central/human publish approval.
 
 Final Status：
-`WAVE1_AUDIT_COMPLETE_CORRECTIONS_QUEUED_NO_PRODUCTION_CHANGE`
+`WAVE1_AUDIT_CORRECTED_FTM_ONLY_P0_CORRECTION_QUEUED_NO_PRODUCTION_CHANGE`
