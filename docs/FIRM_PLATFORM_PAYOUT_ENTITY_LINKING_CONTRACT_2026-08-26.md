@@ -47,6 +47,8 @@ Firm pages must not infer a platform or payout relationship that is not supporte
 Future canonical platform routes:
 
 - `/platforms/`
+- `/platforms/mt5/`
+- `/platforms/mt4/`
 - `/platforms/tradelocker/`
 - `/platforms/ctrader/`
 - `/platforms/match-trader/`
@@ -57,6 +59,8 @@ Future canonical platform routes:
 
 Canonical IDs:
 
+- mt5
+- mt4
 - tradelocker
 - ctrader
 - match-trader
@@ -64,6 +68,9 @@ Canonical IDs:
 - blackarrow
 - quantower
 - volumetrica
+
+MT4 / MT5 scope decision:
+`docs/PLATFORM_ARCHITECTURE_DECISION_MT4_MT5_2026-08-26.md`
 
 `planCatalog.platforms` remains a protected display-string layer until separately migrated/accepted. It is not automatically the canonical Platform Registry.
 
@@ -107,6 +114,7 @@ Examples of fields that may vary by Firm and must not be generalized:
 - market-data package
 - order types
 - DOM access
+- EA / algorithmic trading permission
 - copy features
 - account restrictions
 - execution configuration
@@ -238,6 +246,7 @@ Avoid duplicate copy across these pages.
 Platform pages:
 - do not imply platform availability equals Firm availability
 - do not imply software capability equals enabled Firm functionality
+- do not infer EA / algorithmic / copy permission from vendor-level features
 
 Payout pages:
 - disclose changing fees/regions/network conditions
@@ -277,4 +286,4 @@ Default architecture:
 
 Final architecture status:
 
-`ENTITY_LINKING_CONTRACT_CONFIRMED`
+`ENTITY_LINKING_CONTRACT_CONFIRMED_9_PLATFORM_SCOPE`
