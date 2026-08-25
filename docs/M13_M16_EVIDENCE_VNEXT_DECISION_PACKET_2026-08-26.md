@@ -1,7 +1,7 @@
 # M13/M16 × Evidence vNext Decision Packet
 
 更新日：2026-08-26 JST
-Status：HUMAN APPROVAL REQUIRED / NO PRODUCTION CHANGE
+Status：APPROVED / IMPLEMENTATION DEFERRED / NO PRODUCTION CHANGE
 
 ## 0. Purpose
 
@@ -9,7 +9,11 @@ Status：HUMAN APPROVAL REQUIRED / NO PRODUCTION CHANGE
 
 この文書は実装指示ではない。Production / internal Sites repository / Master / Diagnosis / GA4には変更を加えない。
 
-## 1. 結論提案
+2026-08-26、中央承認により提案Aを正式採用した。
+
+全Factの検証には `docs/FACT_CHECK_STANDARD_V1_2026-08-26.md` を必須適用する。新規Fact・変更Fact・Canonical昇格・HOLD解除は最低3回のファクトチェックを通過しなければならない。
+
+## 1. Approved Architecture Decision
 
 M13の意味契約を維持しつつ、M16の`runtime/*`をCanonicalではなく**生成済み配布Snapshot**へ降格する。
 
@@ -44,8 +48,11 @@ Path：`data/canonical/*`
 - variant / scope / effective period
 - evidence links
 - structured approval
+- fact-check record
 
 新しい検証済みFactのGitHub側SSOT候補。
+
+Canonical昇格には最低3回のファクトチェックを要求する。
 
 ### Layer 2.5 — Existing Product Catalog Boundary
 
@@ -55,7 +62,7 @@ Evidence Registryを作ったことだけを理由に既存Masterを即置換し
 
 Canonical Factと既存Product Catalogが競合した場合：
 
-`AUTO WRITE禁止 → reconciliation → human approval → minimal patch`
+`AUTO WRITE禁止 → reconciliation → minimum 3 fact checks → human approval → minimal patch`
 
 ### Layer 3 — Runtime Distribution Snapshot
 
@@ -71,7 +78,7 @@ Path：`runtime/*`
 
 手編集禁止。RuntimeからCanonical / Masterへ逆流禁止。
 
-## 2. M13/M16未決定事項の解決案
+## 2. M13/M16未決定事項のDecision
 
 ### C01 Path
 
@@ -122,6 +129,8 @@ Canonical Factの確定値には最低：
 - `source_evidence_ids`
 - `source_priority`
 - `verified_at`
+- `fact_check_count >= 3`
+- check results / checked_at
 
 を要求する。
 
@@ -183,7 +192,23 @@ Primary：`SH001`等のCanonical ID
 
 Runtime / Evidence / Monitoring間の参照はCanonical IDを使用する。
 
-## 3. HOLD Policy
+## 3. Minimum Three Fact-Check Rule
+
+本Architectureに入るFactは `FACT_CHECK_STANDARD_V1_2026-08-26.md` を満たすこと。
+
+最低：
+
+1. Primary Source Verification
+2. Independent Reconciliation
+3. Pre-Publication / Pre-Implementation Fresh Recheck
+
+重要：3回確認は「3つの検索結果を集める」ことではない。一次情報を優先し、同一ページの単純再読だけを独立Checkと数えない。
+
+高リスクFactで独立一次根拠が不足する場合は`SINGLE_SOURCE_LIMITATION`を残し、完全VERIFIEDへ上げない。
+
+Material Conflictが1件でも残る場合は多数決せず、`CONFLICT` / `HOLD`を維持する。
+
+## 4. HOLD Policy
 
 HOLD解除は自動化しない。
 
@@ -202,8 +227,11 @@ HOLD / CONFLICT：
 - Diagnosis Top3根拠へ使わない
 - AI単独でVerified化しない
 - human-only release
+- minimum 3 fact checks required
 
-## 4. Runtime Snapshot Start Gate
+HOLD解除には3回チェックに加え、元Conflict説明・Variant/cohort/locale差確認・Evidence/SourceHealth更新案・human approvalを要求する。
+
+## 5. Runtime Snapshot Start Gate
 
 Runtime vNext実装は以下をすべて満たすまで開始しない。
 
@@ -214,10 +242,11 @@ Runtime vNext実装は以下をすべて満たすまで開始しない。
 5. Canonical/Product Catalogの責務境界が本Decisionとして承認済み
 6. Schema migration plan approved
 7. protected Master / Diagnosisへの影響が明示されている
+8. 対象Factがminimum 3 fact checks PASS
 
 したがって、承認後も直ちにWorkでRuntime実装しない。
 
-## 5. Monitoring Start Gate
+## 6. Monitoring Start Gate
 
 Monitoring Dry RunはRuntime実装とは別Gate。
 
@@ -230,8 +259,9 @@ Monitoring Dry RunはRuntime実装とは別Gate。
 5. no auto canonical write
 6. no auto production publish
 7. user / central-command activation approval
+8. monitored fact publication pathにminimum 3 fact-check gate実装
 
-## 6. Migration Principle
+## 7. Migration Principle
 
 Evidence vNext導入時に既存Productionを大規模移行しない。
 
@@ -244,7 +274,7 @@ Evidence vNext導入時に既存Productionを大規模移行しない。
 5. Firm単位で差分検証
 6. 十分な実績後にProduct Catalog移行を別Decisionとして検討
 
-## 7. Supabase Phase2 Boundary
+## 8. Supabase Phase2 Boundary
 
 SupabaseはCanonicalの自動上位化をしない。
 
@@ -259,9 +289,9 @@ Phase2開始条件は別既定値を維持：
 
 開始時はGitHub Canonicalのmirror / query layerから入り、双方向自動writeは後続承認まで禁止。
 
-## 8. Impact
+## 9. Impact
 
-このDecisionを承認しても即時のProduction変更は0。
+このDecision承認による即時Production変更は0。
 
 効果：
 
@@ -271,12 +301,13 @@ Phase2開始条件は別既定値を維持：
 - HOLD解除の自動化を防止
 - MonitoringとRuntimeを切り離す
 - 将来Supabaseへ移りやすい
+- 全重要Factに最低3回の検証Gateを適用
 
-## 9. Human Decision Required
+## 10. Decision
 
-中央承認が必要なArchitecture Decision：
+2026-08-26 中央承認：**提案Aを正式採用**。
 
-**提案A（推奨）**
+確定：
 
 `data/canonical/* = GitHub Canonical Fact Registry`
 
@@ -286,9 +317,7 @@ Phase2開始条件は別既定値を維持：
 
 Monitoring activationはRuntime approvalから独立。
 
-この提案を承認した場合、M13/M16 Runtime reconciliationを`DECIDED / IMPLEMENTATION DEFERRED`へ更新できる。
-
-未承認の場合は現状どおり`NO-GO`維持。
+Runtime実装はStart Gateを満たすまで延期する。
 
 Final Status：
-`READY_FOR_HUMAN_ARCHITECTURE_APPROVAL`
+`DECIDED / IMPLEMENTATION DEFERRED / MINIMUM_THREE_FACT_CHECKS_REQUIRED`
