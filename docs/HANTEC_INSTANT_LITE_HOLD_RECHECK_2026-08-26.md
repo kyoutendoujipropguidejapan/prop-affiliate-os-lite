@@ -1,17 +1,17 @@
 # HANTEC INSTANT LITE HOLD RECHECK
 
 更新日：2026-08-26 JST
-Status：CURRENT OFFICIAL RECHECK COMPLETE / HOLD RELEASE NOT AUTOMATIC
+Status：CENTRAL APPROVED / VERIFIED_WITH_CAUTION / PRODUCTION RECONCILIATION REQUIRED
 
 ## Purpose
 
-旧M14 HOLDに含まれていた Hantec Trader `Instant Lite` について、2026-08-26時点の現行公式情報を再確認する。
+旧M14 HOLDに含まれていた Hantec Trader `Instant Lite` について、2026-08-26時点の現行公式情報を最低3回再確認し、中央承認後の扱いを固定する。
 
-この文書はHOLD自動解除を意味しない。Production source / original conflict / cohort差分を再照合し、中央承認後にのみStatus変更する。
+Production sourceは内部Git認証HOLD中のため、本書の承認はProduction変更・publishを意味しない。
 
 ## Current official sources
 
-### Hantec Trader Help Center — Instant Lite
+### Check 1 — Hantec Trader Help Center — Instant Lite
 
 Official URL:
 `https://help.htrader.hmarkets.com/en/support/solutions/articles/158000445802-instant-lite`
@@ -41,7 +41,7 @@ Add-ons listed by official Help Center:
 - Maximum Loss +1%: 5% → 6%
 - Hold Over Weekend & News Trading
 
-### Hantec Trader current product page — Instant Lite
+### Check 2 — Hantec Trader current EN product page — Instant Lite
 
 Official URL:
 `https://htrader.hmarkets.com/programs/instant-lite/`
@@ -57,24 +57,54 @@ The current product page independently supports the same base structure:
 - no minimum trading days for the program itself
 - virtually funded / simulated balance wording
 
-Japanese product page:
+### Check 3 — Hantec Trader current JP product page — Instant Lite
+
+Official URL:
 `https://htrader.hmarkets.com/jp/programs/instant-lite/`
 
 The Japanese page also displays Instant Lite base values of Daily Loss 3%, Maximum Total Loss 5% trailing, no profit target, Consistency 20%, standard 80% reward split with up-to-95% add-on.
 
 Important parser/crawl caution: the long Japanese rendered page also contains neighboring Instant program content. Values such as 6% / 6% belong to other Instant product blocks and must not be mechanically attributed to Instant Lite by whole-page text extraction.
 
-## Interpretation
+## Original M14 context
 
-As of this recheck, the current dedicated Help Center article and the current dedicated Instant Lite product page are materially aligned on the core Instant Lite base rules.
+`M14_VERIFIED_EXTRACTION_FROM_PDF.md` listed Hantec Trader Instant Lite among five HOLD items but did not preserve the full original conflict evidence in the extracted summary.
 
-This reduces the likelihood that the old M14 HOLD still reflects a current official-source conflict. However, the old HOLD must not be removed solely from this recheck because:
+The current three-way official recheck explains the previously observed 5% / 6% discrepancy as:
 
-1. the original M14 conflict evidence must be identified,
-2. Production current source must be compared,
-3. historical/cohort or add-on variants must remain separated,
-4. any SourceHealth state must be reconciled,
-5. central/human approval is required before HOLD release.
+- standard Maximum Total Loss = 5% trailing
+- optional `Maximum Loss +1%` add-on = 6%
+
+Therefore the two values must not be treated as competing standard rules.
+
+## Central decision — 2026-08-26
+
+User/central command approved proceeding with the proposed resolution.
+
+Status transition approved:
+
+`HOLD -> VERIFIED_WITH_CAUTION`
+
+Approved current display:
+
+`標準5% Trailing（決済後残高追随→5%利益到達後に開始残高でLock）／+1% Max Loss Add-onで6%`
+
+Trading-day wording must be scope-separated:
+
+`評価・開始の最低取引日数：なし／出金周期の条件：5利益日（各0.5%以上）`
+
+## Remaining caution
+
+This approval does not erase cohort/add-on distinctions and does not authorize an immediate Production edit.
+
+Before Production implementation:
+
+1. inspect actual current Production source for Hantec Instant Lite,
+2. confirm no surviving hidden/variant source conflicts with the approved base/add-on interpretation,
+3. preserve standard vs add-on separation,
+4. run a fresh third-check immediately before edit,
+5. regression / protected hashes / 390px / compliance,
+6. human approval for Production publish.
 
 ## Compliance / service-nature boundary
 
@@ -85,29 +115,5 @@ Use the firm's current wording carefully:
 
 Do not rewrite this into guaranteed real capital, deposit-taking, or investment-service language.
 
-## Candidate transition
-
-If Production reconciliation confirms no surviving conflicting source and the old M14 conflict is fully explained, candidate status:
-
-`HOLD -> VERIFIED_WITH_CAUTION`
-
-Not automatic.
-
-Until then:
-
-- Top3 block/HOLD protection remains where still active in Production
-- do not promote to FAQ schema automatically
-- do not use as definitive diagnosis evidence solely from this document
-
-## Next gate
-
-After internal Git authentication recovery:
-
-1. inspect actual current Production source for Hantec Instant Lite,
-2. identify original M14 HOLD conflict source,
-3. compare current official Help Center/product page against Production data,
-4. confirm add-on vs base separation,
-5. central command decision on HOLD release.
-
 Final status:
-`OFFICIAL_RECHECK_SUPPORTS_RESOLUTION_CANDIDATE / PRODUCTION_RECONCILIATION_REQUIRED`
+`VERIFIED_WITH_CAUTION_CENTRAL_APPROVED / PRODUCTION_RECONCILIATION_REQUIRED`
