@@ -1,13 +1,15 @@
 # PUBLIC LP TRIPLE FACT-CHECK AUDIT — WAVE 2 COMMERCIAL
 
 更新日：2026-08-26 JST
-Status：AUDIT IN PROGRESS / NO PRODUCTION CHANGE
+Status：AUDIT COMPLETE / ENGLISH-FIRST AMENDED / NO PRODUCTION CHANGE
 Scope：公開中LPのCampaign / Coupon / commercial high-risk facts
 Standard：`FACT_CHECK_STANDARD_V1_2026-08-26.md`
 
 ## 0. Purpose
 
 公開中LPで現在表示している割引・キャンペーンについて、最低3回ファクトチェックを遡及適用する。
+
+Current product / rule / commercial facts are checked against the current English official surface first unless the fact itself is Japan-specific. Japanese/localized pages remain corroboration and Japan-scope evidence, not an automatic freshness winner.
 
 Discount validityはplan-rule verificationとは別Gate。割引が確認できても、対象PlanのDaily Loss / Max Loss等のHOLDを解除しない。
 
@@ -65,15 +67,15 @@ Important：One Phase rule values remain official-source CONFLICT/HOLD. WELCOME 
 
 ### Instant — triple check
 
-Check 1 — Official Japanese Instant page
-`https://funded7.com/ja/instant-funding/`
+Check 1 — Official English Instant page
+`https://funded7.com/instant-funding/`
 
 Current rendered selector:
 - WELCOME
 - 20% OFF
 
-Check 2 — Official English Instant page
-`https://funded7.com/instant-funding/`
+Check 2 — Official Japanese Instant page
+`https://funded7.com/ja/instant-funding/`
 
 Same:
 - WELCOME
@@ -115,13 +117,10 @@ Check 2 — Official Help Center price article
 
 Current official price table states:
 - Ascent 25K standard $139
-- price after 60% discount $55.60
-- other Ascent/Accelerated standard prices and 60%-discount examples
-
-This independently reconciles the campaign arithmetic and base price.
+- price after a 60% discount $55.60
 
 Check 3 — fresh current homepage recheck on 2026-08-26
-Current rendered homepage still displays `FUTURES60` and 60% off immediately before publication audit close.
+Current rendered homepage still displays `FUTURES60` and 60% off.
 
 ### Result
 
@@ -134,21 +133,22 @@ Verified:
 
 Caution:
 - Help Center corroborates 60% pricing but does not independently name FUTURES60 in the retrieved article.
-- therefore future publication/patch must fresh-check the live product page/checkout again.
+- future publication/patch must fresh-check the live product page/checkout again.
 
 No current commercial correction required for the scoped LP promo.
 
 ---
 
-## 3. Fintokei — NEW20
+## 3. Fintokei — NEW20 (English-first amendment)
 
 ### Public surface observed
 
 LP currently treats NEW20 as:
 - 20% OFF
-- first challenge / first purchase type welcome offer
+- first challenge welcome offer
+- purchase-screen final confirmation required
 
-### Check 1 — Official global Fintokei homepage
+### Check 1 — Current official English/global homepage
 `https://www.fintokei.com/`
 
 Current rendered page explicitly states:
@@ -157,44 +157,106 @@ Current rendered page explicitly states:
 
 Check 1：PASS.
 
-### Check 2 — Official Japanese homepage
-`https://www.fintokei.com/jp/`
+### Check 2 — Current official English 2026 price/program guide
+`https://www.fintokei.com/blog/how-much-is-prop-trading-2026-price-and-program-guide/`
 
-Fresh rendered Japanese homepage on 2026-08-26 does **not** contain `NEW20` in the retrieved page text.
+Current 2026 guide states:
+- NEW20 at checkout
+- 20% off the first challenge
+- wording indicates the discount works for `any first challenge`
 
-This is not proof that the code fails in Japan, but the Japanese public product page does not independently corroborate the code in the retrieved surface.
+Check 2：PASS.
 
-Check 2：`NOT_CORROBORATED_ON_JP_PAGE`.
+### Check 3 — fresh official English recheck
+Current official English Fintokei surfaces continue to advertise the 20% first-challenge offer; current contest/education surfaces also continue to state that new customers receive 20% off their first challenge.
 
-### Check 3 — fresh pre-publication/checkout
+Check 3：PASS for the general/global offer.
 
-Not yet independently verified through an official Japanese checkout result or direct official support statement in this audit.
+### Japanese-page absence
 
-Check 3：`PENDING_JP_CHECKOUT_OR_DIRECT_OFFICIAL_CONFIRMATION`.
+The Japanese homepage not showing NEW20 in a text crawl is **not** treated as a negative fact. Localized pages may lag the English source and absence is not equivalent to checkout rejection.
+
+Japan-specific checkout acceptance was not directly captured in this audit, so final-price confirmation at checkout remains required.
 
 ### Result
 
-Status：`NOT_YET_TRIPLE_VERIFIED_FOR_JAPAN_SCOPE`
+Status：`TRIPLE_VERIFIED_GENERAL_SCOPE / JP_CHECKOUT_CAUTION`
 
-Do not label the code invalid.
-Do not remove it solely because the JP homepage lacks the string.
-Do not claim Japan-scope triple verification until checkout/direct official confirmation is obtained.
-
-Safe public handling until fresh checkout confirmation:
-- if already displayed, mark purchase-screen final confirmation required,
-- do not strengthen scope language beyond what the global official source says,
-- fresh-check before any next patch/republication.
+Operational handling:
+- do not remove NEW20 solely because the JP homepage omits it
+- do not call the code invalid
+- current public wording may remain if it preserves purchase-screen final confirmation
+- do not state a guaranteed final price before checkout
 
 ---
 
-## 4. Commercial audit queue from Wave 2
+## 4. Blue Guardian Futures multi-account promo — current official conflict
+
+### Public surface observed
+
+Current LP commercial cards currently present as confirmed:
+- Reserve 25K ×1：40% off
+- Reserve 25K ×5：buy four / one free style benefit
+
+### Check 1 — current official English Futures landing
+`https://origin.blueguardian.com/futures`
+
+Current rendered purchase surface shows a newer progressive multi-account structure in the live plan UI, including:
+- 2 accounts：30% extra
+- 3 accounts：35% extra
+- 4 accounts：40% extra
+
+The current plan surface does not support treating `40%` as the generic first-account tier.
+
+### Check 2 — recent official English/current promotion article
+Official article published 2026-08-11:
+`https://blueguardian.com/blogs/blue-guardian-futures-multi-account-discounts`
+
+Current article states:
+- 1st account 25%
+- 2nd 30%
+- 3rd 35%
+- 4th 40%
+- 5th Standard/Direct/Express 100%
+- 5th Reserve 70%
+
+### Check 3 — official English Help Center
+`https://helpfutures.blueguardian.com/en/articles/15693969-how-does-bundle-pricing-work`
+
+This still states an older/different structure:
+- 1 account 40%
+- 2 accounts 45%
+- 3 accounts 50%
+- 4 accounts 55%
+- 5 accounts buy 4 get 1 free
+
+The Help table also applies the free fifth account to Reserve.
+
+### Result
+
+Current official English sources materially conflict.
+
+Status：`COMMERCIAL_CONFLICT / CONFIRMED_LABEL_UNSAFE / CHECKOUT_REQUIRED`
+
+Do not choose the newer-looking value solely because it is newer.
+Do not keep treating the old 40% / fifth-free Reserve examples as fully verified.
+
+Safe Production direction after auth recovery:
+- if checkout still cannot resolve the conflict, downgrade these Blue Guardian Futures promo cards from `確認済み` to `確認中`
+- do not show a definitive Reserve first-account discount or fifth-account benefit until live checkout/current campaign state is reconciled
+- preserve historical campaign values separately if needed
+
+---
+
+## 5. Commercial audit queue from Wave 2
 
 ### No correction currently required
-- Funded7 WELCOME scoped discount rates: verified
-- Blueberry Futures FUTURES60 scoped promo: verified with scope/caution
+- Funded7 WELCOME scoped discount rates
+- Blueberry Futures FUTURES60 scoped promo
+- Fintokei NEW20 general/global first-challenge offer, with checkout-final-price caution
 
-### Verification required before stronger claim
-- Fintokei NEW20 Japan applicability / live checkout acceptance
+### Correction / hold candidate
+- Blue Guardian Futures multi-account Reserve cards: current official English conflict; `確認済み` status is not supportable without current checkout reconciliation
 
 ### Absolute boundary
 Campaign/Coupon verification does not alter:
@@ -205,18 +267,16 @@ Campaign/Coupon verification does not alter:
 
 ---
 
-## 5. Next Wave
-
-Continue retrospective triple checks on:
-
-1. affiliate-exclusive codes / KYOUTEN codes
-2. Blue Guardian current campaign/bundle claims
-3. SuperFunded current promotions / code scope
-4. Blueberry Funded current promo claims
-5. Fundora public/current campaign after internal repo reconciliation
-6. current price / plan-status claims on public firm sections
+## 6. Production boundary
 
 Production writes remain blocked pending internal Git authentication recovery and source reconciliation.
 
+Before any commercial patch:
+1. inspect actual Production source
+2. fresh-check English official page / checkout
+3. preserve product/model scope
+4. do not infer nonexistence from crawler absence
+5. require final displayed price to match purchase surface
+
 Final Status：
-`WAVE2_COMMERCIAL_AUDIT_COMPLETE_WITH_ONE_JP_SCOPE_VERIFICATION_GAP`
+`WAVE2_COMMERCIAL_AUDIT_COMPLETE_ENGLISH_FIRST_NEW20_VERIFIED_BG_FUTURES_CONFLICT_HELD`
