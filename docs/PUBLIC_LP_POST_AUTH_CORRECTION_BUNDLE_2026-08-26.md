@@ -61,7 +61,35 @@ Safe current structure:
 Do not bulk-replace payout-specific `5日`; payout eligibility has a separate rule context.
 Do not auto-return SwiftTrader to Diagnosis Top3 in the same correction patch.
 
-### 2. Blueberry Funded Instant Lite current cohort
+### 2. Fintokei ProTrader Slim current status
+Current public Home marks Slim as:
+- `新規販売対象外`
+- `2026年3月31日で新規販売終了`
+
+Current official sources now support a relaunched/current Japan/JPY ProTrader Slim variant.
+
+Safe direction:
+- remove legacy-only current status
+- current scoped baseline: 2-Step / 8%+6% / Daily5% / Max10% / min3 days per phase / MT5-only
+- preserve Japan/Japanese-user scope
+- preserve earlier historical sale-end/relaunch chronology only in history context
+- do not auto-change Diagnosis scoring in this patch
+
+### 3. Fintokei current-program taxonomy FAQ
+Current English onboarding taxonomy:
+- StartTrader
+- SwiftTrader
+- ProTrader
+- ProTrader Swing
+
+ProTrader Slim is a current specialized ProTrader variant, not a peer top-level program in the same taxonomy.
+
+Safe FAQ wording:
+`Fintokeiの現行トップレベルのプログラムは StartTrader（入門）、SwiftTrader（速攻プロ）、ProTrader（チャレンジ）、ProTrader Swing（チャレンジ・スイング）。ProTrader Slimは日本/JPY向けのProTrader派生プランとして提供されています。`
+
+This newer current-source adjudication supersedes the old M14 current-plan sentence for publication.
+
+### 4. Blueberry Funded Instant Lite current cohort
 For purchases on/after 2026-08-17:
 - Daily2%
 - Max4% Static
@@ -72,79 +100,105 @@ For purchases on/after 2026-08-17:
 
 Preserve older cohorts separately.
 
-### 3. Blue Guardian 1 Step Standard
+### 5. Blue Guardian 1 Step Standard
 Current-new cohort purchased on/after 2026-08-20:
 - target9%
 
 Older applicable cohort:
 - target10%
 
-### 4. Blue Guardian 2 Step Standard
+### 6. Blue Guardian 2 Step Standard
 Current-new cohort purchased on/after 2026-08-20:
 - min3 profitable days
 
 Older applicable cohort:
 - 5 days
 
-### 5. FTM Japanese-support wording
+### 7. FTM Japanese-support wording
 Replace stale future-facing wording with safe current wording such as:
 `日本語サイト・FAQあり。重要なプラン固有条件は英語原文・購入画面も確認。`
 
 Do not claim complete/full Japanese localization.
 
-### 6. FTM Nitro X reward wording
+### 8. FTM Nitro X reward wording
 Current public `最大80%` is stale.
 
 Safe direction:
 `On-demand／引き出し対象部分は100%配分（総利益の50%をリスクバッファとして口座に維持）`
 
-Do not advertise only `100%` without the buffer condition.
+Keep minimum-profit/cap/consistency conditions separately. Do not advertise plain `100%` without the buffer condition.
 
-### 7. FTM dedicated article program count
-Current public article says `現行5プラン` and omits Nitro X.
+### 9. FTM dedicated article program count
+Current `/funded-trader-markets` says `現行5プラン` and omits Nitro X.
 
-Safe direction after fresh check:
+Safe direction:
 `現行6プラン：1 Step Nitro、1 Step Nitro X、2 Step Plus、Instant Standard、Instant Pro、Instant Plus`
 
-Instant Pro rule conflict remains separate.
+### 10. FTM dedicated article Instant Pro Daily DD
+Current dedicated article presents Daily3% as settled truth.
 
-### 8. Blueberry Futures funded consistency
+Current English official conflict:
+- dedicated FAQ: Daily DD3%
+- current Instant Pro marketing copy: `no daily drawdown limits`
+- same current product page comparison matrix: Daily DD3%
+
+Safe public direction:
+`日次損失：詳細FAQ・比較表は3%／公式Instant Pro紹介文は「no daily drawdown limits」と記載。公式内差異を確認中。`
+
+Exact Daily DD stays HOLD. Max Loss3% trailing may remain separately verified-with-caution.
+
+### 11. Blueberry Futures funded consistency
 Replace company-wide `35%` wording with plan-specific:
-- Ascent 35%
-- Accelerated 20%
+- Ascent35%
+- Accelerated20%
 
 This is funded payout consistency, not evaluation consistency.
 
-### 9. The5ers Futures Day Trade 25K
+### 12. The5ers company-level consistency/payout-cap warning
+Current Home says:
+`1日50% consistency・Payout capに注意`
+
+This is overgeneralized.
+Current official program scopes differ:
+- Summer 1-Step uses50% consistency
+- The5ers Futures uses40% consistency
+- High Stakes / Growth / Bootcamp do not establish one universal company-wide 50% consistency or one universal payout cap
+
+Safe company-level wording:
+`ConsistencyやPayout capはプラン別。Summer・Futuresなど対象プランの条件を個別確認。`
+
+Keep numeric consistency/cap only at plan scope.
+
+### 13. The5ers Futures Day Trade 25K
 Current English official product + FAQ + fresh recheck support:
 - current price $59
 - activation fee none
 - Max Loss EOD4%
 - consistency40%
 
-Current public `価格確認中` card is stale/conservative.
+Current public `価格確認中` is stale/conservative.
 
 Safe direction:
-- show Day Trade 25K current price `$59`
+- current price `$59`
 - activation fee `なし`
 - keep final purchase-screen confirmation
 
-This is unrelated to the CFD Summer 200K plan.
+This is unrelated to CFD Summer200K.
 
-### 10. Funded7 PAYG public article conflict-safe correction
+### 14. Funded7 PAYG public article conflict-safe correction
 Current `/pay-after-pass-payg` states PAYG as definite:
 `日次4%・最大8%の固定型`
 
-Current official English sources conflict:
+Current English official sources conflict:
 - challenge comparison：Daily5 / Max10 / Static
 - official 2026 guide：Daily4 / Max8 / Static
 
-Safe replacement until resolved:
+Safe replacement:
 `PAYGの損失上限は現行公式ページ間で差異を確認中。購入前にPAYGの購入画面・専用ルールを確認。`
 
-Do not choose 5/10 or 4/8 in this patch.
+Do not choose 5/10 or4/8.
 
-### 11. Home/page freshness metadata
+### 15. Home/page freshness metadata
 Replace stale global-style dates with page/section-level `last verified` where architecture permits.
 
 Do not imply every page Fact was checked on one date.
@@ -153,7 +207,7 @@ Do not imply every page Fact was checked on one date.
 
 ## P1 — clarification / coverage updates
 
-### 12. Hantec Instant Lite
+### 16. Hantec Instant Lite
 Central approved:
 `HOLD -> VERIFIED_WITH_CAUTION`
 
@@ -163,51 +217,63 @@ Display:
 Trading-day scope:
 `評価・開始の最低取引日数：なし／出金周期の条件：5利益日（各0.5%以上）`
 
-### 13. Hantec EnhancedX minimum days
+### 17. Hantec EnhancedX minimum days
 Safe direction after fresh check:
 `最低取引日数：なし（ただしChallengeはConsistency 35%以下が必要。対象Add-onで評価側Consistency解除可）`
 
-### 14. Fundora platform
+### 18. Fundora platform
 Current official platform:
 `cTrader`
 
 Replace generic platform wording only after actual Production-source inspection.
 
-### 15. Blue Guardian Nano coverage
+### 19. Blue Guardian Nano coverage
 Current official models include:
 - 1 Step Nano
 - 2 Step Nano
 
 Do not add pricing until current purchase surface is confirmed.
 
-### 16. Blueberry Prime minimum days
+### 20. Blueberry Prime minimum days
 Safe current wording after fresh check:
 `現行新規購入は3日/Phase。旧購入条件・一部表示では5日を保持するため購入日を確認。`
 
-### 17. FundingPips 2 Step Standard reward options
+### 21. FundingPips 2 Step Standard reward options
 Do not collapse current structure to one `7日／80%` value if Production does so.
 
 Current official options include weekly60%, bi-weekly80%, monthly100%, and conditional on-demand90%.
 
-### 18. FundingPips Zero profitable-day threshold
+### 22. FundingPips Zero profitable-day threshold
 Where displayed:
 `7 profitable days / rolling30, each >=0.25%`
 
-### 19. Trading Cult Pro platform
+### 23. Trading Cult Pro platform
 Current official family uses MT5.
 
 Change generic platform wording to `MT5` only after model-specific source check.
 
-### 20. Fintokei NEW20 commercial status
+### 24. Fintokei NEW20 commercial status
 Current English official surfaces triple-support:
 - NEW20
-- 20% off
+-20% off
 - first challenge / any first challenge wording
 
 Status:
 `TRIPLE_VERIFIED_GENERAL_SCOPE / JP_CHECKOUT_CAUTION`
 
 Japanese homepage omission is not negative evidence. Keep final checkout confirmation and do not guarantee final price.
+
+### 25. Fintokei payout minimum amount content gap
+Current official English payout FAQ states minimums:
+-100 EUR
+-100 USD
+-2,000 CZK
+-20,000 JPY
+with exceptions for certain400K ProTrader accounts and SwiftTrader minimum-profit rule.
+
+Current public payout page is not false, but may add the20,000 JPY minimum where useful after fresh Japan-scope check.
+
+Status：`UPDATE_CANDIDATE / NOT_REQUIRED_FOR_CORRECTION`
 
 ---
 
@@ -219,61 +285,46 @@ Official conflict remains:
 - current product page：Daily5 / Max10
 
 ### B. Funded7 Instant
-Current official Max Total is represented as 6 / 8 / 10 / OREF-dependent across official surfaces.
+Current official Max Total is represented as6 /8 /10 / OREF-dependent.
 
 ### C. Funded7 PAYG exact loss values
-Current official English conflict:
+Current English official conflict:
 - comparison：Daily5 / Max10
-- official guide：Daily4 / Max8
+- guide：Daily4 / Max8
 
-Public article must become conflict-safe, but canonical numeric value remains HOLD.
-
-### D. FTM Instant Pro
-Official conflict remains:
-- dedicated FAQ Daily3%
-- other official Instant page includes no-Daily-DD language while comparison shows3%
+### D. FTM Instant Pro Daily DD
+Current English official conflict remains inside current surfaces: `no daily drawdown limits` vs3%.
 
 ### E. FundedElite Flash Activation exact customization matrix
 Core $5 → pass → activation-fee flow is verified.
 
-HOLD remains for universal default/custom claims involving:
-- profit target
-- reward split
-- payout pace
-- add-on combinations
+HOLD remains for universal default/custom claims involving target / split / payout pace / add-on combinations.
 
-Current product marketing offers customization while standard FAQ values remain 6% / 80% / 14 days.
-
-### F. Blueberry Futures Accelerated 25K price
+### F. Blueberry Futures Accelerated25K price
 Current English official conflict:
 - live homepage：$110.40 standard / $44.16 at60%
 - Help price + detailed parameters：$129 standard / $51.60 at60%
 
-Keep public price hidden / confirmation state until checkout or direct official clarification resolves it.
+Keep price hidden/confirmation state until checkout/direct clarification resolves it.
 
 ### G. Blue Guardian Futures Reserve multi-account promo
-Current public cards use the older structure as `確認済み`:
-- first account 40%
-- fifth Reserve effectively free
+Current public cards use older structure as `確認済み`.
 
 Current English official conflict:
-- current purchase surface + 2026-08-11 article support newer progression 25 / 30 / 35 / 40 and fifth Reserve 70%
-- Help Center still says 40 / 45 / 50 / 55 and fifth free
+- current purchase surface + 2026-08-11 article: 25/30/35/40 progression; fifth Reserve70%
+- Help:40/45/50/55; fifth free including Reserve
 
-If live checkout cannot settle this at implementation time:
-- downgrade public cards from `確認済み` to `確認中`
-- suppress exact Reserve discount/5th-account benefit
+If checkout cannot settle at implementation:
+- downgrade `確認済み` -> `確認中`
+- suppress exact Reserve discount / fifth-account benefit
 
-Do not choose values by recency alone.
-
-### H. Fundora Professional/Master price surfaces
-Official current-accessible JPY surfaces conflict.
-Current purchase JPY tab must be checked before public price write.
+### H. Fundora Professional/Master JPY prices
+Current official-accessible JPY surfaces conflict. Current purchase JPY tab required.
 
 ### I. Hantec Endurance active purchase availability
-Current English dedicated page contains purchase content while other current official navigation/labels still indicate Coming Soon.
+Current English dedicated page exposes purchase content while other official surfaces still indicate Coming Soon.
 
-Core rules may be used where separately verified; active sale status remains checkout-gated.
+Core rules may be used where independently verified; sale status stays checkout-gated.
 
 ---
 
@@ -286,10 +337,10 @@ Project record:
 `NO USER DELETION INSTRUCTION / CURRENT AVAILABILITY ASSERTED BY OPERATOR / OFFICIAL_DYNAMIC_SOURCE_RECHECK_PENDING`
 
 Rules:
-- do not remove Summer 200K
-- do not convert the public page to 100K-only
+- do not remove Summer200K
+- do not convert the public page to100K-only
 - static/crawler absence is not proof of nonexistence
-- English dynamic purchase/checkout/support evidence must be checked before any future rewrite of its detailed values
+- English dynamic purchase/checkout/support evidence must be checked before any future rewrite of detailed values
 
 ### Diagnosis protected logic
 No changes to question set/order/scoring/eligibility/ranking in this correction bundle.
@@ -309,7 +360,7 @@ No change.
 - existing regression PASS
 - protected hash match
 - route/sitemap/canonical check
-- 390px mobile QA
+-390px mobile QA
 - CTA-level PR disclosure QA
 - no unknown/conflict coerced into verified values
 - no service-nature wording drift
@@ -318,4 +369,4 @@ Final gate:
 `CENTRAL/HUMAN PUBLISH APPROVAL REQUIRED`
 
 Final Status：
-`POST_AUTH_CORRECTION_BUNDLE_CONSOLIDATED_THROUGH_WAVE12 / AUTH_AND_PRODUCTION_RECONCILIATION_BLOCK_IMPLEMENTATION`
+`POST_AUTH_CORRECTION_BUNDLE_CONSOLIDATED_THROUGH_WAVE15 / AUTH_AND_PRODUCTION_RECONCILIATION_BLOCK_IMPLEMENTATION`
