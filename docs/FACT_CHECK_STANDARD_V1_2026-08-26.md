@@ -70,6 +70,57 @@ Check 1/2から時間が空いた場合でも、Check 3は省略しない。
 
 Affiliate blog / aggregator / social postだけを3件集めてもVERIFIEDにしない。
 
+## 2A. Language / Freshness Source Order
+
+プロップファーム各社では、翻訳ページが英語原本より遅れて更新されることがあるため、本プロジェクトでは以下を標準運用とする。
+
+### Rules / Product Specs / Platform / Payout / Price の初動確認
+
+原則として **current English official sourceを先に確認する。**
+
+推奨順：
+1. current English official product / rules / FAQ / Help
+2. current English checkout / configurator / Terms
+3. current Japanese official page
+4. other official locale / direct support
+
+日本語ページだけを見てCurrent Truthを確定しない。
+
+### 日本固有Fact
+
+以下は英語一般ページだけでは確定しない。
+
+- 日本居住者Eligibility
+- 日本限定価格 / JPY価格
+- 日本限定Coupon / Campaign
+- 日本語サポート範囲
+- 日本向けKYC / payment
+- 日本向け法的・サービス表示
+
+これらはJP/local checkout/direct official confirmationを必須候補とする。
+
+### EN vs JP conflict
+
+英語ページを機械的に常勝扱いしない。
+
+不一致時は：
+- updated/effective date
+- cohort / purchase date
+- product-specific dedicated Rules
+- checkout/configurator
+- Terms
+- direct official clarification
+
+で原因を特定する。
+
+原因が解けない場合は、多数決せず `CONFLICT / HOLD`。
+
+### Search/crawler absence
+
+英語・日本語を問わず、検索結果やstatic crawlerに表示されないことだけで、Plan / Campaign / Productの不存在を証明しない。
+
+Dynamic purchase flow / login area / partner route / regional routeが存在し得るため、削除・終了判定にはより強い公式根拠を要求する。
+
 ## 3. High-Risk Facts
 
 以下は最低3回に加えて、可能な限り複数の独立一次根拠を要求する。
@@ -185,4 +236,4 @@ Workは実装前に、対象変更のCheck 3がfreshであることを確認す�
 新規・変更・既存公開のいずれも、最終的には最低3回ルールへ収束させる。
 
 Final Status：
-`APPROVED_MINIMUM_THREE_FACT_CHECKS_REQUIRED_WITH_RETROSPECTIVE_AUDIT`
+`APPROVED_MINIMUM_THREE_FACT_CHECKS_REQUIRED_WITH_ENGLISH_FIRST_FRESHNESS_AND_RETROSPECTIVE_AUDIT`
