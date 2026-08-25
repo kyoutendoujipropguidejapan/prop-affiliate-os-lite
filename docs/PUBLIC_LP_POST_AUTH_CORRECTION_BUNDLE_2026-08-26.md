@@ -48,7 +48,7 @@ If auth returns after the campaign is no longer useful, do not blindly publish s
 
 ---
 
-## P0-B — public factual corrections ready for minimal patch after reconciliation
+## P0-B — public factual/compliance corrections ready for minimal patch after reconciliation
 
 ### 1. Fintokei SwiftTrader cohort framing
 Current public issue:
@@ -162,14 +162,14 @@ This is overgeneralized.
 Current official program scopes differ:
 - Summer 1-Step uses50% consistency
 - The5ers Futures uses40% consistency
-- High Stakes / Growth / Bootcamp do not establish one universal company-wide 50% consistency or one universal payout cap
+- High Stakes / Growth / Bootcamp do not establish one universal company-wide50% consistency or one universal payout cap
 
 Safe company-level wording:
 `ConsistencyやPayout capはプラン別。Summer・Futuresなど対象プランの条件を個別確認。`
 
 Keep numeric consistency/cap only at plan scope.
 
-### 13. The5ers Futures Day Trade 25K
+### 13. The5ers Futures Day Trade25K
 Current English official product + FAQ + fresh recheck support:
 - current price $59
 - activation fee none
@@ -191,23 +191,39 @@ Current `/pay-after-pass-payg` states PAYG as definite:
 
 Current English official sources conflict:
 - challenge comparison：Daily5 / Max10 / Static
-- official 2026 guide：Daily4 / Max8 / Static
+- official2026 guide：Daily4 / Max8 / Static
 
 Safe replacement:
 `PAYGの損失上限は現行公式ページ間で差異を確認中。購入前にPAYGの購入画面・専用ルールを確認。`
 
-Do not choose 5/10 or4/8.
+Do not choose5/10 or4/8.
 
 ### 15. Home/page freshness metadata
 Replace stale global-style dates with page/section-level `last verified` where architecture permits.
 
 Do not imply every page Fact was checked on one date.
 
+### 16. Home official-information link / affiliate CTA separation
+Current public surfaces include Firm-card CTAs labeled like `最新条件を見る` while some destinations are Affiliate/Partner/Referral paths.
+
+Approved Compliance Baseline requires:
+- clean official-information source link separated from commercial conversion CTA
+- nearby PR disclosure for affiliate CTA
+- global disclosure alone not treated as sufficient architecture
+
+Safe target:
+1. `公式情報を確認` -> clean non-affiliate official product/rules/help URL
+2. `PR｜特典・申込みを確認` -> affiliate/referral URL
+3. concise nearby commercial disclosure
+4. factual evidence continues to reference clean official sources
+
+Do not remove monetization. Do not alter Diagnosis ranking/scoring.
+
 ---
 
 ## P1 — clarification / coverage updates
 
-### 16. Hantec Instant Lite
+### 17. Hantec Instant Lite
 Central approved:
 `HOLD -> VERIFIED_WITH_CAUTION`
 
@@ -217,42 +233,42 @@ Display:
 Trading-day scope:
 `評価・開始の最低取引日数：なし／出金周期の条件：5利益日（各0.5%以上）`
 
-### 17. Hantec EnhancedX minimum days
+### 18. Hantec EnhancedX minimum days
 Safe direction after fresh check:
-`最低取引日数：なし（ただしChallengeはConsistency 35%以下が必要。対象Add-onで評価側Consistency解除可）`
+`最低取引日数：なし（ただしChallengeはConsistency35%以下が必要。対象Add-onで評価側Consistency解除可）`
 
-### 18. Fundora platform
+### 19. Fundora platform
 Current official platform:
 `cTrader`
 
 Replace generic platform wording only after actual Production-source inspection.
 
-### 19. Blue Guardian Nano coverage
+### 20. Blue Guardian Nano coverage
 Current official models include:
-- 1 Step Nano
-- 2 Step Nano
+-1 Step Nano
+-2 Step Nano
 
 Do not add pricing until current purchase surface is confirmed.
 
-### 20. Blueberry Prime minimum days
+### 21. Blueberry Prime minimum days
 Safe current wording after fresh check:
 `現行新規購入は3日/Phase。旧購入条件・一部表示では5日を保持するため購入日を確認。`
 
-### 21. FundingPips 2 Step Standard reward options
+### 22. FundingPips 2 Step Standard reward options
 Do not collapse current structure to one `7日／80%` value if Production does so.
 
 Current official options include weekly60%, bi-weekly80%, monthly100%, and conditional on-demand90%.
 
-### 22. FundingPips Zero profitable-day threshold
+### 23. FundingPips Zero profitable-day threshold
 Where displayed:
 `7 profitable days / rolling30, each >=0.25%`
 
-### 23. Trading Cult Pro platform
+### 24. Trading Cult Pro platform
 Current official family uses MT5.
 
 Change generic platform wording to `MT5` only after model-specific source check.
 
-### 24. Fintokei NEW20 commercial status
+### 25. Fintokei NEW20 commercial status
 Current English official surfaces triple-support:
 - NEW20
 -20% off
@@ -263,7 +279,7 @@ Status:
 
 Japanese homepage omission is not negative evidence. Keep final checkout confirmation and do not guarantee final price.
 
-### 25. Fintokei payout minimum amount content gap
+### 26. Fintokei payout minimum amount content gap
 Current official English payout FAQ states minimums:
 -100 EUR
 -100 USD
@@ -274,6 +290,22 @@ with exceptions for certain400K ProTrader accounts and SwiftTrader minimum-profi
 Current public payout page is not false, but may add the20,000 JPY minimum where useful after fresh Japan-scope check.
 
 Status：`UPDATE_CANDIDATE / NOT_REQUIRED_FOR_CORRECTION`
+
+### 27. Beginner/Home service-nature wording hardening
+Current generic wording that many retail prop services use simulated environments is supported by current Fintokei, Hantec Trader and SuperFunded official material.
+
+Preferred precision update:
+`当サイトで扱う多くのサービスでは、評価や報酬算定にシミュレーション口座・仮想資金が使われます。サービスの法的・契約上の位置づけは各社で異なるため、個別ページでは各社Terms / FAQの説明に従います。`
+
+This is a precision/compliance improvement, not a claim that every Firm has the same legal/business model.
+
+### 28. Generic educational rule articles
+Wave17 triple recheck supports the current generic framing of:
+- `/articles/minimum-trading-days`
+- `/articles/news-trading-rules`
+
+No factual patch required.
+Keep future named-Firm examples behind fresh three-check scope.
 
 ---
 
@@ -311,7 +343,7 @@ Keep price hidden/confirmation state until checkout/direct clarification resolve
 Current public cards use older structure as `確認済み`.
 
 Current English official conflict:
-- current purchase surface + 2026-08-11 article: 25/30/35/40 progression; fifth Reserve70%
+- current purchase surface + 2026-08-11 article:25/30/35/40 progression; fifth Reserve70%
 - Help:40/45/50/55; fifth free including Reserve
 
 If checkout cannot settle at implementation:
@@ -330,7 +362,7 @@ Core rules may be used where independently verified; sale status stays checkout-
 
 ## DO NOT TOUCH
 
-### The5ers Summer 200K
+### The5ers Summer200K
 There has never been a user instruction to delete this plan.
 
 Project record:
@@ -362,6 +394,7 @@ No change.
 - route/sitemap/canonical check
 -390px mobile QA
 - CTA-level PR disclosure QA
+- Official URL / Affiliate URL separation PASS
 - no unknown/conflict coerced into verified values
 - no service-nature wording drift
 
@@ -369,4 +402,4 @@ Final gate:
 `CENTRAL/HUMAN PUBLISH APPROVAL REQUIRED`
 
 Final Status：
-`POST_AUTH_CORRECTION_BUNDLE_CONSOLIDATED_THROUGH_WAVE15 / AUTH_AND_PRODUCTION_RECONCILIATION_BLOCK_IMPLEMENTATION`
+`POST_AUTH_CORRECTION_BUNDLE_CONSOLIDATED_THROUGH_WAVE18 / AUTH_AND_PRODUCTION_RECONCILIATION_BLOCK_IMPLEMENTATION`
