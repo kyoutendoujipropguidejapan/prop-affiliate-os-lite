@@ -1,0 +1,54 @@
+# PLATFORM PROGRAM INDEX
+
+更新日：2026-08-26 JST
+Status：NAVIGATION / HANDOFF INDEX
+Production code changes：NONE
+
+Platform関連作業では、次の順で参照する。
+
+## 1. Architecture / scope
+
+1. `PLATFORM_ARCHITECTURE_DECISION_MT4_MT5_2026-08-26.md`
+2. `PLATFORM_DETAIL_CONTENT_CONTRACT_2026-08-26.md`
+3. `FIRM_PLATFORM_PAYOUT_ENTITY_LINKING_CONTRACT_2026-08-26.md`
+4. `PLATFORM_COMPARISON_TAXONOMY_2026-08-26.md`
+
+## 2. Content readiness
+
+5. `PLATFORM_CONTENT_READINESS_MATRIX_2026-08-26.md`
+6. `PLATFORM_HUB_CONTENT_SPEC_2026-08-26.md`
+7. `PLATFORM_DETAIL_SEO_MATRIX_2026-08-26.md`
+8. `PLATFORM_DETAIL_CONTENT_PACK_WAVE_A_2026-08-26.md`
+9. `PLATFORM_DETAIL_CONTENT_PACK_WAVE_B_2026-08-26.md`
+
+## 3. Official Research Packs
+
+- `PLATFORM_RESEARCH_FACT_PACK_MT5_2026-08-26.md`
+- `PLATFORM_RESEARCH_FACT_PACK_MT4_2026-08-26.md`
+- `PLATFORM_RESEARCH_FACT_PACK_TRADELOCKER_2026-08-26.md`
+- `PLATFORM_RESEARCH_FACT_PACK_CTRADER_2026-08-26.md`
+- `PLATFORM_RESEARCH_FACT_PACK_MATCH_TRADER_2026-08-26.md`
+- `PLATFORM_RESEARCH_FACT_PACK_DXTRADE_2026-08-26.md`
+- `PLATFORM_RESEARCH_FACT_PACK_BLACKARROW_2026-08-26.md`
+- `PLATFORM_RESEARCH_FACT_PACK_QUANTOWER_2026-08-26.md`
+- `PLATFORM_RESEARCH_FACT_PACK_VOLUMETRICA_2026-08-26.md`
+
+## 4. Mapping / implementation preparation
+
+10. `PLATFORM_FIRM_MAPPING_VERIFICATION_QUEUE_2026-08-26.md`
+11. `PLATFORM_PILOT_PREIMPLEMENTATION_SPEC_2026-08-26.md`
+12. `PLATFORM_PREPUBLICATION_COMPLIANCE_GATE_2026-08-26.md`
+
+## 5. Non-negotiable boundaries
+
+- Platform Production implementation is after Firm Detail foundation.
+- 9 canonical IDs only unless Central Command changes scope.
+- `planCatalog.platforms` is display layer, not canonical registry.
+- Firm × Platform mapping requires current evidence.
+- vendor capability != Firm-enabled capability.
+- no Master / Diagnosis / Affiliate ranking mutation.
+- no unsupported performance ranking.
+
+Current overall status：
+
+`PLATFORM_RESEARCH_AND_CONTENT_PREP_READY_IMPLEMENTATION_HOLD`
