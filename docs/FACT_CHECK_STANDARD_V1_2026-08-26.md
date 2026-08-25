@@ -158,11 +158,31 @@ Workは実装前に、対象変更のCheck 3がfreshであることを確認す�
 
 未達なら：`FACT_CHECK_HOLD`。
 
-## 9. Effective Decision
+## 9. Retrospective Application
 
-2026-08-26以降、新規Factおよび変更Factに本Standardを適用する。
+2026-08-26以降の新規Fact・変更Factだけでなく、**既存公開Fact・既存制作物にも遡及適用する。**
 
-既存公開Factを一括で即時再検証するのではなく、更新・再公開・Firm Detail展開時に最低3回ルールへ順次移行する。
+遡及監査は `docs/RETROSPECTIVE_TRIPLE_FACT_CHECK_AUDIT_2026-08-26.md` に従う。
+
+優先順位：
+
+1. Current Public Productionの高リスクFact
+2. 現行Campaign / Coupon / Affiliate条件
+3. Firm / Plan / FAQ / Comparison
+4. Platform / Payout / Editorial / B2B
+5. Internal / Draft assets
+
+既存公開Factを、過去に確認済みという理由だけで`TRIPLE_VERIFIED`扱いしない。
+
+監査未完了の既存Factは`LEGACY_UNAUDITED`として扱い、順次3回チェックへ移行する。
+
+誤り・期限切れ・Material Conflictを発見した場合は`CORRECTION_REQUIRED` / `HOLD`へ上げ、Production reconciliation後の最小修正対象にする。
+
+## 10. Effective Decision
+
+2026-08-26から本Standardを全体運用基準とする。
+
+新規・変更・既存公開のいずれも、最終的には最低3回ルールへ収束させる。
 
 Final Status：
-`APPROVED_MINIMUM_THREE_FACT_CHECKS_REQUIRED`
+`APPROVED_MINIMUM_THREE_FACT_CHECKS_REQUIRED_WITH_RETROSPECTIVE_AUDIT`
