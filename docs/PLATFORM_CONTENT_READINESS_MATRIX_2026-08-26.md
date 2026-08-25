@@ -4,7 +4,7 @@
 Status：PLANNING / CONTENT READINESS
 Production code changes：NONE
 
-Purpose：将来のPlatform Hub / Platform Detail実装に向けて、7 canonical platformのContent / Evidence / Firm Mapping / Production readinessを分離して管理する。
+Purpose：将来のPlatform Hub / Platform Detail実装に向けて、9 canonical platformのContent / Evidence / Firm Mapping / Production readinessを分離して管理する。
 
 ## 1. Readiness definitions
 
@@ -12,12 +12,14 @@ Purpose：将来のPlatform Hub / Platform Detail実装に向けて、7 canonica
 - `CONTRACT_ONLY`：共通Content Contractのみ。個別公式Research未完了
 - `FIRM_MAPPING_PENDING`：Current Production reconciliation後にFirm × Platform mapping確認が必要
 - `IMPLEMENTATION_HOLD`：Firm Detail Pilotより前にはProduction実装しない
-- `SCOPE_DECISION_REQUIRED`：Canonical Registryへの追加・除外などArchitecture判断が必要
+- `PREPUBLICATION_RECHECK`：公開直前にvendor / Japan-specific scope等のfresh再確認が必要
 
 ## 2. Matrix
 
 | Platform | Canonical ID | Content Research | Firm × Platform Mapping | Route | Production |
 |---|---|---|---|---|---|
+| MetaTrader 5 | mt5 | CONTENT_RESEARCH_READY | FIRM_MAPPING_PENDING | planned | IMPLEMENTATION_HOLD |
+| MetaTrader 4 | mt4 | CONTENT_RESEARCH_READY | FIRM_MAPPING_PENDING | planned | IMPLEMENTATION_HOLD |
 | TradeLocker | tradelocker | CONTENT_RESEARCH_READY | FIRM_MAPPING_PENDING | planned | IMPLEMENTATION_HOLD |
 | cTrader | ctrader | CONTENT_RESEARCH_READY | FIRM_MAPPING_PENDING | planned | IMPLEMENTATION_HOLD |
 | Match-Trader | match-trader | CONTRACT_ONLY | FIRM_MAPPING_PENDING | planned | IMPLEMENTATION_HOLD |
@@ -36,10 +38,29 @@ Purpose：将来のPlatform Hub / Platform Detail実装に向けて、7 canonica
 - Platform availability ≠ Japan eligibility
 - Japanese UI/documentation ≠ Firm Japanese support
 - Vendor marketing claimsを本サイトの比較評価へそのまま変換しない
+- EA / algorithmic / copy機能はVendor-level capabilityとFirm permissionを分離する
 
-## 4. Initial pilot candidates
+## 4. Canonical scope decision
 
-Content面ではTradeLocker / cTraderが先行準備済み。
+Central CommandによりMT5 / MT4の追加を承認済み。
+
+Canonical IDs：
+- mt5
+- mt4
+- tradelocker
+- ctrader
+- match-trader
+- dxtrade
+- blackarrow
+- quantower
+- volumetrica
+
+Decision record：
+`docs/PLATFORM_ARCHITECTURE_DECISION_MT4_MT5_2026-08-26.md`
+
+## 5. Initial pilot candidates
+
+Content面ではMT5 / MT4 / TradeLocker / cTraderが先行準備済み。
 
 ただし実装順は、Current Production reconciliation後に以下を確認して決定する：
 - current Firm usage breadth
@@ -51,41 +72,29 @@ Content面ではTradeLocker / cTraderが先行準備済み。
 
 Current recommendation：
 1. `/platforms/` Hub
-2. TradeLocker or cTrader one page
-3. materially different second page
+2. verified usage breadthが高い1 page
+3. workflowが異なる2 page目
 4. QA
 5. remaining platform rollout
 
-## 5. Important architecture gap discovered
+MT5を必ずPilot 1にするとはこの段階では固定しない。Firm mappingのCurrent Truthを優先する。
 
-Current canonical platform list contains:
-- tradelocker
-- ctrader
-- match-trader
-- dxtrade
-- blackarrow
-- quantower
-- volumetrica
+## 6. Remaining research queue
 
-しかし既存Master / project usageではMT5が取引環境として重要なDisplay String / selection contextで扱われている。
+次の公式一次情報Research Packを順次作成する：
+- Match-Trader
+- DXtrade
+- Blackarrow
+- Quantower
+- Volumetrica
 
-MT5を将来のPlatform Registry / Platform Detailのcanonical entityへ追加するかは、この文書では決定しない。
+Research完了前に本文を推測生成しない。
 
-Status：
-`MT5_SCOPE_DECISION_REQUIRED`
+## 7. Work boundary
 
-理由：
-- canonical list変更はArchitecture Decision
-- route `/platforms/mt5/` の新設可否に影響
-- Firm × Platform mapping範囲に影響
-- comparison taxonomyに影響
-- current preferred platform contextとの整合に影響
+Research PackはChat / Evidence preparationで進めてよい。
 
-## 6. Work boundary
-
-MT5 scope決定前でもTradeLocker / cTraderのResearch Pack作成は可能。
-
-ただしPlatform Registry実装開始前にはMT5 scopeを中央判断で確定する。
+Platform Registry / public routes / sitemap / navigation / GA4のProduction実装はFirm Detail foundation後までHOLD。
 
 Final Status：
-`PLATFORM_CONTENT_PREP_CONTINUES_MT5_DECISION_PENDING`
+`PLATFORM_CONTENT_PREP_CONTINUES_9_PLATFORM_SCOPE_CONFIRMED`
