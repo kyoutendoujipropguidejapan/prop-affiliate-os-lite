@@ -15,7 +15,10 @@ Platform Pilotは以下完了後のみ開始：
 - Fundora/Fintokei Firm Detail Pilot PASS
 - Firm Detail rolloutの少なくとも初回Wave安定
 - Master / Diagnosis / GA4 protected state確認
-- MT5 canonical scope decision完了
+- 9 platform canonical scope確認
+
+MT4 / MT5 scopeはCentral Command承認済み：
+`docs/PLATFORM_ARCHITECTURE_DECISION_MT4_MT5_2026-08-26.md`
 
 ## 2. Pilot scope
 
@@ -27,15 +30,19 @@ Platform Pilotは以下完了後のみ開始：
 - disclaimer / verification status
 - SEO / mobile / regression tests
 
-初回から7 platformすべてを実装しない。
+初回から9 platformすべてを実装しない。
 
 ## 3. Candidate content
 
 Research Pack作成済み：
+- MetaTrader 5
+- MetaTrader 4
 - TradeLocker
 - cTrader
 
 他platformは個別Research完了前に本文を推測生成しない。
+
+Pilot 1 / Pilot 2はCurrent Production reconciliation後のverified Firm mappingと利用価値で決定する。MT5/MT4を追加したことだけを理由に自動選定しない。
 
 ## 4. Data boundary
 
@@ -61,6 +68,7 @@ Firm一覧に出せるのはCurrent Production / official Evidenceで確認済�
 - catalog外Firm追加
 - Program mappingの推測
 - platform一般機能をFirm固有機能として表示
+- Vendor-level EA / copy / DOM capabilityをFirm permissionとして扱う
 
 ## 6. Page structure
 
@@ -83,6 +91,7 @@ Detail：
 - Platform自体が利益・合格・出金を保証するような表現禁止
 - Japan availabilityとFirm eligibilityを混同しない
 - Firm-specific execution / market-dataを一般仕様と分離
+- EA / algorithmic / copy機能の可否はFirm ruleを別確認
 
 ## 8. SEO
 
@@ -108,6 +117,7 @@ Pilot実装時も既存GA4 dispatcher以外を使用しない。
 ## 10. Test requirements
 
 - registry schema/type validation
+- 9 canonical IDs validation
 - unknown preservation
 - Firm mapping allow-list behavior
 - route render
@@ -130,7 +140,7 @@ P5：incremental expansion
 
 ## 12. Stop conditions
 
-- MT5 scope unresolved at Registry implementation start
+- canonical scope unexpectedly differs from approved 9 IDs
 - current Firm mapping cannot be verified
 - Master rewrite becomes necessary
 - Diagnosis changes become necessary
@@ -139,4 +149,4 @@ P5：incremental expansion
 - mobile overflow not resolved without large refactor
 
 Final preimplementation status：
-`PLATFORM_PILOT_SPEC_PREPARED_NOT_AUTHORIZED_TO_IMPLEMENT`
+`PLATFORM_PILOT_SPEC_PREPARED_9_PLATFORM_SCOPE_NOT_AUTHORIZED_TO_IMPLEMENT`
