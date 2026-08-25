@@ -1,108 +1,126 @@
-# FTM INSTANT PRO — HOLD RESOLUTION CANDIDATE
+# FTM INSTANT PRO — HOLD RECHECK
 
 確認日：2026-08-26 JST
-Status：CANDIDATE ONLY / HOLD NOT AUTO-RELEASED
+Status：CURRENT OFFICIAL CONFLICT CONFIRMED / KEEP HOLD
 Production code changes：NONE
 
 ## 1. Background
 
-M14では`Funded Trader Markets | Instant Pro`がHOLD。主にDaily Drawdown等の公式情報不一致を安全側で扱ったもの。
+M14では`Funded Trader Markets | Instant Pro`がHOLD。主因はDaily Drawdown等の公式情報不一致。
 
-2026-08-26の公式Web再確認で、Instant Pro専用FAQにcurrent-looking具体値が確認できたため、HOLD解除候補Evidenceとして整理する。
+2026-08-26の再確認で、Instant Pro専用FAQ / variation matrixはDaily Drawdown 3%へ収束している一方、同じ公式domainのInstant Funding marketing pageに`no Daily Drawdown Limit`表記が現在も残っていることを確認した。
+
+したがって、HOLD解除候補ではなく**current official conflict継続**として扱う。
 
 ## 2. Current official signals
 
-### Daily Drawdown
+### A. Dedicated Instant Pro FAQ — Daily Drawdown 3%
 
-Official FTM FAQ：
+Official FTM Help Center：
 - Maximum Daily Drawdown = 3% of Initial Balance
-- 5 PM EST時点で前日Balance / Equityの高い方を参照する例を掲載
-- Initial Balanceの3%幅を差し引いてstop-out limitを算出する説明
+- 5 PM EST時点でBalance / Equityの高い方を参照する例
+- Initial Balanceの3%幅を差し引いてstop-out limitを算出
+- breachするとaccount violated / closed / disabledと説明
 
 Source：
-https://fundedtradermarkets.com/faq/how-does-the-maximum-daily-drawdown-limit-for-the-instant-pro-account-work
+https://intercom.help/fundedtradermarkets/en/articles/10152114-how-does-the-daily-drawdown-limit-for-the-instant-pro-account-work
+
+### B. Official variation / current comparison — Daily Drawdown 3%
+
+Official FTM variation pageのInstant Pro表示：
+- Max Overall Drawdown 3%
+- Max Daily Drawdown 3%
+- Profit Split Up to 80%
+
+Source example：
+https://fundedtradermarkets.com/variations?category=instant&program=instant-pro
+
+Localized variation pagesも同じ3% / 3%構造を表示する。
+
+### C. Official Instant Funding marketing page — contradictory `no Daily Drawdown Limit`
+
+同じFTM公式domainのInstant Funding紹介ページでは、Instant Proの紹介コピーに現在も：
+
+`no Daily Drawdown Limit`
+
+相当の表現が残る。
+
+同じページ下部のcomparison matrixではInstant Pro Daily DD 3%と表示されるため、**同一公式ページ内でもmarketing copyとrule matrixが不一致**。
+
+Source example：
+https://fundedtradermarkets.com/de/ftm-instant-funding
+
+この不一致は失格条件に直結するため、単なるコピー差として無視しない。
+
+## 3. Other current Instant Pro signals
 
 ### Overall Drawdown
 
-Official FTM Instant Pro FAQ search result / localized FAQ：
-- Overall Drawdown Limit = 3%
-- Maximum Balance Watermarkを基準とするtrailing overall drawdownとして説明
-
-Source context：
-https://fundedtradermarkets.com/faq/category/instant-funding-pro
+- Overall Drawdown 3%
+- trailing / maximum-balance-watermark系の説明が専用FAQに存在
 
 ### Consistency
 
-Official FTM FAQ：
-- Best day must not exceed 15% of total profit for payout eligibility
-- exceeding does not by itself state immediate account breach; trader continues until ratio falls below threshold
-
-Source：
-https://fundedtradermarkets.com/faq/is-there-any-consistency-requirement-on-instant-funding-pro-account
+- Best day <= 15% of total profit for payout eligibility
+- 超過時は比率が下がるまで追加利益が必要
 
 ### Minimum Trading Days / payout eligibility
 
-Official FTM Japanese FAQ：
-- Instant Standard / Pro / Plus：minimum 5 trading days for payout eligibility
-- only days with at least 0.5% profit count
-
-Source：
-https://fundedtradermarkets.com/ja/faq/is-there-a-requirement-for-a-minimum-number-of-trading-days
+- minimum 5 qualifying trading days
+- each qualifying day >= 0.5% profit
 
 ### Profit Split
 
-Official FTM FAQ：
 - 1st reward 50/50
 - 2nd 60/40
 - 3rd 70/30
 - 4th onward 80/20
 
-Source：
-https://fundedtradermarkets.com/faq/what-is-the-profit-split-offered-in-instant-funding-pro-account
-
 ### Maximum Allocation
 
-Official FTM FAQ：
 - Instant Pro max allocation per trader = $100,000
 
-Source：
-https://fundedtradermarkets.com/faq/what-is-the-maximum-allocation-for-instant-funding-pro-accounts
+これらはDaily DD conflictを解除する根拠にはしない。
 
-## 3. Candidate interpretation
+## 4. Decision
 
-2026-08-26時点のOfficial FAQ setでは、Daily DD 3%の具体的説明が存在し、Instant Pro専用FAQ内のoverall/consistency等と組み合わせてcurrent rule setを説明できる可能性が高い。
+Current status：
 
-However：
+`KEEP_HOLD`
 
-- old conflicting sourceが現在も別公式pageに残っている可能性
-- purchase page / Terms / dashboard ruleと差がある可能性
-- Production SourceHealthの元Conflict sourceをまだ照合していない
+理由：
 
-ため、HOLDをこの文書だけで解除しない。
+1. scoring / breach criticalなDaily DDについて公式内矛盾が現存
+2. dedicated FAQ / matrixは3%だがmarketing pageはno limit表記
+3. official source precedenceを勝手に決めて一本化できない
+4. Diagnosis / FAQ Schemaへ確定値として流すと誤案内リスクがある
 
-## 4. Resolution Gate
+## 5. Resolution Gate
 
-Work auth recovery / Production reconciliation後に：
+解除条件：
 
-1. M14 HOLDの元Conflict sourceを特定
-2. current official Instant Pro FAQ setと比較
-3. Terms / purchase displayのcurrent value確認
-4. account cohort差の有無確認
-5. SourceHealth conflictが実質解消したか判定
-6. Central Command / human approval
+1. FTMがmarketing copyを修正し公式表示が収束する、または
+2. FTMから書面でInstant Proの優先ルールを明示する
+3. current Production SourceHealthを再照合
+4. cohort / purchase date差がないことを確認
+5. central / human approval
 
-全てPASSなら：
+上記までHOLDを維持する。
 
-Candidate transition：
-`HOLD -> VERIFIED_WITH_CAUTION` または適切なcurrent status
+## 6. Publication / Diagnosis Policy
 
-自動で`VERIFIED`へ上げない。
+HOLD中：
 
-## 5. Compliance
+- Diagnosis Top3根拠に使わない
+- FAQ schemaへ確定ルールとして入れない
+- `Daily DDなし` / `Daily DD 3%`のどちらか一方を独断で正本化しない
+- public detailで扱う場合は`公式情報に不一致あり / 確認中`とする
+
+## 7. Compliance
 
 `Instant Funding`という名称を実資金提供の保証として説明しない。
 
-FTM page wordingが`Simulated Funded` / `Instant Simulated Funding`を使用している場合は、Firm Detailでもservice natureを保つ。
+FTMの`Simulated Funded` / `Instant Simulated Funding`等のservice-nature wordingを保持する。
 
 Final Status：
-`FTM_INSTANT_PRO_HOLD_RESOLUTION_CANDIDATE_AWAITING_PRODUCTION_SOURCE_RECONCILIATION_AND_HUMAN_APPROVAL`
+`FTM_INSTANT_PRO_KEEP_HOLD_CURRENT_OFFICIAL_CONFLICT_CONFIRMED`
