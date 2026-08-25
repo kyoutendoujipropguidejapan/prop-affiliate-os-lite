@@ -14,6 +14,8 @@ Hub:
 - `/platforms/`
 
 Detail routes:
+- `/platforms/mt5/`
+- `/platforms/mt4/`
 - `/platforms/tradelocker/`
 - `/platforms/ctrader/`
 - `/platforms/match-trader/`
@@ -31,6 +33,8 @@ Do not create public routes until a separate Platform implementation/release gat
 
 # 2. Canonical platform IDs
 
+- mt5
+- mt4
 - tradelocker
 - ctrader
 - match-trader
@@ -38,6 +42,8 @@ Do not create public routes until a separate Platform implementation/release gat
 - blackarrow
 - quantower
 - volumetrica
+
+MT4 / MT5 scope is approved by `docs/PLATFORM_ARCHITECTURE_DECISION_MT4_MT5_2026-08-26.md`.
 
 `planCatalog.platforms` remains a protected display-string layer until separately migrated/accepted.
 
@@ -89,6 +95,7 @@ The following may vary and require Firm × Platform evidence:
 - account permissions
 - order types
 - copy functionality
+- EA / algorithmic trading permission
 - server/connection
 - execution configuration
 - data entitlement
@@ -117,6 +124,7 @@ Safer comparison dimensions include verified workflow differences such as:
 - chart workflow
 - order-entry model
 - DOM availability where verified
+- EA / algorithmic-trading environment where relevant
 - integration style
 - Firm support breadth
 
@@ -147,7 +155,7 @@ Each detail page should have:
 - self canonical
 - no index until QA/release acceptance
 
-Avoid keyword-stuffed duplicate copy across seven platform pages.
+Avoid keyword-stuffed duplicate copy across nine platform pages.
 
 ---
 
@@ -160,6 +168,8 @@ Required disclaimer concept:
 Do not claim execution quality/performance without evidence.
 
 Do not imply software/platform use itself guarantees trading results.
+
+Do not infer EA/copy-trading permission from vendor-level platform capability.
 
 ---
 
@@ -179,7 +189,7 @@ No PII or trading-account identifiers.
 
 # 11. Initial pilot strategy
 
-When implementation begins, do not launch all seven pages at once.
+When implementation begins, do not launch all nine pages at once.
 
 Recommended:
 
@@ -189,7 +199,7 @@ Recommended:
 4. QA / mobile / SEO / relation validation
 5. expand to remaining accepted platforms
 
-Exact first platform is decided from current verified Firm mappings at implementation time, not from this document.
+Research-ready candidates currently include MT5, MT4, TradeLocker and cTrader, but exact first platforms are decided from current verified Firm mappings at implementation time.
 
 ---
 
@@ -206,4 +216,4 @@ Platform detail implementation must preserve:
 
 Final architecture status:
 
-`PLATFORM_DETAIL_CONTENT_CONTRACT_CONFIRMED`
+`PLATFORM_DETAIL_CONTENT_CONTRACT_CONFIRMED_9_PLATFORM_SCOPE`
