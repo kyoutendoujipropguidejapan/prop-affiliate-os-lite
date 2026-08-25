@@ -15,7 +15,7 @@ Purpose：途中・未観測・監査済みrouteを一か所で追跡し、再�
 
 | Route / Surface | Status | Main audit |
 |---|---|---|
-| `/` Home | `PARTIAL_HIGH_RISK_AUDITED` | Firm cards, codes, CTA separation, service nature, selected current-plan corrections |
+| `/` Home | `PARTIAL_HIGH_RISK_AUDITED` | Firm cards, codes, CTA separation, service nature, selected current-plan corrections, Blue Guardian Japan eligibility, The5ers100K current-pick freshness |
 | `/prop-firm-payout-comparison` | `AUDITED_HIGH_RISK` | payout conditions, SuperFunded minimum, code-evidence wording, Summer200K protection |
 | `/pay-after-pass-payg` | `AUDITED_HIGH_RISK` | Funded7 PAYG, Trading Cult PAP, FundedElite Flash |
 | `/one-step-two-step-instant` | `AUDITED_STRUCTURE` | FTMO/Fintokei/Funded7/FTM/TradingCult/FundedElite evaluation structure |
@@ -25,7 +25,33 @@ Purpose：途中・未観測・監査済みrouteを一か所で追跡し、再�
 | `/articles/minimum-trading-days` | `AUDITED_GENERIC_FRAME` | generic article supported; future named examples need fresh checks |
 | `/articles/news-trading-rules` | `AUDITED_GENERIC_FRAME` | generic article supported; stage/plan differences preserved |
 
-## 2. Planned/source-known routes not reliably observed in current public crawler
+## 2. Content scopes audited even where current public route is not reliably observed
+
+### Fintokei Free Trial scope — Wave24
+Status:
+`CONTENT_FACTS_AUDITED / PRODUCTION_ROUTE_RECONCILIATION_REQUIRED`
+
+Current official scope:
+- English general/top-level programs:4 × up to2 =8
+- Japan current listed plan variants including Slim:5 ×2 =10
+
+If any Japan-facing Production route says unqualified `最大8回`, enqueue scope-aware correction after source inspection.
+
+### Fintokei Academy — Wave25
+Status:
+`CONTENT_FACTS_AUDITED / PUBLIC_NOT_OBSERVED / PRODUCTION_ROUTE_RECONCILIATION_REQUIRED`
+
+Verified current core facts:
+- Japan-only current availability
+- Learn / Drills / simulated Trade / Analytics / Roadmap
+- app-specific XP / levels / milestones / rewards
+- simulation-based trading
+
+Governance:
+- Academy XP and MyFintokei Loyalty XP are not merged without explicit future official evidence
+- universal Academy-completion ->50% Challenge discount remains evidence-required/HOLD
+
+## 3. Planned/source-known routes not reliably observed in current public crawler
 
 The following are present in Handoff content/SEO planning but current public search/crawl did not reliably expose them in this audit session.
 
@@ -40,17 +66,18 @@ Status for all below:
 - `/articles/weekend-holding-rules`
 - `/articles/prop-firm-disqualification-rules`
 - other M09/M09B article-route variants where slug between planning and Production may differ
+- any Fintokei Academy dedicated route if present in Production but not observable in current crawler
 
 Important：
 Do not say these routes are absent from Production until actual Production source + sitemap + browser are checked.
 
-## 3. Known public/content surfaces requiring further route-level audit
+## 4. Known public/content surfaces requiring further route-level audit
 
 ### P0 after source access
 - Home exact current Firm/Plan count and rendered version
 - Home all current Firm-card facts after actual source reconciliation
 - Home special-code actual current values + Evidence backfill
-- Fintokei dedicated/current surfaces if present in Production
+- Fintokei dedicated/current surfaces including Free Trial / Academy if present in Production
 - all FAQ answers containing Firm-specific current numeric facts
 
 ### P1
@@ -59,13 +86,14 @@ Do not say these routes are absent from Production until actual Production sourc
 - price-history route/content
 - remaining Firm-specific articles
 - all source-link destinations and affiliate-vs-official separation
+- Academy current CTA/reward claims and any in-app benefit claims
 
 ### P2
 - beginner/general articles without named current numeric facts
 - metadata/freshness labels
 - internal-link integrity and canonical/sitemap
 
-## 4. Mandatory post-auth route inventory
+## 5. Mandatory post-auth route inventory
 
 When internal Git authentication is restored, Work must read-only enumerate before any new feature implementation:
 
@@ -79,22 +107,24 @@ When internal Git authentication is restored, Work must read-only enumerate befo
 8. all FAQ/schema blocks
 9. all Affiliate CTA href targets
 10. all official-source href targets
+11. any Academy/Free-Trial routes/content
+12. all page/section freshness metadata
 
 Compare this list to the ledger.
 Any route found but not audited -> enqueue.
 Any planned route not present -> classify only after source confirmation.
 
-## 5. Real-world QA still unfinished
+## 6. Real-world QA still unfinished
 
 Separate from factual audit:
-- actual iPhone Safari 390px production rendering
+- actual iPhone Safari390px production rendering
 - CTA-level PR disclosure visibility
 - GA4 real-send verification without PII
 - cache/render divergence check against actual browser
 
 These remain post-auth / browser-access gates and are not treated as completed by static crawler review.
 
-## 6. Other intentionally paused streams
+## 7. Other intentionally paused streams
 
 Not forgotten:
 - Firm Detail Pilot -> after reconciliation/corrections
@@ -103,4 +133,4 @@ Not forgotten:
 - M15 Monitoring -> later Evidence phase, currently not active
 
 Final Status：
-`ROUTE_LEDGER_ACTIVE_NO_UNOBSERVED_ROUTE_TREATED_AS_MISSING`
+`ROUTE_LEDGER_ACTIVE_THROUGH_WAVE25_NO_UNOBSERVED_ROUTE_TREATED_AS_MISSING`
