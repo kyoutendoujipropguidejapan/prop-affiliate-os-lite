@@ -93,7 +93,7 @@ Status for these scoped baseline fields：`TRIPLE_VERIFIED_WITH_VARIANT_SCOPE`
 
 ---
 
-## 5. Result
+## 5. Result — Slim status
 
 The current public Home legacy status for `チャレンジ・スリム` is stale.
 
@@ -108,7 +108,56 @@ Do not erase historical chronology; separate:
 
 ---
 
-## 6. Safe Production direction after auth recovery
+## 6. Additional taxonomy audit — current Fintokei FAQ wording
+
+### Current public FAQ wording
+
+The public site currently says, in effect, that current official programs include:
+- Challenge / ProTrader
+- ProTrader Swing
+- ProTrader Slim
+- SwiftTrader
+
+This wording omits StartTrader / 入門 while treating Slim as if it were a peer top-level program.
+
+### Check A — current English onboarding FAQ
+`https://support.fintokei.com/en/articles/8911222-first-steps-with-fintokei-how-to-start-right`
+
+Current English onboarding explicitly says Fintokei offers four programs:
+- StartTrader
+- SwiftTrader
+- ProTrader
+- ProTrader Swing
+
+### Check B — current English Fintokei Products collection
+`https://support.fintokei.com/en/collections/12355578-fintokei-products`
+
+The collection is grouped by:
+- StartTrader
+- ProTrader
+- SwiftTrader
+
+Within the ProTrader collection, Slim is documented as a ProTrader variant.
+
+### Check C — current Slim FAQ + Japan product surface
+
+The dedicated current Slim FAQ and current Japan Slim page confirm Slim exists, but as a specialized ProTrader-family offer.
+
+### Result — taxonomy
+
+Status：`CORRECTION_REQUIRED / TAXONOMY`
+
+Safe public explanation:
+
+`Fintokeiの現行トップレベルのプログラムは StartTrader（入門）、SwiftTrader（速攻プロ）、ProTrader（チャレンジ）、ProTrader Swing（チャレンジ・スイング）。ProTrader Slimは日本/JPY向けのProTrader派生プランとして提供されています。`
+
+Do not use the old M14 current-plan sentence unchanged if it omits StartTrader and flattens Slim into the same taxonomy level.
+
+This is a newer source adjudication and supersedes that old wording for current publication.
+
+---
+
+## 7. Safe Production direction after auth recovery
 
 After actual Production-source reconciliation + fresh Check3:
 
@@ -122,12 +171,13 @@ After actual Production-source reconciliation + fresh Check3:
    - min3 days each phase
    - MT5 exclusive
 4. preserve Japan/Japanese-user scope
-5. do not auto-add or reweight Slim in Diagnosis scoring in the same patch
-6. preserve historical sale/relaunch notes only in history context
+5. update the public Fintokei `どんなプランがありますか？` FAQ to distinguish top-level programs from the Slim variant and include StartTrader
+6. do not auto-add or reweight Slim in Diagnosis scoring in the same patch
+7. preserve historical sale/relaunch notes only in history context
 
 ---
 
-## 7. Important count semantics
+## 8. Important count semantics
 
 Fintokei's current English onboarding article says it offers four **programs**:
 - StartTrader
@@ -140,4 +190,4 @@ Slim is a **ProTrader variant**, not necessarily a fifth top-level program in Fi
 Therefore public site may display five user-facing plan families/cards if useful, but should not claim that Fintokei itself defines five top-level programs solely because Slim has its own card.
 
 Final Status：
-`WAVE14_COMPLETE_FINTOKEI_SLIM_LEGACY_STATUS_STALE_CURRENT_VARIANT_RESTORATION_QUEUED`
+`WAVE14_COMPLETE_FINTOKEI_SLIM_CURRENT_VARIANT_AND_TAXONOMY_CORRECTIONS_QUEUED`
