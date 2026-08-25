@@ -1,7 +1,7 @@
 # PUBLIC LP TRIPLE FACT-CHECK AUDIT — WAVE 3 / FIRM RULES
 
 更新日：2026-08-26 JST
-Status：AUDIT COMPLETE / NO PRODUCTION CHANGE
+Status：AUDIT COMPLETE / HANTEC HOLD APPROVED FOR VERIFIED_WITH_CAUTION / NO PRODUCTION CHANGE
 Scope：公開中 `kyouten-prop-guide.utsr.chatgpt.site` の Blue Guardian / Blueberry Funded / Hantec Trader / SuperFunded
 Standard：`FACT_CHECK_STANDARD_V1_2026-08-26.md`
 
@@ -283,12 +283,15 @@ Again confirms standard 5% trailing max loss.
 
 The previous apparent `5% vs 6%` conflict is explainable as base rule vs optional +1% add-on.
 
-Status：`HOLD_RESOLUTION_READY_FOR_HUMAN_APPROVAL`
+User/central command approved resolution on 2026-08-26.
 
-Proposed canonical display:
+Status transition:
+`HOLD -> VERIFIED_WITH_CAUTION`
+
+Approved canonical display:
 `標準5% Trailing（決済後残高追随→5%利益到達後に開始残高でLock）／+1% Max Loss Add-onで6%`
 
-Do NOT release HOLD automatically. Human/central approval is required.
+Production edit remains blocked until internal Git auth recovery + source reconciliation + fresh recheck.
 
 ---
 
@@ -300,7 +303,7 @@ Current product pages say `No minimum trading days` for entering/operating the I
 
 Current Help article says payout eligibility requires `5 profitable days` per payout cycle, each >=0.5% profit.
 
-These are not necessarily contradictory; they describe different scopes.
+These are not contradictory; they describe different scopes.
 
 ### Result
 
@@ -381,10 +384,12 @@ Do not generalize to every add-on or historical cohort without a fresh check.
 
 6. Blueberry Prime minimum-day wording improvement
 
-### Human approval required
+### Approved status change, awaiting Production implementation gate
 
-7. Hantec Instant Lite previous HOLD release
-   - proposed resolution: standard 5% trailing, optional +1% add-on = 6%
+7. Hantec Instant Lite
+   - `HOLD -> VERIFIED_WITH_CAUTION`
+   - standard max loss 5% trailing
+   - optional +1% add-on = 6%
 
 ### No correction from this Wave
 
@@ -404,7 +409,7 @@ When auth recovers:
 3. confirm cohort fields exist in source architecture
 4. minimal patch only
 5. regression + protected hashes + 390px + compliance
-6. human approval for HOLD release / publish
+6. human approval for publish
 
 Final Status：
-`WAVE3_AUDIT_COMPLETE_CORRECTIONS_QUEUED_HANTEC_HOLD_APPROVAL_REQUIRED_NO_PRODUCTION_CHANGE`
+`WAVE3_AUDIT_COMPLETE_HANTEC_VERIFIED_WITH_CAUTION_APPROVED_CORRECTIONS_QUEUED_NO_PRODUCTION_CHANGE`
