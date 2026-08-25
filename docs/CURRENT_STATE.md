@@ -1,14 +1,13 @@
 # CURRENT_STATE
 
-確認基準日：2026-08-24 JST
+確認基準日：2026-08-25 JST
 
 ## 本番
 
 - 公開サイト：`https://kyouten-prop-guide.utsr.chatgpt.site`
 - Production：**Version 80**
 - V80で Firm → Plan → Detail の3段階Selectorを公開済み
-- 本番データはまだ旧公開状態。今回のGraphic / Data Patchは未公開
-- 本番は不用意に変更しない
+- 今回のGraphic + Data Patch Release Candidateはまだ未公開
 
 ## 作業分担
 
@@ -20,33 +19,25 @@ Workに重複調査や仕様再設計をさせず、Chat / GitHubで判断を固
 
 ## 未公開Work最新状態
 
+現在の未公開Workは **Release Candidateとして固定済み**。
+
+正本：
+
+- `docs/WORK_DATA_PATCH_SPEC_2026-08-24.md`
+- `docs/WORK_DATA_PATCH_RESULT_2026-08-24.md`
+- `docs/RELEASE_CANDIDATE_FINAL_2026-08-25.md`
+
 ### Graphic
 
-Graphic Style Refinement：**COMPLETE / PASS_WITH_CAUTION**
-
-4点を都会・日常・プロップファーム / トレード文脈の線画へ差し替え済み：
-
+- 都会・日常・プロップファーム / トレード文脈の線画4点
 - `learning-path.webp`
 - `diagnosis-flow.webp`
 - `firm-compare.webp`
 - `selector-flow.webp`
+- 4/4読込、960×640、ratio正常
+- Graphic変更は固定済み
 
-- 1363px fresh PASS
-- 46/46 regression PASS（Graphic単体時）
-- build PASS
-- lint error 0 / existing warning 1
-- 390px fresh実画面：環境上 NOT_EXECUTABLE
-
-Graphicは固定。追加機能・追加画像は行わない。
-
-### Data Patch
-
-正本：`docs/WORK_DATA_PATCH_SPEC_2026-08-24.md`
-結果：`docs/WORK_DATA_PATCH_RESULT_2026-08-24.md`
-
-**Data Patch Verification = PASS**
-
-未公開Work actual：
+### Data Patch actual
 
 - Firm = 14
 - PlanCatalog = 72
@@ -57,21 +48,27 @@ Graphicは固定。追加機能・追加画像は行わない。
 - SourceHealth = 16
 - Block = 5
 
-変更：
+Blue Guardian：
 
-- Blue Guardian P042 3 Step → Legacy / Diagnosis除外
-- P070 1 Step Nano → Active catalog追加 / Diagnosis未接続
-- P071 2 Step Nano → Active catalog追加 / Diagnosis未接続
-- P072 BNPL → Active WITH_CAUTION catalog追加 / Diagnosis未接続
+- P042 3 Step → Legacy / Diagnosis除外
+- P070 1 Step Nano → Active / Diagnosis未接続
+- P071 2 Step Nano → Active / Diagnosis未接続
+- P072 BNPL → Active WITH_CAUTION / Diagnosis未接続
 - P045 1 Step Crypto → listed-only / HOLD維持
 - P046 1 Step Pro → Legacy維持
-- Hantec P028 Instant Lite → SH003 RESOLVED / Standard Max Loss 5% / Add-on 6% / Block解除
+- 未公開Work表示：Active 8 / 確認中1 / Legacy 2
+
+Hantec Trader：
+
+- P028 Instant Lite → Daily 3% / Max 5% / Add-on 6%
+- SH003 RESOLVED
+- blockTop3 = false
 
 SourceHealth：
 
 - SH003 = RESOLVED
-- SH015 = Blue Guardian 3 Step `RESOLVED_TO_LEGACY`
-- SH016 = Blue Guardian BNPL conflict `要確認`
+- SH015 = Blue Guardian 3 Step RESOLVED_TO_LEGACY
+- SH016 = Blue Guardian BNPL 要確認
 
 残るBlock 5：
 
@@ -81,33 +78,32 @@ SourceHealth：
 4. Funded Trader Markets｜Instant Pro
 5. FundedElite｜Flash Activation
 
-検証：
+## Release Candidate Final Verification
 
-- regression 48/48 PASS
-- Production build PASS
-- lint error 0 / existing warning 1
-- `git diff --check` PASS
-- Cloud Browser Blue Guardian / Hantec / Diagnosis PASS
-- Block 5 / P042 / P070-P072 Top3混入 0
+判定：**PASS_WITH_CAUTION**
+
+- 差分fingerprint：`83a32d0118ced8415e323e5fb3580ebb39d6b066c6242f68a6bbd6eb7deac910`
+- fingerprint Before / After一致
+- QAによるソース変更0
+- 想定外差分0
+- Regression 48/48 PASS
+- Build PASS
+- Lint error 0 / existing warning 1
+- git diff --check PASS
+- Blue Guardian fresh PASS
+- Hantec fresh PASS
+- Diagnosis fresh PASS
+- Graphic fresh PASS
 - site console error 0
 - 新規BLOCKER 0 / CRITICAL 0
 
-Protected hashはBefore / After一致：DiagnosisLogicV2 / integrated-tools.js / GA4 / Sitemap / Graphic 4点。
+Protected hashは検証前後一致：Master / DiagnosisLogicV2 / GA4 / Sitemap / Graphic 4点。
 
-## 重要な正本
+### Caution
 
-データパッチ判断：
+390px実画面 = **NOT_EXECUTABLE**。
 
-- `docs/SOURCEHEALTH_RECHECK_2026-08-24.md`
-- `docs/BLUE_GUARDIAN_MASTER_PATCH_SPEC_2026-08-24.md`
-- `docs/HANTEC_INSTANT_LITE_PATCH_SPEC_2026-08-24.md`
-- `docs/BLOCK_REVIEW_FINAL_2026-08-24.md`
-- `docs/WORK_DATA_PATCH_SPEC_2026-08-24.md`
-- `docs/WORK_DATA_PATCH_RESULT_2026-08-24.md`
-
-Excel Master：`Prop_Firm_Master_v2_2_Final_UX_Copy.xlsx`
-
-注意：今回Workで変更したのは `app/master-data.json`。Excel Masterそのものの同期更新は別Gateとし、GitHub要約だけでExcel Masterを上書きしない。
+現環境の既知制約。これが唯一のCaution。
 
 ## Diagnosis絶対保護
 
@@ -116,28 +112,7 @@ Excel Master：`Prop_Firm_Master_v2_2_Final_UX_Copy.xlsx`
 - Affiliate / commission / coupon / priceを採点へ入れない
 - Unknownを0 / falseで代用しない
 - Conflictを自動Verified化しない
-- 新規Planを件数合わせのためDiagnosisへ接続しない
-
-## 公開設計
-
-ファーム一覧
-↓
-そのファームのプラン一覧
-↓
-必要なプランだけ詳細
-
-Firm Selectorは「会社から探す」、Diagnosisは「条件から探す」。Price / Couponは後段。
-
-## 基礎講座
-
-1. プロップファームって何？
-2. いきなり購入しなくていい
-3. まず確認する3つ
-4. 失格しやすいルールを知る
-5. 自分に合う候補を探す
-6. 30秒診断へ
-
-基本思想：`初めてでも、基礎から順番に。`
+- 新規Planを件数合わせ目的でDiagnosisへ接続しない
 
 ## Monitoring / Runtime
 
@@ -148,16 +123,16 @@ Firm Selectorは「会社から探す」、Diagnosisは「条件から探す」�
 ## 現在のGate
 
 - Production = Version 80
-- Graphic implementation = COMPLETE
-- Data Patch Verification = PASS
-- 未公開Work統合状態 = READY_FOR_RELEASE_CANDIDATE_GATE
-- 390px fresh = NOT_EXECUTABLE（既知Caution）
-- Version保存 / Work commit / push / publish = 未実施
+- Release Candidate Final Verification = **PASS_WITH_CAUTION**
+- Caution = 390px実画面NOT_EXECUTABLEのみ
+- Version保存 = 未実施
+- Work commit / push = 未実施
+- publish = 未実施
 
 ## 次
 
-新規調査・機能追加は行わない。
+新規調査・仕様変更・機能追加は行わない。
 
-次工程は、未公開Work全体（Graphic + Data Patch）をRelease Candidateとして固定し、最小統合回帰 / 最終差分確認を行うこと。
+Release承認後は **Version保存 → Production publish** だけを実施する。
 
-390px実画面は現環境で実行不能のため同じ方法を繰り返さない。Cautionを明示したうえでRelease判断する。
+公開後はProduction URLを実iPhoneで確認できるため、390pxをpost-release限定確認として実施する。重大なモバイル崩れがある場合はVersion 80をrollback候補とする。
