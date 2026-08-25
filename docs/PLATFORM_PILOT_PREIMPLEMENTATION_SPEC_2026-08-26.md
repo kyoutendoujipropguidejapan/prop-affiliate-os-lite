@@ -34,15 +34,20 @@ MT4 / MT5 scopeはCentral Command承認済み：
 
 ## 3. Candidate content
 
-Research Pack作成済み：
+公式一次情報Research Pack作成済み：
 - MetaTrader 5
 - MetaTrader 4
 - TradeLocker
 - cTrader
+- Match-Trader
+- DXtrade
+- BlackArrow
+- Quantower
+- Volumetrica
 
-他platformは個別Research完了前に本文を推測生成しない。
+全9 Platformでgeneral content researchはREADY。
 
-Pilot 1 / Pilot 2はCurrent Production reconciliation後のverified Firm mappingと利用価値で決定する。MT5/MT4を追加したことだけを理由に自動選定しない。
+Pilot 1 / Pilot 2はCurrent Production reconciliation後のverified Firm mappingと利用価値で決定する。Research完了順や好みだけで自動選定しない。
 
 ## 4. Data boundary
 
@@ -92,6 +97,7 @@ Detail：
 - Japan availabilityとFirm eligibilityを混同しない
 - Firm-specific execution / market-dataを一般仕様と分離
 - EA / algorithmic / copy機能の可否はFirm ruleを別確認
+- Platform vendorとBroker / Prop Firm / Exchange / Liquidity Providerの役割を混同しない
 
 ## 8. SEO
 
@@ -135,7 +141,7 @@ P0：Hub + detail 1 + detail 2 OFF / preview
 P1：QA
 P2：Platform Pilot publish
 P3：stability observation
-P4：remaining platform research
+P4：remaining detail rollout preparation
 P5：incremental expansion
 
 ## 12. Stop conditions
@@ -149,4 +155,4 @@ P5：incremental expansion
 - mobile overflow not resolved without large refactor
 
 Final preimplementation status：
-`PLATFORM_PILOT_SPEC_PREPARED_9_PLATFORM_SCOPE_NOT_AUTHORIZED_TO_IMPLEMENT`
+`PLATFORM_PILOT_SPEC_PREPARED_ALL_9_RESEARCH_READY_NOT_AUTHORIZED_TO_IMPLEMENT`
