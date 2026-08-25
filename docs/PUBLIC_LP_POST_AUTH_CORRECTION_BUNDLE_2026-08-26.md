@@ -21,7 +21,9 @@ Depends on：`FACT_CHECK_STANDARD_V1_2026-08-26.md`
 5. confirm protected hashes
 6. inspect actual affected strings/routes in Production source
 7. run a fresh official Check 3 for every changed claim
-8. if source differs materially from audit snapshot -> STOP and reclassify
+8. default to current English official product/rules/help as freshness anchor for general product/rule facts
+9. keep Japan-specific facts behind a separate JP/local checkout/direct-confirmation gate
+10. if source differs materially from audit snapshot -> STOP and reclassify
 
 ---
 
@@ -112,7 +114,24 @@ Replace any company-wide `35%` wording with plan-specific:
 
 State this as funded payout consistency, not evaluation consistency.
 
-### 9. Home/page freshness metadata
+### 9. The5ers Futures current rule values
+Current dedicated EN Futures product page now shows:
+- Max Loss EOD 4%
+- Consistency 40%
+- Day Trade 25K price $59
+- activation fee none
+
+Current EN Futures FAQ updated 2026-07-20 confirms 40% consistency.
+Current JP Futures product page now also renders 4% / 40% / $59 / no activation fee.
+
+Older official article still shows 3% / 30% but explicitly tells readers to verify current terms at the current Futures product page. Treat that article as stale/historical, not as equal-weight Current Truth.
+
+Status:
+`CURRENT_PRIMARY_TRIPLE_VERIFIED_WITH_HISTORICAL_SOURCE_CAUTION`
+
+Do not keep a HOLD solely because the older article is still indexed.
+
+### 10. Home/page freshness metadata
 Update stale global/section verification dates based on actual page-level checks.
 
 Preferred architecture:
@@ -123,7 +142,7 @@ Preferred architecture:
 
 ## P1 — clarification / coverage updates
 
-### 10. Hantec Instant Lite
+### 11. Hantec Instant Lite
 Central approved:
 `HOLD -> VERIFIED_WITH_CAUTION`
 
@@ -133,31 +152,31 @@ Display:
 Trading-day scope:
 `評価・開始の最低取引日数：なし／出金周期の条件：5利益日（各0.5%以上）`
 
-### 11. Hantec EnhancedX minimum days
+### 12. Hantec EnhancedX minimum days
 Current public `要確認` can be made more precise after fresh source check:
 
 `最低取引日数：なし（ただしChallengeはConsistency 35%以下が必要。対象Add-onで評価側Consistency解除可）`
 
 Do not treat the consistency requirement as a minimum-day rule.
 
-### 12. Fundora platform
+### 13. Fundora platform
 Current official:
 `cTrader`
 
 Replace generic platform wording only after actual source inspection.
 
-### 13. Blue Guardian Nano coverage
+### 14. Blue Guardian Nano coverage
 Current official models:
 - 1 Step Nano
 - 2 Step Nano
 
 Do not add pricing until current checkout/purchase source is confirmed.
 
-### 14. Blueberry Prime minimum days
+### 15. Blueberry Prime minimum days
 Safe current wording after fresh check:
 `現行新規購入は3日/Phase。旧購入条件・一部表示では5日を保持するため購入日を確認。`
 
-### 15. FundingPips 2 Step Standard reward options
+### 16. FundingPips 2 Step Standard reward options
 Avoid collapsing current structure to a single `7日／80%` if Production does so.
 
 Current official options include:
@@ -166,11 +185,11 @@ Current official options include:
 - monthly100%
 - on-demand90% with conditions
 
-### 16. FundingPips Zero profitable-day threshold
+### 17. FundingPips Zero profitable-day threshold
 Where displayed, clarify:
 `7 profitable days / rolling30, each >=0.25%`
 
-### 17. Trading Cult Pro platform
+### 18. Trading Cult Pro platform
 Current official family uses MT5.
 
 Generic platform wording may be changed to `MT5` after model-specific source check.
@@ -223,14 +242,7 @@ Current official conflict:
 
 Keep price confirmation/HOLD state.
 
-### G. The5ers Futures Max Loss locale discrepancy
-Current EN product + June FAQ =4%
-Current Portuguese official page =3%
-Older May official article =3%/30 consistency
-
-Use current primary EN value only with caution; do not claim official ecosystem is conflict-free.
-
-### H. Fundora Professional/Master price surfaces
+### G. Fundora Professional/Master price surfaces
 March 2026 official standard-price notice:
 - Professional ¥249,999
 - Master ¥449,999
@@ -239,30 +251,40 @@ Old shop pricing page remains live:
 
 Current purchase JPY tab must be checked before any public price write.
 
-### I. Fintokei NEW20 Japan scope
+### H. Fintokei NEW20 Japan scope
 Global current official supports NEW20 20% first challenge.
 Japan-scope checkout/direct official confirmation is still pending.
 Do not call invalid; do not strengthen Japan applicability without evidence.
 
-### J. Hantec Endurance current purchase availability
-Current official conflict:
-- current JP main navigation/comparison labels Endurance `近日公開`
-- current EN and JP dedicated Endurance pages expose prices, purchase flow and `GET STARTED/今すぐ始める`
+### I. Hantec Endurance current purchase availability
+Current EN dedicated page contains both:
+- navigation label `Coming soon`
+- body prices / account sizes / purchase instructions / `GET STARTED`
 
-Core Endurance rules are triple-verified, but active purchase status is not conflict-free.
+Current EN Help article modified 2026-08-20 also presents Endurance as a full current account model.
 
-Do not state definitive `販売中` or definitive `未販売` until live checkout/configurator is reconciled.
+Because the contradiction exists inside the English official surface itself, this is not merely Japanese translation lag.
+
+Core Endurance rules may be used where separately verified, but active purchase status remains:
+`AVAILABILITY_CONFLICT / CHECKOUT_CONFIRMATION_REQUIRED`
 
 ---
 
 ## DO NOT TOUCH
 
 ### The5ers Summer 200K
-User confirmed current availability.
-Status:
-`DO_NOT_CORRECT / USER_CONFIRMED_CURRENT / OFFICIAL_DYNAMIC_SOURCE_RECHECK_PENDING`
+There has never been a user instruction to delete this plan.
 
-Static crawler absence must not be used as removal proof.
+Correct project record:
+`NO USER DELETION INSTRUCTION / CURRENT AVAILABILITY ASSERTED BY OPERATOR / OFFICIAL_DYNAMIC_SOURCE_RECHECK_PENDING`
+
+Current English static Summer landing page is 100K-led, but the official Hub purchase flow is dynamic and is not fully exposed to the crawler. Static absence is not proof that 200K is unavailable.
+
+Operational rule:
+- do not remove Summer 200K
+- do not convert the public page to 100K-only
+- do not describe preservation as a response to a deletion instruction from the user
+- before any future rewrite of 200K details, verify the dynamic official purchase/checkout/support evidence
 
 ### Diagnosis protected logic
 No changes to question set/order/scoring/eligibility/ranking in this correction bundle.
@@ -291,4 +313,4 @@ Final gate:
 `CENTRAL/HUMAN PUBLISH APPROVAL REQUIRED`
 
 Final Status：
-`POST_AUTH_CORRECTION_BUNDLE_PREPARED_WAVE10 / AUTH_AND_PRODUCTION_RECONCILIATION_BLOCKING_IMPLEMENTATION`
+`POST_AUTH_CORRECTION_BUNDLE_PREPARED_ENGLISH_FIRST_REAUDIT / AUTH_AND_PRODUCTION_RECONCILIATION_BLOCKING_IMPLEMENTATION`
