@@ -49,12 +49,10 @@ Current public issue:
 old/new values are shown as unresolved official conflict.
 
 Replace conflict framing with cohort framing after source inspection:
-
 - post-2026-07-15 purchase: target6 / Daily2 Equity / Max3 Static / min3 evaluation days
 - pre-2026-07-15 applicable account: old10 / Daily3 / Max6 / min5
 
 Do not bulk-replace payout-specific `5日` text; payout context requires dedicated payout-FAQ check.
-
 Do not auto-return SwiftTrader to Diagnosis Top3 in the same patch.
 
 ### 2. Blueberry Funded Instant Lite
@@ -83,7 +81,7 @@ Older applicable cohort:
 - 5 days
 
 ### 5. FTM Japanese support
-Replace stale future-facing `日本語対応予定` with safe current wording such as:
+Replace stale future-facing `日本語対応予定` with safe current wording:
 
 `日本語サイト・FAQあり。プラン固有条件は購入前に公式画面で確認。`
 
@@ -92,19 +90,29 @@ Do not claim complete/full Japanese localization or support quality beyond evide
 ### 6. FTM Nitro X reward wording
 Current public `最大80%` is stale.
 
-Safe current direction:
+Safe direction:
 `On-demand／引き出し対象部分は100%配分（総利益の50%をリスクバッファとして口座に維持）`
 
-Keep minimum-profit / consistency / DD requirements separately.
+Keep minimum-profit / consistency / DD requirements separately. Do not advertise just `100%` without the buffer condition.
 
-### 7. Blueberry Futures funded consistency
+### 7. FTM dedicated article current program count
+Current `/funded-trader-markets` public article says `現行5プラン` and omits Nitro X from its current-program summary.
+
+Current official EN FAQ, JP FAQ and global FAQ navigation all expose Nitro X as a current program.
+
+Safe direction:
+`現行6プラン：1 Step Nitro、1 Step Nitro X、2 Step Plus、Instant Standard、Instant Pro、Instant Plus`
+
+Keep Instant Pro rule conflict separate; inclusion in the program family does not unblock its disputed rule values.
+
+### 8. Blueberry Futures funded consistency
 Replace any company-wide `35%` wording with plan-specific:
 - Ascent 35%
 - Accelerated 20%
 
 State this as funded payout consistency, not evaluation consistency.
 
-### 8. Home/page freshness metadata
+### 9. Home/page freshness metadata
 Update stale global/section verification dates based on actual page-level checks.
 
 Preferred architecture:
@@ -115,7 +123,7 @@ Preferred architecture:
 
 ## P1 — clarification / coverage updates
 
-### 9. Hantec Instant Lite
+### 10. Hantec Instant Lite
 Central approved:
 `HOLD -> VERIFIED_WITH_CAUTION`
 
@@ -125,24 +133,31 @@ Display:
 Trading-day scope:
 `評価・開始の最低取引日数：なし／出金周期の条件：5利益日（各0.5%以上）`
 
-### 10. Fundora platform
+### 11. Hantec EnhancedX minimum days
+Current public `要確認` can be made more precise after fresh source check:
+
+`最低取引日数：なし（ただしChallengeはConsistency 35%以下が必要。対象Add-onで評価側Consistency解除可）`
+
+Do not treat the consistency requirement as a minimum-day rule.
+
+### 12. Fundora platform
 Current official:
 `cTrader`
 
 Replace generic platform wording only after actual source inspection.
 
-### 11. Blue Guardian Nano coverage
+### 13. Blue Guardian Nano coverage
 Current official models:
 - 1 Step Nano
 - 2 Step Nano
 
 Do not add pricing until current checkout/purchase source is confirmed.
 
-### 12. Blueberry Prime minimum days
+### 14. Blueberry Prime minimum days
 Safe current wording after fresh check:
 `現行新規購入は3日/Phase。旧購入条件・一部表示では5日を保持するため購入日を確認。`
 
-### 13. FundingPips 2 Step Standard reward options
+### 15. FundingPips 2 Step Standard reward options
 Avoid collapsing current structure to a single `7日／80%` if Production does so.
 
 Current official options include:
@@ -151,32 +166,42 @@ Current official options include:
 - monthly100%
 - on-demand90% with conditions
 
-### 14. FundingPips Zero profitable-day threshold
+### 16. FundingPips Zero profitable-day threshold
 Where displayed, clarify:
 `7 profitable days / rolling30, each >=0.25%`
 
-### 15. Trading Cult Pro platform
+### 17. Trading Cult Pro platform
 Current official family uses MT5.
 
 Generic platform wording may be changed to `MT5` after model-specific source check.
 
 ---
 
-## HOLD — do not patch numeric value by choosing one side
+## HOLD — do not patch numeric/status value by choosing one side
 
 ### A. Funded7 One Phase
-Official current-source conflict remains.
-
-### B. Funded7 Instant
-Official Max Loss / split and other fields conflict.
-
-### C. Funded7 PAYG
-Official sources conflict:
-- challenge comparison: Daily5 / Max10
-- official blog: Daily4 / Max8
+Current official conflict remains strong:
+- comparison + dedicated FAQ + June guide: Daily4 / Max8
+- current product page: Daily5 / Max10
 
 Do not choose.
-Need current purchase/configurator / dedicated rules / direct official confirmation.
+
+### B. Funded7 Instant
+Current official Max Total conflict:
+- dedicated EN FAQ:6
+- comparison/current guide:8
+- current product page:10
+- JP FAQ:OREF tier-dependent
+
+Do not choose.
+
+### C. Funded7 PAYG
+Official current sources conflict:
+- challenge comparison EN/JP: Daily5 / Max10
+- current-accessible June official guide: Daily4 / Max8
+
+Dedicated PAYG page does not settle the pair in the captured rule text.
+Need current purchase/configurator / dedicated authoritative rules / direct official clarification.
 
 ### D. FTM Instant Pro
 Official conflict remains:
@@ -219,6 +244,15 @@ Global current official supports NEW20 20% first challenge.
 Japan-scope checkout/direct official confirmation is still pending.
 Do not call invalid; do not strengthen Japan applicability without evidence.
 
+### J. Hantec Endurance current purchase availability
+Current official conflict:
+- current JP main navigation/comparison labels Endurance `近日公開`
+- current EN and JP dedicated Endurance pages expose prices, purchase flow and `GET STARTED/今すぐ始める`
+
+Core Endurance rules are triple-verified, but active purchase status is not conflict-free.
+
+Do not state definitive `販売中` or definitive `未販売` until live checkout/configurator is reconciled.
+
 ---
 
 ## DO NOT TOUCH
@@ -257,4 +291,4 @@ Final gate:
 `CENTRAL/HUMAN PUBLISH APPROVAL REQUIRED`
 
 Final Status：
-`POST_AUTH_CORRECTION_BUNDLE_PREPARED / AUTH_AND_PRODUCTION_RECONCILIATION_BLOCKING_IMPLEMENTATION`
+`POST_AUTH_CORRECTION_BUNDLE_PREPARED_WAVE10 / AUTH_AND_PRODUCTION_RECONCILIATION_BLOCKING_IMPLEMENTATION`
