@@ -3,6 +3,12 @@
 更新日：2026-08-26 JST
 用途：プロップファームの歩き方における公開コンテンツ・Firm詳細・Platform・Payout・Campaign・Coupon・Review・Case Studyの共通コンプライアンス基準。
 
+Official source pack：
+`docs/JAPAN_COMPLIANCE_OFFICIAL_SOURCE_PACK_2026-08-26.md`
+
+Escalation matrix：
+`docs/COMPLIANCE_ESCALATION_MATRIX_2026-08-26.md`
+
 ## 1. 基本原則
 
 本基準は、免責文をフッターに置くだけの後付け対応ではなく、コンテンツ設計・データ境界・CTA・検証・公開Gateに組み込む。
@@ -24,6 +30,7 @@ Affiliate / Sponsor / Free Test Account / Giveaway提供等の商業関係は、
 - 提供口座で検証した場合は、口座提供を明示する。
 - スポンサー関係がある場合は、スポンサー関係を明示する。
 - 商業関係を理由に事実確認・診断順位・検証結果を変更しない。
+- Global disclosureを1回表示するだけで十分とは扱わず、表示全体と該当箇所で広告性が明瞭かを確認する。
 
 標準表示例：
 
@@ -63,6 +70,8 @@ Unknown は 0 / false / unsupported に変換しない。
 
 Simulation / Demo / Evaluation / Reward Model等の表現はFirm固有の公式説明に合わせる。
 
+Service natureが不明なまま公開上の断定が必要になった場合は`COMPLIANCE_HOLD`へ送る。
+
 ## 5. Japan Eligibility と Regulatory Status
 
 日本から利用可能であることと、日本の金融商品取引業その他の登録・認可を受けていることを混同しない。
@@ -77,6 +86,8 @@ Simulation / Demo / Evaluation / Reward Model等の表現はFirm固有の公式�
 標準注意文：
 
 > 日本からの利用可否に関する表示は、日本国内での登録・認可等を意味するものではありません。利用前に各事業者の最新条件をご確認ください。
+
+金融庁の無登録業者警告リストに掲載がないことだけで、安全・合法・登録済みと表現しない。
 
 法的評価が必要な場合は推測せずHOLDし、必要に応じて専門家確認へ送る。
 
@@ -130,6 +141,8 @@ Simulation / Demo / Evaluation / Reward Model等の表現はFirm固有の公式�
 
 比較表現は、比較条件・対象・時点・根拠が明確な場合のみ使用する。
 
+Vendor marketing wordingやFirm promotional copyを、本サイトの独立評価としてそのまま再掲しない。
+
 ## 8. Firm Detail Disclaimer
 
 標準文：
@@ -145,6 +158,8 @@ Simulation / Demo / Evaluation / Reward Model等の表現はFirm固有の公式�
 > 同じ取引プラットフォームでも、Firmごとに利用可能な機能、銘柄、データ、約定環境、口座仕様等が異なる場合があります。最終仕様は利用するFirmの公式情報をご確認ください。
 
 Platform一般仕様と Firm × Platform 仕様を混同しない。
+
+EA / algorithmic / copy / DOM等のVendor-level機能をFirm permissionとして扱わない。
 
 ## 10. Payout固有注意
 
@@ -163,6 +178,7 @@ Base Price / Official Campaign / Personal Couponを分離する。
 - 有効期限・対象・併用条件を表示する。
 - 割引後価格を根拠なしに自動計算しない。
 - Campaign名だけを見て対象ユーザーを推測しない。
+- 有利誤認を避けるため、条件付き割引を通常価格のように見せない。
 
 ## 12. Review / Case Study
 
@@ -179,6 +195,8 @@ Case Studyは観測可能な数字を優先する。
 - Affiliate clicks XX
 
 因果関係が確認できない場合、`当方施策により売上が増加した` のような表現を使用しない。
+
+Scam / payout denial / security incident等の重大claimはsocial情報だけで確定せず、`COMPLIANCE_ESCALATION_MATRIX`に従う。
 
 ## 13. Analytics / Privacy
 
@@ -200,6 +218,7 @@ GA4は既存初期化を維持し、新規 `gtag("config")` を追加しない�
 - 画面に実際に表示するQ&Aのみschema化する。
 - HOLD / Conflict / Coupon / Eligibility等、変動・注意性が高い項目は原則schema対象外。
 - schema本文と画面本文を一致させる。
+- Review / AggregateRating schemaを実在する公開review datasetなしに生成しない。
 
 ## 15. Production COMPLIANCE_GATE
 
@@ -222,6 +241,22 @@ GA4は既存初期化を維持し、新規 `gtag("config")` を追加しない�
 
 1件でもFAILならProduction publish不可。
 
-## 16. 運用上の位置づけ
+## 16. Escalation
+
+次はAI / Work単独で確定せず`COMPLIANCE_HOLD`：
+
+- Firm service nature不明
+- regulatory / legal statusの断定
+- regulator warning signal
+- fraud / scam / payout refusal allegation
+- security / personal-data incident
+- Direct ContactとTermsの重大Conflict
+- legal threat
+- user funds / KYC / bank / wallet dataを当サイトが扱う新機能
+
+詳細：
+`docs/COMPLIANCE_ESCALATION_MATRIX_2026-08-26.md`
+
+## 17. 運用上の位置づけ
 
 本基準は公開安全性を高めるための運用基準であり、法的適合性を保証するものではない。高リスクな法的評価や日本向け商業展開を大きく拡大する場合は、必要に応じて専門家確認をRelease Gateへ追加する。
