@@ -2,75 +2,46 @@
 
 確認基準日：2026-08-25 JST
 
-## 本番
+## Production
 
 - 公開サイト：`https://kyouten-prop-guide.utsr.chatgpt.site`
-- Production：**Version 80**
-- V80で Firm → Plan → Detail の3段階Selectorを公開済み
-- 今回のGraphic + Data Patch Release Candidateはまだ未公開
+- Production：**Version 81**
+- V80：rollback用として保持
+- V81はGraphic + Data Patch統合Release Candidateをfingerprint一致確認後に公開
+- 公開直前fingerprint：`83a32d0118ced8415e323e5fb3580ebb39d6b066c6242f68a6bbd6eb7deac910`
+- Production起動：HTTP 200
+- 公開後追加変更：0件
+- 新規BLOCKER / CRITICAL：0 / 0
 
-## 作業分担
-
-- Chat：公式調査、SourceHealth判定、仕様、文言、Master更新案、Work用差分指示
-- GitHub：正本、判断根拠、進捗、引き継ぎ、変更履歴
-- Work：最小差分実装、tests / build / lint、Cloud Browser、Version保存 / 公開
-
-Workに重複調査や仕様再設計をさせず、Chat / GitHubで判断を固めてから最小差分だけ渡す。
-
-## 未公開Work最新状態
-
-現在の未公開Workは **Release Candidateとして固定済み**。
-
-正本：
-
-- `docs/WORK_DATA_PATCH_SPEC_2026-08-24.md`
-- `docs/WORK_DATA_PATCH_RESULT_2026-08-24.md`
-- `docs/RELEASE_CANDIDATE_FINAL_2026-08-25.md`
-
-### Graphic
-
-- 都会・日常・プロップファーム / トレード文脈の線画4点
-- `learning-path.webp`
-- `diagnosis-flow.webp`
-- `firm-compare.webp`
-- `selector-flow.webp`
-- 4/4読込、960×640、ratio正常
-- Graphic変更は固定済み
-
-### Data Patch actual
+## V81 actual data
 
 - Firm = 14
 - PlanCatalog = 72
-- current = 67
-- legacy / ended = 4
-- listed-only = 1
+- Current = 67
+- Legacy / ended = 4
+- Listed-only = 1
 - Diagnosis rows = 64
-- SourceHealth = 16
 - Block = 5
+- SourceHealth = 16
 
-Blue Guardian：
+### Blue Guardian
 
-- P042 3 Step → Legacy / Diagnosis除外
-- P070 1 Step Nano → Active / Diagnosis未接続
-- P071 2 Step Nano → Active / Diagnosis未接続
-- P072 BNPL → Active WITH_CAUTION / Diagnosis未接続
-- P045 1 Step Crypto → listed-only / HOLD維持
-- P046 1 Step Pro → Legacy維持
-- 未公開Work表示：Active 8 / 確認中1 / Legacy 2
+- P042 3 Step：Legacy / Diagnosis除外
+- P070 1 Step Nano：Active / Diagnosis未接続
+- P071 2 Step Nano：Active / Diagnosis未接続
+- P072 BNPL：Active WITH_CAUTION / Diagnosis未接続
+- P045 1 Step Crypto：listed-only / HOLD
+- P046 1 Step Pro：Legacy
 
-Hantec Trader：
+Public grouping：Active 8 / 確認中1 / Legacy 2。
 
-- P028 Instant Lite → Daily 3% / Max 5% / Add-on 6%
-- SH003 RESOLVED
+### Hantec Trader
+
+- P028 Instant Lite：Daily 3% / Standard Max 5% / Add-on 6%
+- SH003：RESOLVED
 - blockTop3 = false
 
-SourceHealth：
-
-- SH003 = RESOLVED
-- SH015 = Blue Guardian 3 Step RESOLVED_TO_LEGACY
-- SH016 = Blue Guardian BNPL 要確認
-
-残るBlock 5：
+### Remaining Block 5
 
 1. Fintokei｜速攻プロ
 2. Funded7｜1フェーズ
@@ -78,61 +49,116 @@ SourceHealth：
 4. Funded Trader Markets｜Instant Pro
 5. FundedElite｜Flash Activation
 
-## Release Candidate Final Verification
+## Graphic
 
-判定：**PASS_WITH_CAUTION**
+4点を都会・日常・プロップファーム / トレード文脈の線画へ更新済み・V81で公開。
 
-- 差分fingerprint：`83a32d0118ced8415e323e5fb3580ebb39d6b066c6242f68a6bbd6eb7deac910`
-- fingerprint Before / After一致
-- QAによるソース変更0
-- 想定外差分0
+- learning-path.webp
+- diagnosis-flow.webp
+- firm-compare.webp
+- selector-flow.webp
+
+4/4 HTTP 200 / RC hash一致。
+
+## Verification
+
+Release Candidate Final：PASS_WITH_CAUTION。
+
 - Regression 48/48 PASS
 - Build PASS
-- Lint error 0 / existing warning 1
+- lint error 0 / existing no-img-element warning 1
 - git diff --check PASS
-- Blue Guardian fresh PASS
-- Hantec fresh PASS
-- Diagnosis fresh PASS
-- Graphic fresh PASS
-- site console error 0
-- 新規BLOCKER 0 / CRITICAL 0
+- protected hash一致
+- Blue Guardian / Hantec / Diagnosis / Graphic smoke PASS
+- 390px実画面 = NOT_EXECUTABLE（既知Caution。Production実iPhone確認待ち）
 
-Protected hashは検証前後一致：Master / DiagnosisLogicV2 / GA4 / Sitemap / Graphic 4点。
+## Price / Content Gap Audit
 
-### Caution
+最新判断：`docs/POST_RELEASE_GAP_AUDIT_2026-08-25.md`
 
-390px実画面 = **NOT_EXECUTABLE**。
+価格確認中2件をChat側で公式再確認：
 
-現環境の既知制約。これが唯一のCaution。
+### The5ers Futures｜Day Trade
 
-## Diagnosis絶対保護
+- 25K = $59
+- Activation fee = None
+- 公式Futuresページ確認
+- Price表示更新候補 = CONFIRMED
+
+### Blueberry Futures｜Accelerated
+
+standard evaluation price：
+
+- 25K $129
+- 50K $184
+- 100K $276
+- 150K $454
+
+60% discount後表示はcampaignとして別レイヤー。base priceへ混ぜない。
+
+## SEO snapshot
+
+Public検索確認では、broad query（プロップファーム / 比較 / クーポン / 出金 / 失格）は競合のranking / comparison / beginner guideが強い。
+
+一方 `プロップファーム 1ステップ 2ステップ 違い` では当サイト `/one-step-two-step-instant` の露出を確認。
+
+方針：ranking模倣ではなく、既存のrule-first long-tail clusterを強化する。
+
+優先：
+
+- 1 Step / 2 Step / Instant
+- Daily vs Max Loss
+- Static / EOD / Trailing DD
+- News trading
+- Weekend holding
+- Minimum trading days
+- First payout
+- Price comparison（base / campaign / coupon分離）
+
+## Analytics Gate
+
+実閲覧数・CTR・検索queryベースの最適化はGA4 / Google Search Console実データ待ち。
+
+取得したい指標：
+
+- pageviews / users / engaged sessions
+- landing page
+- organic clicks / impressions / CTR / avg position
+- beginner → diagnosis transition
+- diagnosis_start / diagnosis_complete
+- Firm selector engagement
+- price / coupon reach
+
+public検索snapshotは仮シグナルであり、実閲覧数とは扱わない。
+
+## 絶対保護
 
 - DiagnosisLogicV2を変更しない
 - 7問 / 質問順を変更しない
 - Affiliate / commission / coupon / priceを採点へ入れない
 - Unknownを0 / falseで代用しない
 - Conflictを自動Verified化しない
-- 新規Planを件数合わせ目的でDiagnosisへ接続しない
+- 新規Planを件数合わせでDiagnosisへ接続しない
+- Price base / campaign / personal couponを混同しない
 
-## Monitoring / Runtime
+## GitHub canonical
 
-- Monitoring Dry Run = NO-GO
-- Runtime Snapshot = NO-GO
-- Master / SourceHealth / Diagnosis / siteへの自動反映禁止
+重要：
 
-## 現在のGate
+- `docs/RELEASE_CANDIDATE_FINAL_2026-08-25.md`
+- `docs/WORK_DATA_PATCH_RESULT_2026-08-24.md`
+- `docs/POST_RELEASE_GAP_AUDIT_2026-08-25.md`
+- `docs/SOURCEHEALTH_RECHECK_2026-08-24.md`
+- `docs/BLUE_GUARDIAN_MASTER_PATCH_SPEC_2026-08-24.md`
+- `docs/HANTEC_INSTANT_LITE_PATCH_SPEC_2026-08-24.md`
+- `docs/BLOCK_REVIEW_FINAL_2026-08-24.md`
 
-- Production = Version 80
-- Release Candidate Final Verification = **PASS_WITH_CAUTION**
-- Caution = 390px実画面NOT_EXECUTABLEのみ
-- Version保存 = 未実施
-- Work commit / push = 未実施
-- publish = 未実施
+Excel Masterは別正本。GitHub要約だけでExcelを上書きしない。
 
 ## 次
 
-新規調査・仕様変更・機能追加は行わない。
-
-Release承認後は **Version保存 → Production publish** だけを実施する。
-
-公開後はProduction URLを実iPhoneで確認できるため、390pxをpost-release限定確認として実施する。重大なモバイル崩れがある場合はVersion 80をrollback候補とする。
+1. 価格確認中2件をWorkへ最小patch
+2. V81 public SourceHealth / 確認中一覧のfresh整合確認
+3. 実iPhoneで390px確認
+4. GSC / GA4実データ取得後にSEO / UXの優先順位を決定
+5. high-impression low-CTR / high-view low-conversionページを優先改善
