@@ -9,102 +9,103 @@
 - M07 P0-01〜P0-08：実装・検証完了
 - M14 FAQ統合：完了
 - 価格境界修正：完了
-- GA4整理：完了 / 実送信のみ既存Caution履歴あり
+- GA4整理：完了 / 実送信のみCaution
 - SEO必要分統合：完了
 - ER-01 remediation：完了
-- M08 Full Regression：PASS_WITH_CAUTION
-- Firm → Plan Selector：実装・検証完了
-- Version 80：本番公開済み
+- Firm → Plan Selector：完了
+- Version 80：公開済み / rollback保持
 - Graphic Style Refinement：COMPLETE
 - SourceHealth recheck：COMPLETE
-- Blue Guardian / Hantec patch spec：COMPLETE
-- Block Review Final：COMPLETE
-- Work Data Patch：PASS
-- Graphic + Data Patch Release Candidate Final Verification：**PASS_WITH_CAUTION**
+- Blue Guardian / Hantec Data Patch：PASS
+- Release Candidate Final Verification：PASS_WITH_CAUTION
+- **Version 81 Production Release：COMPLETE**
+- Post-release price / SEO gap audit：COMPLETE
 
-## Production
+## Production V81
 
-- Version 80
-- 今回のRelease Candidateは未公開
-
-## Release Candidate actual
-
+- HTTP 200
 - Firm 14
 - PlanCatalog 72
 - Current 67
 - Legacy / ended 4
 - Listed-only 1
-- Diagnosis rows 64
+- Diagnosis 64
 - Block 5
 - SourceHealth 16
+- Graphic 4点公開済み
+- Blue Guardian / Hantec / Diagnosis / Graphic smoke PASS
+- 新規BLOCKER / CRITICAL 0
 
-Blue Guardian：
+390px実画面は既知NOT_EXECUTABLE。Production実iPhone確認待ち。
 
-- P042 3 Step → Legacy / Diagnosis除外
-- P070 1 Step Nano → Active / Diagnosis未接続
-- P071 2 Step Nano → Active / Diagnosis未接続
-- P072 BNPL → Active WITH_CAUTION / Diagnosis未接続
-- P045 Crypto → listed-only / HOLD維持
-- P046 1 Step Pro → Legacy維持
+## Post-release gap audit
 
-Hantec：
+正本：`docs/POST_RELEASE_GAP_AUDIT_2026-08-25.md`
 
-- P028 Instant Lite → Daily3 / Max5 / Add-on6
-- SH003 RESOLVED
-- blockTop3 = false
+### 価格確認中2件
 
-残るBlock 5：
+公式再確認済み：
 
-1. Fintokei｜速攻プロ
-2. Funded7｜1フェーズ
-3. Funded7｜Instant
-4. Funded Trader Markets｜Instant Pro
-5. FundedElite｜Flash Activation
+- The5ers Futures Day Trade：25K $59
+- Blueberry Futures Accelerated：25K $129 / 50K $184 / 100K $276 / 150K $454
 
-## Final Verification
+未実装。次Workの最小patch候補。
 
-- 差分fingerprint：`83a32d0118ced8415e323e5fb3580ebb39d6b066c6242f68a6bbd6eb7deac910`
-- Before / After一致
-- QA source changes 0
-- 想定外差分0
-- regression 48/48 PASS
-- build PASS
-- lint error 0 / existing warning 1
-- git diff --check PASS
-- Blue Guardian fresh PASS
-- Hantec fresh PASS
-- Diagnosis fresh PASS
-- Graphic 4/4 fresh PASS
-- site console error 0
-- protected hash不変
-- 新規BLOCKER 0
-- 新規CRITICAL 0
+### Remaining rule conflicts
 
-判定：**Release Candidate Final Verification = PASS_WITH_CAUTION**
+KEEP_BLOCK：
 
-唯一のCaution：
+1. Fintokei 速攻プロ
+2. Funded7 1フェーズ
+3. Funded7 Instant
+4. FTM Instant Pro
+5. FundedElite Flash Activation
 
-- 390px fresh実画面 = NOT_EXECUTABLE
+その他：
 
-同じ環境での再試行はしない。
+- Blue Guardian 1 Step Crypto = listed-only / HOLD
+- Blue Guardian BNPL = Active WITH_CAUTION / Diagnosis未接続
 
-## Current Gate
+## SEO snapshot
 
-- Graphic = COMPLETE
-- Data Patch = PASS
-- Release Candidate = FROZEN
-- Final Verification = PASS_WITH_CAUTION
-- Version保存 = 未実施
-- Work commit / push = 未実施
-- publish = 未実施
-- Production = Version 80
+broad queryでは競合comparison / ranking / beginner guideが強い。
+
+long-tail `プロップファーム 1ステップ 2ステップ 違い` では当サイト `/one-step-two-step-instant` の検索露出を確認。
+
+次のSEO方針：
+
+1. rule-first long-tail clusterを強化
+2. title / metaはGSC CTR確認後に調整
+3. price intentをbase / campaign / coupon分離で強化
+4.既存7記事の内部リンク / FAQ / freshnessを強化
+5. main siteとManus firm専門サイトのcannibalizationを避ける
+
+## Analytics Gate
+
+GA4 / GSC実データ未取得。
+
+実データ取得後に：
+
+- high impressions / low CTR
+- high views / low diagnosis completion
+- organic landing pages
+- query position
+- beginner → diagnosis遷移
+
+を使って改善順を決める。
 
 ## 次
 
-新規調査・仕様変更・追加実装を行わない。
+P0：
 
-Release承認後は **Version保存 → Production publish** のみ。
+- Price未確認2件の最小patch
+- V81 public SourceHealth / 確認中一覧のfresh整合確認
+- 390px実iPhone確認
 
-公開後にProduction URLを実iPhoneで390px確認し、重大な崩れがあればVersion 80をrollback候補とする。
+P1：
 
-詳細：`docs/RELEASE_CANDIDATE_FINAL_2026-08-25.md`
+- GSC / GA4接続後の実閲覧・検索分析
+- SEO title / meta / internal links / content refresh
+- high-opportunity page優先改善
+
+新規機能追加を先にしない。
