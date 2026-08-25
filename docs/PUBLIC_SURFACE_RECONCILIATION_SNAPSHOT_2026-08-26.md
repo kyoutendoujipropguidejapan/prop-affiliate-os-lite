@@ -2,7 +2,7 @@
 
 確認日：2026-08-26 JST
 対象：`https://kyouten-prop-guide.utsr.chatgpt.site`
-Status：PUBLIC SIGNAL ONLY / NOT PRODUCTION CANONICAL
+Status：PUBLIC SIGNAL ONLY / MULTIPLE CRAWL VARIANTS OBSERVED / NOT PRODUCTION CANONICAL
 Production code changes：NONE
 
 ## 1. Purpose
@@ -11,7 +11,11 @@ Production code changes：NONE
 
 重要：このSnapshotはPublic Surfaceの観測結果であり、OpenAI Sites Production Repository / Version / commitの正本ではない。
 
-## 2. Observed public surface
+## 2. Observed public surface — crawl variants
+
+2026-08-26の複数crawlで、同一Homeについて異なる表示snapshotが返った。
+
+### Observation A
 
 外部crawlで確認できた表示：
 
@@ -24,6 +28,42 @@ Production code changes：NONE
 - coupon / campaign update historyへの導線あり
 - Affiliate disclosure footerあり
 - footer `情報更新日 2026-08-24`
+
+### Observation B — later public crawl/index snapshot
+
+別のcurrent crawlでは：
+
+- `14社 · 69プラン`
+- Home-level `更新 2026.08.14`
+- Fintokei速攻プロは依然として旧/new Conflict-style表示
+- FTMは依然として `日本語対応予定`
+- footer/page-level表示も `2026-08-14` または古いsection dateを含む
+
+さらに別の検索index snapshotではHomeの旧構成：
+- `情報確認 2026.08.02`
+- Current Pick `VERIFIED 2026.08.01`
+- footer `掲載内容は2026年8月2日時点の確認情報を含みます`
+
+が返っている。
+
+### Interpretation
+
+これらの差は、少なくとも以下のどれかを含み得る：
+
+- search index/cache差
+- dynamic rendering差
+- crawl取得時点差
+- current Productionの複数surface/cache propagation
+
+したがって：
+
+- `72 -> 69` をProduction上の実削除と断定しない
+- footer date差をVersion確定根拠にしない
+- public crawler/countをProduction source truthにしない
+
+Status：`PUBLIC_CACHE_OR_RENDER_DIVERGENCE`
+
+Authoritative reconciliationでは actual Production source + current browser rendering を優先する。
 
 ## 3. Important signals requiring authoritative reconciliation
 
@@ -55,9 +95,20 @@ Public crawlでは速攻プロに旧Conflict-style表示が残っている：
 - Max Loss：公開FAQ 6% / 8月案内 3%固定
 - Minimum Trading Days：公開FAQ 5日 / 8月案内 最短3日
 
-一方、GitHub HandoffにはM14で2026-07-15以降新規購入口座の限定Variant再確認記録がある。
+2026-08-26の遡及3重公式確認では、これは現行公式間の未解決競合ではなく purchase-date cohort difference として整理できた：
 
-この差はCurrent Truth reconciliation対象。Public crawlだけでどちらをcanonicalにしない。
+- 2026-07-15以降購入：6% / Daily2% Equity / Max3% Static / min3 evaluation days
+- 2026-07-15より前の対象口座：旧10% / 3% / 6% / 5日
+
+従ってpublic sourceが実際にこのConflict表示を保持しているなら、Production reconciliation後の修正候補。
+
+ただしPublic crawlだけを根拠に source code変更は行わない。
+
+### D. FTM Japanese support
+
+Later public crawl still renders `日本語対応予定`。
+
+Current official FTM Japanese FAQ / Payments / Terms / variations surfaces are live, so actual Production sourceに同文言が存在する場合は `CORRECTION_REQUIRED`。
 
 ## 4. Compliance observation
 
@@ -79,14 +130,16 @@ Read-only first：
 
 1. actual current Production Version / SHA
 2. latest Production source tree
-3. public route source
-4. Evidence commit presence
-5. Fundora commit presence
-6. Academy-related files / routes
-7. Fintokei Sokkou Pro current source values/status
-8. current protected hashes
-9. branch ahead / behind
-10. worktree clean
+3. actual current rendered Home in browser
+4. actual Firm count / Plan count from source, not crawler snippet
+5. Evidence commit presence
+6. Fundora commit presence
+7. Academy-related files / routes
+8. Fintokei Sokkou Pro current source values/status
+9. FTM Japan-support source wording
+10. current protected hashes
+11. branch ahead / behind
+12. worktree clean
 
 差分が説明できるまで新規Firm Detail implementationを開始しない。
 
@@ -99,4 +152,4 @@ Public crawl / GitHub Handoff / local accepted commits / Production repoのい�
 として、推測でCurrent Truthを選ばない。
 
 Final Status：
-`PUBLIC_SURFACE_SIGNAL_CAPTURED_RECONCILIATION_REQUIRED_BEFORE_NEW_IMPLEMENTATION`
+`MULTIPLE_PUBLIC_SURFACE_VARIANTS_CAPTURED_RECONCILIATION_REQUIRED_BEFORE_NEW_IMPLEMENTATION`
